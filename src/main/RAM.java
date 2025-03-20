@@ -1,3 +1,5 @@
+package main;
+
 public class RAM {
     int[] memory = new int[128];
     int upperZeroMask = 0b11111111;
