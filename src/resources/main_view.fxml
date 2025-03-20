@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="main.MainController" stylesheets="@css/main_view_styles.css">
+    <center>
+        <Button fx:id="myButton" text="Click Me" />
+    </center>
+</BorderPane>
