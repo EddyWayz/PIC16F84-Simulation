@@ -9,8 +9,12 @@ public class MainController {
     private Button myButton;
 
     @FXML
+    private Button myButton2;
+
+    @FXML
     private void initialize() {
         // Beispiel: Aktion definieren
         myButton.setOnAction(e -> System.out.println("Button clicked in MainApp!"));
+        myButton2.setOnAction(e -> System.out.println("Button clicked in MainApp 2!"));
     }
 }

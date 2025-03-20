@@ -14,14 +14,14 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/main_view.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("JavaFX FXML main.Main Application");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(root,500,400));
         primaryStage.show();
     }
     //TODO: Java doc
     // To run the GUI do "launch(args)"
     // To run another main methode do "OtherClass.main(args)"
     public static void main(String[] args) {
-        //launch(args);
-        Test.main(args);
+        launch(args);
+        //Test.main(args);
     }
 }
