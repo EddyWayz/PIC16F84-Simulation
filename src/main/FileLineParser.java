@@ -17,25 +17,22 @@ public class FileLineParser {
         }
     }
 
-    public ArrayList<String> parseFileToLines(){
+    public ArrayList<String> parseFileToLines() throws IOException {
         String line;
-        try {
-            //if(bufferReader.ready()) {
-                while((line = bufferReader.readLine()) != null) {
-                    fileAsLines.add(line);
-                    System.out.print("line read");
-                }
-                bufferReader.close();
-            //}
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        while((line = bufferReader.readLine()) != null) {
+            fileAsLines.add(line);
         }
-
+        bufferReader.close();
         return fileAsLines;
     }
 
     public void printFile() {
-        for(String line : fileAsLines) {
+        try {
+            parseFileToLines();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        for (String line : fileAsLines) {
             System.out.println(line);
         }
     }

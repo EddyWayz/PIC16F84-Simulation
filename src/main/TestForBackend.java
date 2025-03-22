@@ -8,8 +8,6 @@ public class TestForBackend {
 
 
         File file = new File(path);
-        System.out.println(path);
-        System.out.println(file.getAbsolutePath());
         FileLineParser flParser = new FileLineParser(file);
         flParser.printFile();
 

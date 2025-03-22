@@ -1,0 +1,2 @@
+das hier ist ein Test, um den File Reader zu testen
+hilwe ich dachte das wäre nicht so schwer
