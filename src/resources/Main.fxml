@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Main.fxml -->
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.geometry.Insets?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml"
+          fx:controller="main.MainController"
+          alignment="TOP_LEFT"
+          hgap="10" vgap="10">
+
+    <!-- Padding als Element definieren -->
+    <padding>
+        <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+    </padding>
+
+    <!-- Definieren der Spalten -->
+    <columnConstraints>
+        <ColumnConstraints fx:id="col1" prefWidth="300"/>
+        <ColumnConstraints fx:id="col2" prefWidth="300"/>
+        <ColumnConstraints fx:id="col3" prefWidth="300"/>
+    </columnConstraints>
+
+    <!-- Definieren der Zeilen -->
+    <rowConstraints>
+        <RowConstraints fx:id="row1" prefHeight="200"/>
+        <RowConstraints fx:id="row2" prefHeight="200"/>
+        <RowConstraints fx:id="row3" prefHeight="200"/>
+        <RowConstraints fx:id="row4" prefHeight="100"/>
+    </rowConstraints>
+
+    <!-- Bereich: Tabelle LST (links, Zeilen 0-2) -->
+    <fx:include source="TabelleLST.fxml"
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="0"
+                GridPane.rowSpan="3"/>
+
+    <!-- Bereich: I/O-Pins (rechts, Zeile 0) -->
+    <fx:include fx:id="ioPinsInclude" source="IOPins.fxml"
+                GridPane.columnIndex="1"
+                GridPane.rowIndex="0"/>
+
+    <!-- Bereich: STACK (rechts, Zeile 1) -->
+    <fx:include source="Stack.fxml"
+                GridPane.columnIndex="1"
+                GridPane.rowIndex="1"/>
+
+    <!-- Bereich: RAM/GPR (rechts, Zeile 2) -->
+    <fx:include source="RAMGPR.fxml"
+                GridPane.columnIndex="2"
+                GridPane.rowIndex="0"
+                GridPane.rowSpan="3"/>
+
+    <!-- Bereich: Register und Buttons (unten, Zeile 3, Spalten 0-1) -->
+    <fx:include fx:id="buttonsInclude" source="Buttons.fxml"
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="3"
+                GridPane.columnSpan="2"/>
+
+</GridPane>

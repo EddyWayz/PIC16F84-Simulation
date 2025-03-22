@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TabelleLST.fxml -->
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      spacing="5">
+    <Label text="Tabelle LST" />
+    <TableView fx:id="tableViewLST">
+        <columns>
+            <TableColumn text="Spalte 1" fx:id="column1" />
+        </columns>
+    </TableView>
+</VBox>

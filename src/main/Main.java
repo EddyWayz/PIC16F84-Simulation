@@ -7,21 +7,16 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    //TODO: Java doc
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // Lade die FXML-Datei aus dem Ressourcenpfad
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/main_view.fxml"));
-        Parent root = loader.load();
-        primaryStage.setTitle("JavaFX FXML main.Main Application");
-        primaryStage.setScene(new Scene(root,500,400));
+        Parent root = FXMLLoader.load(getClass().getResource("../resources/Main.fxml"));
+        primaryStage.setTitle("PIC16F84-Simulation");
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
-    //TODO: Java doc
-    // To run the GUI do "launch(args)"
-    // To run another main methode do "OtherClass.main(args)"
+
     public static void main(String[] args) {
         launch(args);
-        //Test.main(args);
     }
 }

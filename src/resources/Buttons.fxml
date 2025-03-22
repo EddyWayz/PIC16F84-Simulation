@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Buttons.fxml -->
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="10">
+    <Label text="Register: RPO PCL ZC W DC" />
+    <HBox spacing="10">
+        <Button text="RUN"  fx:id="btnRun" />
+        <Button text="LOAD" fx:id="btnLoad" />
+        <Button text="CTOP" fx:id="btnCTOP" />
+        <Button text="STOP" fx:id="btnStop" />
+    </HBox>
+</VBox>
