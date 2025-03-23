@@ -1,27 +1,35 @@
 package main;
 
-import java.sql.SQLOutput;
+
+import java.io.File;
 import java.util.ArrayList;
 import main.BitOperator.*;
 
 public class PIC {
     RAM bank0;
     RAM bank1;
-    int wRegister;
-    int PCL;
+    private int wRegister;
+    private int PCL;
     ArrayList<Integer> program = new ArrayList<>();
 
 
-    public PIC() {
+    public PIC(File input) {
         bank0 = new RAM(0);
         bank1 = new RAM(1);
+        //INIT of basic register
         wRegister = 0;
         PCL = 0;
+
+        //Parse file to get the program
+        InstructionParser instrParser = new InstructionParser(input);
+        program = instrParser.parseLinesToInstructions();
+
 
         //TODO Link to IO Pins
         //TODO Link to Instruction Decoder
         //TODO Stack init
-        //TODO: get program from Instruction Parser
+
+
 
     }
 
@@ -35,9 +43,7 @@ public class PIC {
     }
 
 
-    public void setCarry() {
-        //int value = bank
-    }
+
 
     /**
      * mirrors the value of a register to the other bank
@@ -52,6 +58,14 @@ public class PIC {
         } else {
             System.out.println("Mirroring was unsuccessful. No correct value for a bank was found");
         }
+    }
+
+    public int getWRegister() {
+        return wRegister;
+    }
+
+    public int getPCL() {
+        return PCL;
     }
 
 

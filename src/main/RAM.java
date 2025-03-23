@@ -35,5 +35,9 @@ public class RAM {
         write(address, tmp_value);
     }
 
+    public int getBit(int address, int position) {
+        return BitOperator.getBit(memory[address], position);
+    }
+
 
 }

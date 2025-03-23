@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class FileLineParser {
-    ArrayList<String> fileAsLines = new ArrayList<>();
+    private ArrayList<String> fileAsLines = new ArrayList<>();
     File input;
     BufferedReader bufferReader;
 
