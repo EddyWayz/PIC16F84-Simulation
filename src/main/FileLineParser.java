@@ -8,8 +8,8 @@ public class FileLineParser {
     File input;
     BufferedReader bufferReader;
 
-    public FileLineParser(File input) {
-        this.input = input;
+    public FileLineParser(String path) {
+        File input = new File(path);
         try {
             bufferReader = new BufferedReader(new FileReader(input));
         } catch (FileNotFoundException e) {

@@ -7,12 +7,10 @@ public class TestForBackend {
     public static void main(String[] args) {
         String path = "test_files\\TPicSim1.LST";
 
-
-        File file = new File(path);
-        FileLineParser flParser = new FileLineParser(file);
+        FileLineParser flParser = new FileLineParser(path);
         flParser.printFile();
 
-        InstructionParser instParser = new InstructionParser(file);
+        InstructionParser instParser = new InstructionParser(path);
         ArrayList<Integer> list = instParser.parseLinesToInstructions();
         for (Integer i : list) {
             System.out.println(Integer.toHexString(i.intValue()));

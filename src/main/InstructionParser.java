@@ -11,8 +11,8 @@ public class InstructionParser {
     File input;
     ArrayList<String> fileAsLines;
 
-    public InstructionParser(File input) {
-        FileLineParser flParser = new FileLineParser(input);
+    public InstructionParser(String path) {
+        FileLineParser flParser = new FileLineParser(path);
         try {
             fileAsLines = flParser.parseFileToLines();
         } catch (IOException e) {

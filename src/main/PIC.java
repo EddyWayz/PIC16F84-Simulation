@@ -3,7 +3,7 @@ package main;
 
 import java.io.File;
 import java.util.ArrayList;
-import main.BitOperator.*;
+
 
 public class PIC {
     RAM bank0;
@@ -13,7 +13,7 @@ public class PIC {
     ArrayList<Integer> program = new ArrayList<>();
 
 
-    public PIC(File input) {
+    public PIC(String path) {
         bank0 = new RAM(0);
         bank1 = new RAM(1);
         //INIT of basic register
@@ -21,7 +21,7 @@ public class PIC {
         PCL = 0;
 
         //Parse file to get the program
-        InstructionParser instrParser = new InstructionParser(input);
+        InstructionParser instrParser = new InstructionParser(path);
         program = instrParser.parseLinesToInstructions();
 
 
