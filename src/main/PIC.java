@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 
 public class PIC {
+    private int upperZeroMask = 0b11111111;
     RAM bank0;
     RAM bank1;
     private int wRegister;
@@ -34,12 +35,22 @@ public class PIC {
     }
 
 
+
+    private void decodeInstruction(int instruction) {
+        //TODO special Instruction 10 00 (CALL)
+
+        //TODO split instructions in 3 groups
+
+    }
+
+
     /**
      * Move literal to W
      * @param literal
      */
     public void instr_MOVLW(int literal) {
-        wRegister = literal;
+        writeInW(literal);
+        //TODO affects any Flags?
     }
 
 
@@ -58,6 +69,10 @@ public class PIC {
         } else {
             System.out.println("Mirroring was unsuccessful. No correct value for a bank was found");
         }
+    }
+
+    private void writeInW(int value) {
+        wRegister = value & upperZeroMask;
     }
 
     public int getWRegister() {
