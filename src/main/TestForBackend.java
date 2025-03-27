@@ -3,6 +3,9 @@ package main;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * class to test backend functions
+ */
 public class TestForBackend {
     public static void main(String[] args) {
         String path = "test_files\\TPicSim1.LST";

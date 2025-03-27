@@ -7,9 +7,8 @@ public class RAM {
     int bank;
     int upperZeroMask = 0b11111111;
 
-    public RAM (int bank) {
+    public RAM () {
         memory = new int[128];
-        this.bank = bank;
     }
 
     public int getRegister(int address) {

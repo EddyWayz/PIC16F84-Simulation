@@ -1,17 +1,20 @@
 package main;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
+/**
+ * class to parse the file as line to the hex instructions
+ */
 public class InstructionParser {
+    //list the instructions will be saved to
     ArrayList<Integer> program = new ArrayList<>();
     File input;
     ArrayList<String> fileAsLines;
 
     public InstructionParser(String path) {
+        //parser to parse file as lines
         FileLineParser flParser = new FileLineParser(path);
         try {
             fileAsLines = flParser.parseFileToLines();
@@ -23,6 +26,7 @@ public class InstructionParser {
 
     public ArrayList<Integer> parseLinesToInstructions() {
         String currentLine;
+        //gets the hex code and adds it to the program list
         for (int i = findFirstIndex(); i < fileAsLines.size(); i++) {
             currentLine = fileAsLines.get(i);
             int instruction = getInstruction(currentLine);
@@ -33,9 +37,14 @@ public class InstructionParser {
         return program;
     }
 
+    /**
+     * finds the first index of an LST file with a instruction
+     * @return index
+     */
     private int findFirstIndex() {
         char current = fileAsLines.getFirst().charAt(0);
         int index = 0;
+        //TODO max length has to be 1024
 
         while (current == ' ') {
             index++;
@@ -44,6 +53,11 @@ public class InstructionParser {
         return index;
     }
 
+    /**
+     * parses a instruction out of given string (line of LST file)
+     * @param line
+     * @return instruction as integer
+     */
     private int getInstruction(String line) {
         String instruction = "";
         if (line.charAt(0) != ' ') {
