@@ -58,13 +58,16 @@ public class PIC {
         decode_n_execute(current_instr);
     }
 
+    /**
+     * decodes and executes the next instruction
+     * @param instruction
+     */
     private void decode_n_execute(int instruction) {
-        //TODO special Instruction 10 00 (CALL)
 
-        //TODO split instructions in 3 groups
 
     }
 
+    //BYTE-ORIENTED FILE REGISTER OPERATIONS
     /**
      * Add W and f
      *
@@ -293,6 +296,7 @@ public class PIC {
 
     }
 
+    //BIT-ORIENTED FILE REGISTER OPERATIONS
     /**
      * Bit Clear f
      *
@@ -345,6 +349,7 @@ public class PIC {
 
     }
 
+    //LITERAL AND CONTROL OPERATIONS
     /**
      * Add literal and W
      *
@@ -541,6 +546,8 @@ public class PIC {
 
     }
 
+
+    //GENERAL METHODS
     /**
      * SETS the carry flag in status register
      */
