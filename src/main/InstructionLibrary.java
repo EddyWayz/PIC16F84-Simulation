@@ -51,6 +51,11 @@ public class InstructionLibrary {
 
     }
 
+    /**
+     * method to get a mask for a given instruction
+     * @param instructionName
+     * @return mask as an integer
+     */
     public int getMask(String instructionName) {
         for(Instruction i : instructions) {
             if(i.getName().equals(instructionName)) {
