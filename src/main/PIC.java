@@ -12,6 +12,7 @@ public class PIC {
     RAM[] memory;
 
     ArrayList<Integer> program = new ArrayList<>(1024);
+    InstructionLibrary lib;
 
     //special registers
     private int W;
@@ -37,7 +38,7 @@ public class PIC {
         program = instrParser.parseLinesToInstructions();
 
         //INIT of instruction library
-        InstructionLibrary lib = new InstructionLibrary();
+        lib = new InstructionLibrary();
 
 
         //TODO Link to IO Pins
@@ -63,6 +64,8 @@ public class PIC {
      * @param instruction
      */
     private void decode_n_execute(int instruction) {
+        int maskedInstr = instruction & 0x3F00;
+
 
 
     }

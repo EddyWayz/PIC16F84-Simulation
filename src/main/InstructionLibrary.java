@@ -56,14 +56,14 @@ public class InstructionLibrary {
      * @param instructionName
      * @return mask as an integer
      */
-    public int getMask(String instructionName) {
+    public Instruction getMask(String instructionName) {
         for(Instruction i : instructions) {
             if(i.getName().equals(instructionName)) {
-                return i.getMask();
+                return i;
             }
         }
         //this return should never be reached
-        return 0;
+        return null;
     }
 
 
