@@ -1,5 +1,8 @@
 package main;
 
+import main.exceptions.InstructionNotFound;
+import main.tools.Instr_Lib;
+
 import java.util.ArrayList;
 
 
@@ -12,7 +15,7 @@ public class PIC {
     RAM[] memory;
 
     ArrayList<Integer> program = new ArrayList<>(1024);
-    InstructionLibrary lib;
+    Instr_Lib lib;
 
     //special registers
     private int W;
@@ -38,7 +41,7 @@ public class PIC {
         program = instrParser.parseLinesToInstructions();
 
         //INIT of instruction library
-        lib = new InstructionLibrary();
+        lib = new Instr_Lib();
 
 
         //TODO Link to IO Pins
@@ -63,9 +66,127 @@ public class PIC {
      * decodes and executes the next instruction
      * @param instruction
      */
-    private void decode_n_execute(int instruction) {
-        int maskedInstr = instruction & 0x3F00;
+    //TODO public only for testing
+    public void decode_n_execute(int instruction) {
+        //fetch special instruction with 14 bit code
+        switch(instruction) {
+            case Instr_Lib.NOP:
+                break;
+            case Instr_Lib.CLRWDT:
+                instr_CLRWDT(instruction);
+                break;
+            case Instr_Lib.RETFIE:
+                instr_RETFIE(instruction);
+                break;
+            case Instr_Lib.RETURN:
+                instr_RETURN(instruction);
+                break;
+            case Instr_Lib.SLEEP:
+                instr_SLEEP(instruction);
+                break;
+        }
 
+        //7 BIT INSTRUCTIONS
+        int maskedInstr_7bit = instruction & 0x3F80;
+        switch(maskedInstr_7bit) {
+            case Instr_Lib.CLRF:
+                instr_CLRF(instruction);
+                break;
+            case Instr_Lib.CLRW:
+                instr_CLRW(instruction);
+                break;
+            case Instr_Lib.MOVWF:
+                instr_MOVWF(instruction);
+                break;
+        }
+
+        //6 BIT INSTRUCTIONS (Table order without instructions above)
+        int maskedInstr_6bit = instruction & 0x3F00;
+        switch(maskedInstr_6bit) {
+            case Instr_Lib.ADDWF:
+                instr_ADDWF(instruction);
+                break;
+            case Instr_Lib.ANDWF:
+                instr_ANDWF(instruction);
+                break;
+            case Instr_Lib.COMF:
+                instr_COMF(instruction);
+                break;
+            case Instr_Lib.DECF:
+                instr_DECF(instruction);
+                break;
+            case Instr_Lib.DECFSZ:
+                instr_DECFSZ(instruction);
+                break;
+            case Instr_Lib.INCF:
+                instr_INCF(instruction);
+                break;
+            case Instr_Lib.INCFSZ:
+                instr_INCFSZ(instruction);
+                break;
+            case Instr_Lib.IORWF:
+                instr_IORWF(instruction);
+                break;
+            case Instr_Lib.MOVF:
+                instr_MOVF(instruction);
+                break;
+            case Instr_Lib.RLF:
+                instr_RLF(instruction);
+                break;
+            case Instr_Lib.RRF:
+                instr_RRF(instruction);
+                break;
+            case Instr_Lib.SUBWF:
+                instr_SUBWF(instruction);
+                break;
+            case Instr_Lib.SWAPF:
+                instr_SWAPF(instruction);
+                break;
+            case Instr_Lib.XORWF:
+                instr_XORWF(instruction);
+                break;
+            case Instr_Lib.BCF:
+                instr_BCF(instruction);
+                break;
+            case Instr_Lib.BSF:
+                instr_BSF(instruction);
+                break;
+            case Instr_Lib.BTFSC:
+                instr_BTFSC(instruction);
+                break;
+            case Instr_Lib.BTFSS:
+                instr_BTFSS(instruction);
+                break;
+            case Instr_Lib.ADDLW:
+                instr_ADDLW(instruction);
+                break;
+            case Instr_Lib.ANDLW:
+                instr_ANDLW(instruction);
+                break;
+            case Instr_Lib.CALL:
+                instr_CALL(instruction);
+                break;
+            //CLRWDT see above
+            case Instr_Lib.GOTO:
+                instr_GOTO(instruction);
+                break;
+            case Instr_Lib.IORLW:
+                instr_IORLW(instruction);
+                break;
+            case Instr_Lib.MOVLW:
+                instr_MOVLW(instruction);
+                break;
+            //RETFIE see above
+            case Instr_Lib.RETLW:
+                instr_RETLW(instruction);
+                break;
+            case Instr_Lib.SUBLW:
+                instr_SUBLW(instruction);
+                break;
+            case Instr_Lib.XORLW:
+                instr_XORLW(instruction);
+                break;
+        }
 
 
     }
@@ -82,7 +203,7 @@ public class PIC {
      * @param instruction
      */
     private void instr_ADDWF(int instruction) {
-
+        System.out.println("ADDWF");
     }
 
     /**
@@ -96,7 +217,7 @@ public class PIC {
      * @param instruction
      */
     private void instr_ANDWF(int instruction) {
-
+        System.out.println("ANDWF");
     }
 
     /**
@@ -109,7 +230,7 @@ public class PIC {
      * @param instruction
      */
     private void instr_CLRF(int instruction) {
-
+        System.out.println("CLRF");
     }
 
     /**
@@ -121,7 +242,7 @@ public class PIC {
      * @param instruction
      */
     private void instr_CLRW(int instruction) {
-
+        System.out.println("CLRW");
     }
 
     /**
@@ -135,7 +256,7 @@ public class PIC {
      * @param instruction
      */
     private void instr_COMF(int instruction) {
-
+        System.out.println("COMF");
     }
 
     /**
@@ -149,7 +270,7 @@ public class PIC {
      * @param instruction
      */
     private void instr_DECF(int instruction) {
-
+        System.out.println("DECF");
     }
 
     /**
@@ -165,7 +286,9 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    private void instr_DECFSZ(int instruction) {}
+    private void instr_DECFSZ(int instruction) {
+        System.out.println("DECFSZ");
+    }
 
     /**
      * Increment f
@@ -177,7 +300,9 @@ public class PIC {
      * Status affected: Z
      * @param instruction
      */
-    private void instr_INCF(int instruction) {}
+    private void instr_INCF(int instruction) {
+        System.out.println("INCF");
+    }
 
     /**
      * Increment f, Skip if 0
@@ -309,7 +434,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_BCF(int instruction) {
-
+        System.out.println("BCF");
     }
 
     /**
@@ -321,7 +446,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_BSF(int instruction) {
-
+        System.out.println("BSF");
     }
 
     /**
@@ -335,7 +460,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_BTFSC(int instruction) {
-
+        System.out.println("BTFSC");
     }
 
     /**
@@ -349,7 +474,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_BTFSS(int instruction) {
-
+        System.out.println("BTFSS");
     }
 
     //LITERAL AND CONTROL OPERATIONS
@@ -409,7 +534,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_CLRWDT(int instruction) {
-
+        System.out.println("CLRWDT");
     }
 
     /**
@@ -518,7 +643,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_SLEEP(int instruction) {
-
+        System.out.println("SLEEP");
     }
 
     /**
@@ -531,7 +656,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_SUBLW(int instruction) {
-
+        System.out.println("SUBLW");
     }
 
     /**

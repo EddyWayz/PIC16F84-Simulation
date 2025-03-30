@@ -1,4 +1,4 @@
-package main;
+package main.tools;
 
 /**
  * class for standard bit operation

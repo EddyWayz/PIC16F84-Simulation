@@ -1,6 +1,6 @@
 package main;
 
-import main.BitOperator.*;
+import main.tools.BitOperator;
 
 public class RAM {
     int[] memory;
