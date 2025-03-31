@@ -315,7 +315,9 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    private void instr_INCFSZ(int instruction) {}
+    private void instr_INCFSZ(int instruction) {
+        System.out.println("INCFSZ");
+    }
 
     /**
      * Inclusive OR W with f
@@ -327,7 +329,9 @@ public class PIC {
      * Status affected: Z
      * @param instruction
      */
-    private void instr_IORWF(int instruction) {}
+    private void instr_IORWF(int instruction) {
+        System.out.println("IORWF");
+    }
 
     /**
      * Move f
@@ -339,7 +343,9 @@ public class PIC {
      * Status affected: Z
      * @param instruction
      */
-    private void instr_MOVF(int instruction) {}
+    private void instr_MOVF(int instruction) {
+        System.out.println("MOVF");
+    }
 
     /**
      * Move W to f
@@ -349,7 +355,9 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    private void instr_MOVWF(int instruction) {}
+    private void instr_MOVWF(int instruction) {
+        System.out.println("MOVWF");
+    }
 
     /**
      * No Operation
@@ -359,7 +367,9 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    private void instr_NOP(int instruction) {}
+    private void instr_NOP(int instruction) {
+        System.out.println("NOP");
+    }
 
     /**
      * Rotate Left f through Carry
@@ -371,7 +381,9 @@ public class PIC {
      * Status affected: C
      * @param instruction
      */
-    private void instr_RLF(int instruction) {}
+    private void instr_RLF(int instruction) {
+        System.out.println("RLF");
+    }
 
     /**
      * Rotate Right f through Carry
@@ -383,7 +395,9 @@ public class PIC {
      * Status affected: C
      * @param instruction
      */
-    private void instr_RRF(int instruction) {}
+    private void instr_RRF(int instruction) {
+        System.out.println("RRF");
+    }
 
     /**
      * Subtract W from f
@@ -395,7 +409,9 @@ public class PIC {
      * Status affected: C, DC, Z
      * @param instruction
      */
-    private void instr_SUBWF(int instruction) {}
+    private void instr_SUBWF(int instruction) {
+        System.out.println("SUBWF");
+    }
 
     /**
      * Swap Nibbles in f
@@ -408,7 +424,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_SWAPF(int instruction) {
-
+        System.out.println("SWAPF");
     }
 
     /**
@@ -421,7 +437,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_XORWF(int instruction) {
-
+        System.out.println("XORWF");
     }
 
     //BIT-ORIENTED FILE REGISTER OPERATIONS
@@ -489,7 +505,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_ADDLW(int instruction) {
-
+        System.out.println("ADDLW");
     }
 
     /**
@@ -503,7 +519,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_ANDLW(int instruction) {
-
+        System.out.println("ANDLW");
     }
 
     /**
@@ -520,7 +536,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_CALL(int instruction) {
-
+        System.out.println("CALL");
     }
 
     /**
@@ -550,7 +566,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_GOTO(int instruction) {
-
+        System.out.println("GOTO");
     }
 
     /**
@@ -564,7 +580,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_IORLW(int instruction) {
-
+        System.out.println("IORLW");
     }
 
     /**
@@ -578,7 +594,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_MOVLW(int instruction) {
-
+        System.out.println("MOVLW");
     }
 
     /**
@@ -595,7 +611,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_RETFIE(int instruction) {
-
+        System.out.println("RETFIE");
     }
 
     /**
@@ -611,7 +627,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_RETLW(int instruction) {
-
+        System.out.println("RETLW");
     }
 
     /**
@@ -626,7 +642,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_RETURN(int instruction) {
-
+        System.out.println("RETURN");
     }
 
     /**
@@ -671,7 +687,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_XORLW(int instruction) {
-
+        System.out.println("XORLW");
     }
 
 
