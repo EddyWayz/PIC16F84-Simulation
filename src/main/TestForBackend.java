@@ -37,7 +37,7 @@ public class TestForBackend {
 
         String tmp;
         do {
-            tmp = In.readString("input: ");
+            tmp = In.readString("exit or input: ");
             pic.decode_n_execute(Integer.parseInt(tmp, 16));
         } while (!tmp.equals("exit"));
 

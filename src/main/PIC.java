@@ -1,6 +1,6 @@
 package main;
 
-import main.exceptions.InstructionNotFound;
+import main.tools.BitOperator;
 import main.tools.Instr_Lib;
 
 import java.util.ArrayList;
@@ -8,13 +8,16 @@ import java.util.ArrayList;
 
 public class PIC {
     //mask to delete all upper bits (except first 8)
-    private int upperZeroMask = 0b11111111;
+    private final int UPPERZEROS_MASK = 0b1111_1111;
+    private final int ADDRESS_MASK  = 0b0111_1111;
+    private final int NIBBLE_MASK = 0b1111;
+    private final int LITERAL_MASK  = 0b1111_1111;
     //memory for data and program
     RAM bank0;
     RAM bank1;
     RAM[] memory;
 
-    ArrayList<Integer> program = new ArrayList<>(1024);
+    private ArrayList<Integer> program = new ArrayList<>(1024);
     Instr_Lib lib;
 
     //special registers
@@ -40,9 +43,6 @@ public class PIC {
         InstructionParser instrParser = new InstructionParser(path);
         program = instrParser.parseLinesToInstructions();
 
-        //INIT of instruction library
-        lib = new Instr_Lib();
-
 
         //TODO Link to IO Pins
         //TODO Stack init
@@ -51,15 +51,25 @@ public class PIC {
     }
 
     /**
-     * fetches the next instruction from the program at index of the program counter
-     * then the instruction will be decoded and excecuted
+     * simunlates one line of assembly code
      */
-    private void fetch() {
+    public void step() {
+        int current_instr = fetch();
+        decode_n_execute(current_instr);
+        //TODO check if any saved values have to be mirrored to the other bank
+    }
+
+    /**
+     * fetches the next instruction from the program at index of the program counter
+     * increments the PC
+     * @return the current instrcution that will be executed
+     */
+    private int fetch() {
         //get next instruction
         current_instr = program.get(PC);
         //PC increment
         PC++;
-        decode_n_execute(current_instr);
+        return current_instr;
     }
 
     /**
@@ -203,6 +213,39 @@ public class PIC {
      * @param instruction
      */
     private void instr_ADDWF(int instruction) {
+        int address = instruction & ADDRESS_MASK;
+        if(address == 0) {
+            // reads the address of the FSR register -> indirect addressing
+            address = memory[0].read(4);
+        }
+
+        if(check_DC(W, memory[0].read(address))) {
+            set_DC();
+        } else {
+            unset_DC();
+        }
+
+        int result = W + memory[0].read(address);
+
+        if(result > 255) {
+            set_C();
+        } else {
+            unset_C();
+        }
+
+        if(result == 0) {
+            set_Z();
+        } else {
+            unset_Z();
+        }
+
+        int destination = BitOperator.getBit(instruction, 8);
+        if(destination == 0) {
+            writeInW(result);
+        } else {
+            memory[0].write(address, result);
+        }
+
         System.out.println("ADDWF");
     }
 
@@ -594,6 +637,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_MOVLW(int instruction) {
+        writeInW(instruction & LITERAL_MASK);
         System.out.println("MOVLW");
     }
 
@@ -692,6 +736,7 @@ public class PIC {
 
 
     //GENERAL METHODS
+    //TODO
     /**
      * SETS the carry flag in status register
      */
@@ -699,6 +744,7 @@ public class PIC {
 
     }
 
+    //TODO
     /**
      * UNSETS the carry flag in status register
      */
@@ -706,6 +752,7 @@ public class PIC {
 
     }
 
+    //TODO
     /**
      * SETS the digit carry in status register
      */
@@ -713,11 +760,26 @@ public class PIC {
 
     }
 
+    //TODO
     /**
      * UNSETS the digit carry in status register
      */
     private void unset_DC() {}
 
+    /**
+     * checks if two added integers would have a carry to the upper nibble
+     * @param valA
+     * @param valB
+     * @return true if DC will be set
+     */
+    private boolean check_DC(int valA, int valB) {
+        // mask both values to only the 4 lowest bits
+        int masked_val1 = valA & NIBBLE_MASK;
+        int masked_val2 = valB & NIBBLE_MASK;
+        return (masked_val1 + masked_val2) > NIBBLE_MASK;
+    }
+
+    //TODO
     /**
      * SETS the zeroflag in status register
      */
@@ -725,6 +787,7 @@ public class PIC {
 
     }
 
+    //TODO
     /**
      * UNSETS the zeroflag in the status register
      */
@@ -732,6 +795,7 @@ public class PIC {
 
     }
 
+    //TODO
     /**
      * SETS the rp0 bit in status register
      */
@@ -739,6 +803,7 @@ public class PIC {
 
     }
 
+    //TODO
     /**
      * UNSETS the rp0 bit in the status register
      */
@@ -746,15 +811,20 @@ public class PIC {
 
     }
 
+
+    /**
+     * writes the given value into the W register after masking it
+     * @param value
+     */
     private void writeInW(int value) {
-        W = value & upperZeroMask;
+        W = value & UPPERZEROS_MASK;
     }
 
     public int getWRegister() {
         return W;
     }
 
-    public int getPCL() {
+    public int getPC() {
         return PC;
     }
 
