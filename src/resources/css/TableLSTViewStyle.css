@@ -1,0 +1,9 @@
+.table-cell {
+    -fx-font-family: "Courier New";
+}
+
+#btnFilePicker {
+     -fx-pref-height: 40px;
+     -fx-pref-width: 90px;
+}
+

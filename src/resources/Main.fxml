@@ -8,7 +8,7 @@
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:controller="main.MainController"
           alignment="TOP_LEFT"
-          hgap="10" vgap="10">
+          hgap="10  " vgap="10">
 
     <!-- Padding als Element definieren -->
     <padding>
@@ -17,9 +17,9 @@
 
     <!-- Definieren der Spalten -->
     <columnConstraints>
-        <ColumnConstraints fx:id="col1" prefWidth="300"/>
-        <ColumnConstraints fx:id="col2" prefWidth="300"/>
-        <ColumnConstraints fx:id="col3" prefWidth="300"/>
+        <ColumnConstraints fx:id="col1" percentWidth="50"/>
+        <ColumnConstraints fx:id="col2" percentWidth="25"/>
+        <ColumnConstraints fx:id="col3" percentWidth="25"/>
     </columnConstraints>
 
     <!-- Definieren der Zeilen -->
@@ -31,7 +31,7 @@
     </rowConstraints>
 
     <!-- Bereich: Tabelle LST (links, Zeilen 0-2) -->
-    <fx:include source="TabelleLST.fxml"
+    <fx:include source="TableViewLST.fxml"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="0"
                 GridPane.rowSpan="3"/>

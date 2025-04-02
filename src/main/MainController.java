@@ -1,6 +1,7 @@
 package main;
 
 import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 

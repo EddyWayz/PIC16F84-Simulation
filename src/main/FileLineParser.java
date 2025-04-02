@@ -4,53 +4,51 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * class to parse a file as lines
+ * Klasse zum Einlesen einer Datei in Zeilen.
  */
 public class FileLineParser {
     private ArrayList<String> fileAsLines = new ArrayList<>();
-    File input;
-    BufferedReader bufferReader;
+    private File input;  // Als Feld speichern
 
     /**
-     * constructor for a new parser
-     * @param path of the file that will be parsed
+     * Konstruktor: Erstellt einen Parser für die angegebene Datei.
+     * @param path Pfad zur Datei
      */
     public FileLineParser(String path) {
-        File input = new File(path);
-        try {
-            bufferReader = new BufferedReader(new FileReader(input));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        input = new File(path);
     }
 
     /**
-     * parses a given file as lines
-     * @return list of the parsed lines
+     * Liest die Datei zeilenweise ein und speichert das Ergebnis.
+     * Wird die Methode erneut aufgerufen, wird der bereits eingelesene Inhalt zurückgegeben.
+     * @return ArrayList mit den Zeilen der Datei
      * @throws IOException
      */
     public ArrayList<String> parseFileToLines() throws IOException {
-        String line;
-        while((line = bufferReader.readLine()) != null) {
-            fileAsLines.add(line);
+        if (!fileAsLines.isEmpty()) {
+            // Datei wurde bereits eingelesen, also einfach zurückgeben
+            return fileAsLines;
         }
-        bufferReader.close();
+        try (BufferedReader reader = new BufferedReader(new FileReader(input))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                fileAsLines.add(line);
+            }
+        }
         return fileAsLines;
     }
 
     /**
-     * method to print the parsed file to check if it was parsed correctly
+     * Gibt den Inhalt der Datei zeilenweise auf der Konsole aus.
      */
     public void printFile() {
         try {
-            parseFileToLines();
+            ArrayList<String> lines = parseFileToLines();
+            for (String line : lines) {
+                System.out.println(line);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        for (String line : fileAsLines) {
-            System.out.println(line);
-        }
     }
-
-
 }
