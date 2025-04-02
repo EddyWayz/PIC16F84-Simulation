@@ -1,39 +1,39 @@
-package main;
+package main.cardgame;
 
 import main.tools.BitOperator;
 
-public class RAM {
+public class Bank implements Memory {
     int[] memory;
-    int bank;
-    int upperZeroMask = 0b11111111;
+    int UPPERZEROS_MASK = 0b11111111;
 
-    public RAM () {
+    public Bank() {
         memory = new int[128];
     }
 
-    public int getRegister(int address) {
-        return memory[address];
-    }
-
+    @Override
     public int read(int address) {
         return memory[address];
     }
 
+    @Override
     public int readBit(int address, int position) {
         return BitOperator.getBit(memory[address], position);
     }
 
+    @Override
     public void write(int address, int value) {
-        value = value & upperZeroMask;
+        value = value & UPPERZEROS_MASK;
         memory[address] = value;
     }
 
+    @Override
     public void writeBit(int address, int position) {
         int tmp_value = read(address);
-        BitOperator.setBit(tmp_value, position);
+        tmp_value = BitOperator.setBit(tmp_value, position);
         write(address, tmp_value);
     }
 
+    @Override
     public int getBit(int address, int position) {
         return BitOperator.getBit(memory[address], position);
     }

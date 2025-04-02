@@ -1,5 +1,6 @@
 package main;
 
+import main.cardgame.RAM;
 import main.tools.BitOperator;
 import main.tools.Instr_Lib;
 
@@ -13,12 +14,10 @@ public class PIC {
     private final int NIBBLE_MASK = 0b1111;
     private final int LITERAL_MASK  = 0b1111_1111;
     //memory for data and program
-    RAM bank0;
-    RAM bank1;
-    RAM[] memory;
+
+    public RAM memory;
 
     private ArrayList<Integer> program = new ArrayList<>(1024);
-    Instr_Lib lib;
 
     //special registers
     private int W;
@@ -27,12 +26,7 @@ public class PIC {
 
 
     public PIC(String path) {
-        //create memory
-        memory = new RAM[2];
-        bank0 = new RAM();
-        bank1 = new RAM();
-        memory[0] = bank0;
-        memory[1] = bank1;
+
         //INIT of basic register
         W = 0;
         PC = 0;
@@ -216,16 +210,16 @@ public class PIC {
         int address = instruction & ADDRESS_MASK;
         if(address == 0) {
             // reads the address of the FSR register -> indirect addressing
-            address = memory[0].read(4);
+            address = memory.read(4);
         }
 
-        if(check_DC(W, memory[0].read(address))) {
+        if(check_DC(W, memory.read(address))) {
             set_DC();
         } else {
             unset_DC();
         }
 
-        int result = W + memory[0].read(address);
+        int result = W + memory.read(address);
 
         if(result > 255) {
             set_C();
@@ -243,7 +237,7 @@ public class PIC {
         if(destination == 0) {
             writeInW(result);
         } else {
-            memory[0].write(address, result);
+            memory.write(address, result);
         }
 
         System.out.println("ADDWF");
