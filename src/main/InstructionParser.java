@@ -30,7 +30,7 @@ public class InstructionParser {
         for (int i = findFirstIndex(); i < fileAsLines.size(); i++) {
             currentLine = fileAsLines.get(i);
             int instruction = getInstruction(currentLine);
-            if(instruction != 0) {
+            if(instruction != 0 && program.size() < 1024) {
                 program.add(instruction);
             }
         }

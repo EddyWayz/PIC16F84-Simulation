@@ -2,6 +2,7 @@ package main.cardgame;
 
 import main.exceptions.MirroringErrorException;
 import main.tools.Label_Lib;
+import main.tools.Mask_Lib;
 
 
 public class RAM implements Memory {
@@ -10,7 +11,6 @@ public class RAM implements Memory {
     Bank bank1;
     // array of both banks
     Bank[] RAM;
-
 
     public RAM() {
         //create memory
@@ -21,6 +21,59 @@ public class RAM implements Memory {
         RAM[1] = bank1;
     }
 
+    /**
+     * checks if two added integers would have a carry to the upper nibble and (un)sets the digit carry flag corresponding to the result
+     * @param valA
+     * @param valB
+     */
+    public void check_n_manipulate_DC(int valA, int valB) {
+        // mask both values to only the 4 lowest bits
+        int masked_val1 = valA & Mask_Lib.NIBBLE_MASK;
+        int masked_val2 = valB & Mask_Lib.NIBBLE_MASK;
+        if((masked_val1 + masked_val2) > Mask_Lib.NIBBLE_MASK) {
+            set_DC();
+        } else {
+            unset_DC();
+        }
+    }
+
+    /**
+     * checks if the carry flag has to be (un)set
+     * @param result that will be checked
+     */
+    public void check_n_manipulate_C(int result) {
+        if(result > 255) {
+            set_C();
+        } else {
+            unset_C();
+        }
+    }
+
+    /**
+     * checks if the zero flag has to be (un)set
+     * @param result
+     */
+    public void check_n_manipulate_Z(int result) {
+        if(result == 0) {
+            set_Z();
+        } else {
+            unset_Z();
+        }
+    }
+
+
+
+    /**
+     * checks if an address is 0 and the instruction will use an indirect addressing
+     * @param address of the instruction
+     * @return correct address
+     */
+    public int check_IndirectAddressing(int address) {
+        //TODO check for length of FSR
+        int result = address;
+        // reads the address of the FSR register -> indirect addressing
+        return result == 0 ? read(Label_Lib.FSR) : address;
+    }
 
     /**
      * SETS the zeroflag in status register

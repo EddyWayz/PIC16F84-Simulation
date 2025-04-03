@@ -10,6 +10,4 @@ public interface Memory {
     void setBit(int address, int position);
     void unsetBit(int address, int position);
     int getBit(int address, int position);
-
-    
 }
