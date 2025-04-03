@@ -1,21 +1,28 @@
 package main;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.Pane;
+import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainController {
+public class MainController implements Initializable {
 
     @FXML
-    private VBox buttonsInclude; // entspricht dem fx:id im fx:include der Buttons.fxml
-
+    private VBox buttonsInclude;
     @FXML
     private VBox ioPinsInclude;
 
-    @FXML
-    public void initialize() {
-        // Zugriff auf den RUN-Button (falls benötigt)
+    // Öffentliche statische Variable für den PIC
+    public static PIC pic;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Initialisiere den PIC – passe den Pfad an deine Bedürfnisse an
+        pic = new PIC("/Users/eddywayz/Desktop/Studium/Rechnerarchitektur/test_files/TPicSim1.LST");
+
+        // Beispielhafter Button-Zugriff
         Button btnRun = (Button) buttonsInclude.lookup("#btnRun");
         if (btnRun != null) {
             btnRun.setOnAction(e -> {
