@@ -74,11 +74,6 @@ public class RAM implements Memory {
      * @return correct address
      */
     public int check_IndirectAddressing(int address) {
-        //TODO check for length of FSR
-        int destination = BitOperator.getBit(address, 8);
-
-
-
         // reads the address of the FSR register -> indirect addressing
         return address == 0 ? read(Label_Lib.FSR) : address;
     }
