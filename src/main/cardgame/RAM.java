@@ -22,6 +22,10 @@ public class RAM implements Memory {
         RAM[1] = bank1;
     }
 
+    public void powerOn(){
+        RAM[0].write(Label_Lib.PCL, 0);
+    }
+
     /**
      * checks if two added integers would have a carry to the upper nibble and (un)sets the digit carry flag corresponding to the result
      * @param valA
@@ -240,5 +244,9 @@ public class RAM implements Memory {
             default:
                 return false;
         }
+    }
+
+    public String convertPCLTo4BitsString(){
+        return String.format("%04d", RAM[0].read(Label_Lib.PCL));
     }
 }

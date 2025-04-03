@@ -35,7 +35,7 @@ public class PIC {
 
         //new instance of RAM
         memory = new RAM();
-
+        memory.powerOn();
         //TODO INIT of all registers at Power On
 
         //Parse file to get the program

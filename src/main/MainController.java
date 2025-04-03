@@ -48,8 +48,11 @@ public class MainController implements Initializable {
         Button btnCTOP = (Button) buttonsInclude.lookup("#btnCTOP");
         if (btnCTOP != null) {
             btnCTOP.setOnAction(e -> {
-                System.out.println("CTOP Button wurde gedrückt!");
-                // Weitere Logik hier
+                pic.step();
+                // Aktualisiere die Tabelle, indem du die statische Instanz verwendest
+                if (TabelleLSTController.instance != null) {
+                    TabelleLSTController.instance.refreshView();
+                }
             });
         } else {
             System.out.println("btnCTOP wurde nicht gefunden!");

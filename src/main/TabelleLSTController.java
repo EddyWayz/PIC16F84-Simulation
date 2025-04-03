@@ -50,6 +50,8 @@ public class TabelleLSTController implements Initializable {
         public void setBlock6(String value) { block6.set(value); }
     }
 
+    public static TabelleLSTController instance;
+
     @FXML
     public Button btnFilePicker;
     @FXML
@@ -69,6 +71,7 @@ public class TabelleLSTController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        instance = this;
         // Spalten konfigurieren
         columnBlock1.setCellValueFactory(cellData -> cellData.getValue().block1);
         columnBlock2.setCellValueFactory(cellData -> cellData.getValue().block2);
@@ -111,13 +114,17 @@ public class TabelleLSTController implements Initializable {
                 getStyleClass().remove("highlight-row");
                 if (!empty && item != null) {
                     // Beispiel: Hol den aktuellen Programmzähler aus einer anderen Klasse
-                    String currentPC = String.valueOf("00003");
-                    if (item.getBlock3().equals(currentPC)) {
+                    String currentPC = String.valueOf(MainController.pic.memory.convertPCLTo4BitsString());
+                    if (item.getBlock1().equals(currentPC)) {
                         getStyleClass().add("highlight-row");
                     }
                 }
             }
         });
+    }
+
+    public void refreshView() {
+        tableViewLST.refresh();
     }
 
     private void reloadTable(String path) {
