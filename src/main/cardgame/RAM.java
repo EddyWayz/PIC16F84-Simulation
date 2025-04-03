@@ -21,67 +21,64 @@ public class RAM implements Memory {
         RAM[1] = bank1;
     }
 
-    //TODO
+
     /**
      * SETS the zeroflag in status register
      */
     public void set_Z() {
-
+        setBit(Label_Lib.STATUS, Label_Lib.zeroflag);
     }
 
-    //TODO
     /**
      * UNSETS the zeroflag in the status register
      */
     public void unset_Z() {
-
+        unsetBit(Label_Lib.STATUS, Label_Lib.zeroflag);
     }
 
-    //TODO
     /**
      * SETS the rp0 bit in status register
      */
     public void set_RP0() {
-
+        setBit(Label_Lib.STATUS, Label_Lib.rp0);
     }
 
-    //TODO
     /**
      * UNSETS the rp0 bit in the status register
      */
     public void unset_RP0() {
-
+        unsetBit(Label_Lib.STATUS, Label_Lib.rp0);
     }
 
-    //TODO
     /**
      * SETS the carry flag in status register
      */
     public void set_C() {
-
+        setBit(Label_Lib.STATUS, Label_Lib.carry);
     }
 
-    //TODO
+
     /**
      * UNSETS the carry flag in status register
      */
     public void unset_C() {
-
+        unsetBit(Label_Lib.STATUS, Label_Lib.carry);
     }
 
-    //TODO
+
     /**
      * SETS the digit carry in status register
      */
     public void set_DC() {
-
+        setBit(Label_Lib.STATUS, Label_Lib.digitcarry);
     }
 
-    //TODO
     /**
      * UNSETS the digit carry in status register
      */
-    public void unset_DC() {}
+    public void unset_DC() {
+        unsetBit(Label_Lib.STATUS, Label_Lib.digitcarry);
+    }
 
     /**
      * returns the value of register at a given address
@@ -120,17 +117,32 @@ public class RAM implements Memory {
     }
 
     /**
-     * writes a bit at a given address and positon
+     * sets a bit at a given address and positon
      * @param address of register
      * @param position of bit
      */
     @Override
-    public void writeBit(int address, int position) {
+    public void setBit(int address, int position) {
         if(hasToMirrored(address)) {
-            RAM[0].writeBit(address, position);
-            RAM[1].writeBit(address, position);
+            RAM[0].setBit(address, position);
+            RAM[1].setBit(address, position);
         } else {
-            RAM[getRP0()].writeBit(address, position);
+            RAM[getRP0()].setBit(address, position);
+        }
+    }
+
+    /**
+     * unsets a bit at a given address and position
+     * @param address of a register
+     * @param position of a bit
+     */
+    @Override
+    public void unsetBit(int address, int position) {
+        if(hasToMirrored(address)) {
+            RAM[0].unsetBit(address, position);
+            RAM[1].unsetBit(address, position);
+        } else {
+            RAM[getRP0()].unsetBit(address, position);
         }
     }
 
