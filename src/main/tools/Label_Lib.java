@@ -10,5 +10,8 @@ public class Label_Lib {
     public static final int PCLATH = 0xA;
     public static final int INTCON = 0xB;
 
+    public static final int carry = 0;
+    public static final int digitcarry = 1;
+    public static final int zeroflag = 2;
     public static final int rp0 = 5;
 }

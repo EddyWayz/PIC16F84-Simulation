@@ -3,6 +3,7 @@ package main;
 import main.cardgame.RAM;
 import main.tools.BitOperator;
 import main.tools.Instr_Lib;
+import main.tools.Label_Lib;
 
 import java.util.ArrayList;
 
@@ -49,8 +50,9 @@ public class PIC {
      */
     public void step() {
         int current_instr = fetch();
+        //PC increment
+        increment_PC();
         decode_n_execute(current_instr);
-        //TODO check if any saved values have to be mirrored to the other bank
     }
 
     /**
@@ -61,8 +63,6 @@ public class PIC {
     private int fetch() {
         //get next instruction
         current_instr = program.get(PC);
-        //PC increment
-        PC++;
         return current_instr;
     }
 
@@ -214,23 +214,23 @@ public class PIC {
         }
 
         if(check_DC(W, memory.read(address))) {
-            set_DC();
+            memory.set_DC();
         } else {
-            unset_DC();
+            memory.unset_DC();
         }
 
         int result = W + memory.read(address);
 
         if(result > 255) {
-            set_C();
+            memory.set_C();
         } else {
-            unset_C();
+            memory.unset_C();
         }
 
         if(result == 0) {
-            set_Z();
+            memory.set_Z();
         } else {
-            unset_Z();
+            memory.unset_Z();
         }
 
         int destination = BitOperator.getBit(instruction, 8);
@@ -730,35 +730,7 @@ public class PIC {
 
 
     //GENERAL METHODS
-    //TODO
-    /**
-     * SETS the carry flag in status register
-     */
-    private void set_C() {
 
-    }
-
-    //TODO
-    /**
-     * UNSETS the carry flag in status register
-     */
-    private void unset_C() {
-
-    }
-
-    //TODO
-    /**
-     * SETS the digit carry in status register
-     */
-    private void set_DC() {
-
-    }
-
-    //TODO
-    /**
-     * UNSETS the digit carry in status register
-     */
-    private void unset_DC() {}
 
     /**
      * checks if two added integers would have a carry to the upper nibble
@@ -773,36 +745,19 @@ public class PIC {
         return (masked_val1 + masked_val2) > NIBBLE_MASK;
     }
 
-    //TODO
+
+
+
     /**
-     * SETS the zeroflag in status register
+     * increments the programm counter and writes the lower 8 Bit into the PCL register
      */
-    private void set_Z() {
-
-    }
-
-    //TODO
-    /**
-     * UNSETS the zeroflag in the status register
-     */
-    private void unset_Z() {
-
-    }
-
-    //TODO
-    /**
-     * SETS the rp0 bit in status register
-     */
-    private void set_RP0() {
-
-    }
-
-    //TODO
-    /**
-     * UNSETS the rp0 bit in the status register
-     */
-    private void unset_RP0() {
-
+    private void increment_PC() {
+        PC++;
+        if(PC >= 1024) {
+            PC = 0;
+        }
+        int pcl_val = PC & UPPERZEROS_MASK;
+        memory.write(Label_Lib.PCL, pcl_val);
     }
 
 
@@ -818,8 +773,6 @@ public class PIC {
         return W;
     }
 
-    public int getPC() {
-        return PC;
-    }
+
 
 }

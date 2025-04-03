@@ -1,5 +1,8 @@
 package main.cardgame;
 
+/**
+ * Interface to force classes to implement methods for manipulating
+ */
 public interface Memory {
     int read(int address);
     int readBit(int address, int position);

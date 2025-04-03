@@ -21,6 +21,68 @@ public class RAM implements Memory {
         RAM[1] = bank1;
     }
 
+    //TODO
+    /**
+     * SETS the zeroflag in status register
+     */
+    public void set_Z() {
+
+    }
+
+    //TODO
+    /**
+     * UNSETS the zeroflag in the status register
+     */
+    public void unset_Z() {
+
+    }
+
+    //TODO
+    /**
+     * SETS the rp0 bit in status register
+     */
+    public void set_RP0() {
+
+    }
+
+    //TODO
+    /**
+     * UNSETS the rp0 bit in the status register
+     */
+    public void unset_RP0() {
+
+    }
+
+    //TODO
+    /**
+     * SETS the carry flag in status register
+     */
+    public void set_C() {
+
+    }
+
+    //TODO
+    /**
+     * UNSETS the carry flag in status register
+     */
+    public void unset_C() {
+
+    }
+
+    //TODO
+    /**
+     * SETS the digit carry in status register
+     */
+    public void set_DC() {
+
+    }
+
+    //TODO
+    /**
+     * UNSETS the digit carry in status register
+     */
+    public void unset_DC() {}
+
     /**
      * returns the value of register at a given address
      * @param address of register
