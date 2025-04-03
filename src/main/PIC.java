@@ -210,11 +210,15 @@ public class PIC {
      */
     private void instr_ADDWF(int instruction) {
         int address = instruction & Mask_Lib.ADDRESS_MASK;
-        address = memory.check_IndirectAddressing(address);
+        boolean indirect = memory.check_indirectAddressing(address);
+        address = memory.getIndirectAddress(address);
 
-        memory.check_n_manipulate_DC(W, memory.read(address));
+        int value = memory.read(address, indirect);
 
-        int result = W + memory.read(address);
+        //check for digit carry
+        memory.check_n_manipulate_DC(W, value);
+        //check flags after computing
+        int result = W + value;
         memory.check_n_manipulate_C(result);
         memory.check_n_manipulate_Z(result);
 
@@ -235,7 +239,7 @@ public class PIC {
      */
     private void instr_ANDWF(int instruction) {
         int address = instruction & Mask_Lib.ADDRESS_MASK;
-        address = memory.check_IndirectAddressing(address);
+        address = memory.getIndirectAddress(address);
 
         int result = W & memory.read(address);
         memory.check_n_manipulate_Z(result);
@@ -741,6 +745,7 @@ public class PIC {
      * @param value that will be written in the register
      */
     private void writeInMemoryWithDestinationBit(int instruction, int address, int value) {
+        //TODO account for indirect addressing
         int destination = BitOperator.getBit(instruction, 8);
         if(destination == 0) {
             writeInW(value);
