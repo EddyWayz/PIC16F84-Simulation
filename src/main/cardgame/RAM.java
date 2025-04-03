@@ -79,6 +79,15 @@ public class RAM implements Memory {
     }
 
     /**
+     * checks if an address is 0
+     * @param address of a register
+     * @return true if address is 0
+     */
+    public boolean check_indirectAddressing(int address) {
+        return address == 0;
+    }
+
+    /**
      * SETS the zeroflag in status register
      */
     public void set_Z() {
@@ -144,6 +153,17 @@ public class RAM implements Memory {
     @Override
     public int read(int address) {
         return RAM[getRP0()].read(address);
+    }
+
+    /**
+     * reads a register at a given indirect address
+     * @param address
+     * @param indirect
+     * @return
+     */
+    public int read(int address, boolean indirect) {
+        int bank = BitOperator.getBit(address, 8);
+        return RAM[bank].read(address);
     }
 
     /**
