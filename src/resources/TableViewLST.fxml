@@ -7,16 +7,17 @@
 
 <?import javafx.scene.control.Button?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="main.TabelleLSTController"
+      fx:controller="main.TableLSTController"
       stylesheets="@css/TableLSTViewStyle.css"
       spacing="5">
     <Label text="LST File" />
     <Button text="File.." fx:id="btnFilePicker"/>
     <TableView fx:id="tableViewLST">
         <columns>
-            <TableColumn fx:id="columnBlock1" text="Block 1" />
+            <TableColumn fx:id="columnBlock0" text="Breakp" />
+            <TableColumn fx:id="columnBlock1" text="PC" />
             <TableColumn fx:id="columnBlock2" text="Block 2" />
-            <TableColumn fx:id="columnBlock3" text="Prog. counter" />
+            <TableColumn fx:id="columnBlock3" text="Lines" />
             <TableColumn fx:id="columnBlock4" text="Block 4" />
             <TableColumn fx:id="columnBlock5" text="Block 5" />
             <TableColumn fx:id="columnBlock6" text="Comments" />

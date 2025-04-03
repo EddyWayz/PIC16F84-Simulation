@@ -1,26 +1,32 @@
 package main;
 
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
-import main.cardgame.RAM;
 import main.tools.Label_Lib;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.io.IOException;
 
-public class TabelleLSTController implements Initializable {
+public class TableLSTController implements Initializable {
 
-    // Innere Klasse DataRow – wie bisher
+    // Innere Klasse DataRow – Modelliert eine Zeile in der Tabelle.
+    // Wir verwenden block0 als Platzhalter für das Breakpoint-Feld.
     public static class DataRow {
+        private final SimpleStringProperty block0;
         private final SimpleStringProperty block1;
         private final SimpleStringProperty block2;
         private final SimpleStringProperty block3;
@@ -28,7 +34,11 @@ public class TabelleLSTController implements Initializable {
         private final SimpleStringProperty block5;
         private final SimpleStringProperty block6;
 
-        public DataRow(String block1, String block2, String block3, String block4, String block5, String block6) {
+        // Optionale Property, um den Breakpoint-Zustand zu speichern (falls später benötigt)
+        private final BooleanProperty breakpointActive = new SimpleBooleanProperty(false);
+
+        public DataRow(String block0, String block1, String block2, String block3, String block4, String block5, String block6) {
+            this.block0 = new SimpleStringProperty(block0);
             this.block1 = new SimpleStringProperty(block1);
             this.block2 = new SimpleStringProperty(block2);
             this.block3 = new SimpleStringProperty(block3);
@@ -36,7 +46,8 @@ public class TabelleLSTController implements Initializable {
             this.block5 = new SimpleStringProperty(block5);
             this.block6 = new SimpleStringProperty(block6);
         }
-
+        public String getBlock0() { return block0.get(); }
+        public void setBlock0(String value) { block0.set(value); }
         public String getBlock1() { return block1.get(); }
         public void setBlock1(String value) { block1.set(value); }
         public String getBlock2() { return block2.get(); }
@@ -49,14 +60,27 @@ public class TabelleLSTController implements Initializable {
         public void setBlock5(String value) { block5.set(value); }
         public String getBlock6() { return block6.get(); }
         public void setBlock6(String value) { block6.set(value); }
+
+        public boolean isBreakpointActive() {
+            return breakpointActive.get();
+        }
+        public void setBreakpointActive(boolean active) {
+            breakpointActive.set(active);
+        }
+        public BooleanProperty breakpointActiveProperty() {
+            return breakpointActive;
+        }
     }
 
-    public static TabelleLSTController instance;
+    // Statische Referenz, damit MainController darauf zugreifen kann.
+    public static TableLSTController instance;
 
     @FXML
     public Button btnFilePicker;
     @FXML
     private TableView<DataRow> tableViewLST;
+    @FXML
+    private TableColumn<DataRow, String> columnBlock0;
     @FXML
     private TableColumn<DataRow, String> columnBlock1;
     @FXML
@@ -73,7 +97,9 @@ public class TabelleLSTController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         instance = this;
-        // Spalten konfigurieren
+
+        // Spalten konfigurieren: Hier weisen wir den jeweiligen SimpleStringProperty-Wert zu.
+        columnBlock0.setCellValueFactory(cellData -> cellData.getValue().block0);
         columnBlock1.setCellValueFactory(cellData -> cellData.getValue().block1);
         columnBlock2.setCellValueFactory(cellData -> cellData.getValue().block2);
         columnBlock3.setCellValueFactory(cellData -> cellData.getValue().block3);
@@ -81,13 +107,10 @@ public class TabelleLSTController implements Initializable {
         columnBlock5.setCellValueFactory(cellData -> cellData.getValue().block5);
         columnBlock6.setCellValueFactory(cellData -> cellData.getValue().block6);
 
-        // Zugriff auf PIC über MainController
+        // Zugriff auf den PIC (aus MainController) – hier nur zum Testen
         Platform.runLater(() -> {
-            // Jetzt ist sicher, dass der MainController initialisiert wurde.
             if (MainController.pic != null) {
                 System.out.println("PIC aus MainController: " + MainController.pic);
-                // Verwende MainController.pic, z. B. um den aktuellen PC abzurufen:
-                // int currentPC = MainController.pic.getPC();
             } else {
                 System.out.println("PIC ist nicht initialisiert!");
             }
@@ -107,6 +130,7 @@ public class TabelleLSTController implements Initializable {
             defaultPath = "";
         }
         reloadTable(defaultPath);
+
         tableViewLST.setRowFactory(tv -> new TableRow<DataRow>() {
             @Override
             protected void updateItem(DataRow item, boolean empty) {
@@ -115,12 +139,53 @@ public class TabelleLSTController implements Initializable {
                 getStyleClass().remove("highlight-row");
                 if (!empty && item != null) {
                     // Beispiel: Hol den aktuellen Programmzähler aus einer anderen Klasse
-                    String currentPC = String.valueOf(MainController.pic.memory.convertPCLTo4BitsString());
+                    String currentPC = MainController.pic.memory.convertPCLTo4BitsString();
                     if (item.getBlock1().equals(currentPC)) {
                         getStyleClass().add("highlight-row");
                     }
                 }
             }
+        });
+
+        // In der Spalte "Breakp" (block0) setzen wir eine CellFactory, die beim Klicken einen roten Kreis toggelt
+        columnBlock0.setCellFactory(col -> {
+            TableCell<DataRow, String> cell = new TableCell<DataRow, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    // Standardzustand: keine Grafik, evtl. Text leer
+                    if (empty || item == null) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        // Standardmäßig nichts anzeigen
+                        setText("");
+                        // Wenn bereits ein Breakpoint gesetzt wurde, könnte hier der Kreis schon da sein
+                        if (getGraphic() instanceof Circle) {
+                            // Grafik bleibt erhalten
+                        } else {
+                            setGraphic(null);
+                        }
+                    }
+                }
+            };
+
+            // Beim Klicken soll der rote Kreis ein- bzw. wieder ausgeblendet werden
+            cell.setOnMouseClicked(event -> {
+                if (!cell.isEmpty()) {
+                    // Prüfe, ob bereits ein roter Kreis gesetzt ist
+                    if (cell.getGraphic() == null) {
+                        // Erzeuge einen roten Kreis
+                        Circle circle = new Circle(7, Color.RED);
+                        cell.setGraphic(circle);
+                    } else {
+                        // Entferne den Kreis
+                        cell.setGraphic(null);
+                    }
+                }
+            });
+
+            return cell;
         });
     }
 
@@ -145,7 +210,9 @@ public class TabelleLSTController implements Initializable {
     }
 
     private DataRow parseLineToDataRow(String line) {
-        String block1 = "", block2 = "", block3 = "", block4 = "", block5 = "", block6 = "";
+        // Hier werden die einzelnen Blöcke extrahiert. block0 ist hier initialisiert mit "t"
+        // (in deinem Beispiel als Platzhalter für das Breakpoint-Feld)
+        String block0 = "", block1 = "", block2 = "", block3 = "", block4 = "", block5 = "", block6 = "";
         block1 = line.substring(0, 4).trim();
         block2 = line.substring(5, 10).trim();
         block3 = line.substring(20, 25).trim();
@@ -162,7 +229,7 @@ public class TabelleLSTController implements Initializable {
                 block6 = line.substring(line.indexOf(';')).trim();
             }
         }
-        return new DataRow(block1, block2, block3, block4, block5, block6);
+        return new DataRow(block0, block1, block2, block3, block4, block5, block6);
     }
 
     private void filePickerButtonPushed() {
@@ -196,5 +263,4 @@ public class TabelleLSTController implements Initializable {
             System.out.println("btnFilePicker wurde nicht gefunden!");
         }
     }
-
 }

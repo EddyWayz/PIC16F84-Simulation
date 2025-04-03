@@ -9,8 +9,7 @@
     <Label text="Register: RPO PCL ZC W DC" />
     <HBox spacing="10">
         <Button text="RUN"  fx:id="btnRun" />
-        <Button text="LOAD" fx:id="btnLoad" />
-        <Button text="CTOP" fx:id="btnCTOP" />
+        <Button text="STEP" fx:id="btnStep"/>
         <Button text="STOP" fx:id="btnStop" />
     </HBox>
 </VBox>

@@ -44,29 +44,18 @@ public class MainController implements Initializable {
             System.out.println("btnRun wurde nicht gefunden!");
         }
 
-        // Zugriff auf den LOAD-Button
-        Button btnLoad = (Button) buttonsInclude.lookup("#btnLoad");
-        if (btnLoad != null) {
-            btnLoad.setOnAction(e -> {
-                System.out.println("LOAD Button wurde gedrückt!");
-                // Weitere Logik hier
-            });
-        } else {
-            System.out.println("btnLoad wurde nicht gefunden!");
-        }
-
-        // Zugriff auf den CTOP-Button
-        Button btnCTOP = (Button) buttonsInclude.lookup("#btnCTOP");
-        if (btnCTOP != null) {
-            btnCTOP.setOnAction(e -> {
+        // Zugriff auf den STEP-Button
+        Button btnStep = (Button) buttonsInclude.lookup("#btnStep");
+        if (btnStep != null) {
+            btnStep.setOnAction(e -> {
                 pic.step();
                 // Aktualisiere die Tabelle, indem du die statische Instanz verwendest
-                if (TabelleLSTController.instance != null) {
-                    TabelleLSTController.instance.refreshView();
+                if (TableLSTController.instance != null) {
+                    TableLSTController.instance.refreshView();
                 }
             });
         } else {
-            System.out.println("btnCTOP wurde nicht gefunden!");
+            System.out.println("btnStep wurde nicht gefunden!");
         }
 
         // Zugriff auf den STOP-Button
