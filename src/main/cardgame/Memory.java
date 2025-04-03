@@ -6,5 +6,5 @@ public interface Memory {
     void write(int address, int value);
     void writeBit(int address, int position);
     int getBit(int address, int position);
-
+    
 }
