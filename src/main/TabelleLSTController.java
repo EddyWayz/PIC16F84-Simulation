@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.stage.FileChooser;
+import main.cardgame.RAM;
 import main.tools.Label_Lib;
 
 import java.io.File;
@@ -185,6 +186,9 @@ public class TabelleLSTController implements Initializable {
                 File selectedFile = fileChooser.showOpenDialog(btnFilePicker.getScene().getWindow());
                 if (selectedFile != null) {
                     System.out.println("Ausgewählte Datei: " + selectedFile.getAbsolutePath());
+                    // Neuinitialisieren des PIC mit dem neuen File
+                    MainController.pic = new PIC(selectedFile.getAbsolutePath());
+                    // Danach die GUI (z. B. Tabelle) aktualisieren:
                     reloadTable(selectedFile.getAbsolutePath());
                 }
             });
@@ -192,4 +196,5 @@ public class TabelleLSTController implements Initializable {
             System.out.println("btnFilePicker wurde nicht gefunden!");
         }
     }
+
 }
