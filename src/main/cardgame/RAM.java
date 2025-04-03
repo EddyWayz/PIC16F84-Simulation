@@ -73,7 +73,7 @@ public class RAM implements Memory {
      * @param address of the instruction
      * @return correct address
      */
-    public int check_IndirectAddressing(int address) {
+    public int getIndirectAddress(int address) {
         // reads the address of the FSR register -> indirect addressing
         return address == 0 ? read(Label_Lib.FSR) : address;
     }
@@ -163,7 +163,7 @@ public class RAM implements Memory {
      */
     public int read(int address, boolean indirect) {
         int bank = BitOperator.getBit(address, 8);
-        return RAM[bank].read(address);
+        return RAM[bank].read(address & Mask_Lib.ADDRESS_MASK);
     }
 
     /**
@@ -189,6 +189,23 @@ public class RAM implements Memory {
             RAM[1].write(address, value);
         } else {
             RAM[getRP0()].write(address, value);
+        }
+    }
+
+    /**
+     * writes a value into an indirect register
+     * @param address of a register
+     * @param value that will be saved in the register
+     * @param indirect
+     */
+    public void write(int address, int value, boolean indirect) {
+        int bank = BitOperator.getBit(address, 8);
+        address = address & Mask_Lib.ADDRESS_MASK;
+        if(hasToMirrored(address)) {
+            RAM[0].write(address, value);
+            RAM[1].write(address, value);
+        } else {
+            RAM[bank].write(address, value);
         }
     }
 
