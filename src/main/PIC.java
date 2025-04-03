@@ -234,6 +234,18 @@ public class PIC {
      * @param instruction
      */
     private void instr_ANDWF(int instruction) {
+        int address = instruction & Mask_Lib.ADDRESS_MASK;
+        address = memory.check_IndirectAddressing(address);
+
+        int result = W & memory.read(address);
+        memory.check_n_manipulate_Z(result);
+
+        writeInMemoryWithDestinationBit(instruction, address, result);
+
+
+
+
+
         System.out.println("ANDWF");
     }
 

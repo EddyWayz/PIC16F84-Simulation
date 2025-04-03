@@ -20,7 +20,18 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Initialisiere den PIC – passe den Pfad an deine Bedürfnisse an
-        pic = new PIC("/Users/eddywayz/Desktop/Studium/Rechnerarchitektur/test_files/TPicSim1.LST");
+        String path = "";
+        String osName = System.getProperty("os.name").toLowerCase();
+        if (osName.contains("win")) {
+            path = "C:\\Users\\Noah\\Desktop\\HSO\\Prakt Rechnerarchitekturen\\PIC Sim\\test_files\\TPicSim1.LST";
+            System.out.println("Running on Windows");
+        } else if (osName.contains("mac")) {
+            path = "/Users/eddywayz/Desktop/Studium/Rechnerarchitektur/test_files/TPicSim1.LST";
+            System.out.println("Running on Mac");
+        } else {
+            System.out.println("Running on another OS: " + osName);
+        }
+        pic = new PIC(path);
 
         // Beispielhafter Button-Zugriff
         Button btnRun = (Button) buttonsInclude.lookup("#btnRun");
