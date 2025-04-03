@@ -7,3 +7,6 @@
      -fx-pref-width: 90px;
 }
 
+.highlight-row {
+    -fx-background-color: lightblue;
+}
