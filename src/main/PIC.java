@@ -214,7 +214,7 @@ public class PIC {
         boolean indirect = memory.check_indirectAddressing(address);
         address = memory.getIndirectAddress(address);
         // get value of the register
-        int value = memory.read(address, indirect);
+        int value = memory.read_indirect(address);
 
         //check for digit carry
         memory.check_n_manipulate_DC(W, value);
@@ -243,7 +243,7 @@ public class PIC {
         boolean indirect = memory.check_indirectAddressing(address);
         address = memory.getIndirectAddress(address);
 
-        int value = memory.read(address, indirect);
+        int value = memory.read_indirect(address);
         int result = W & value;
         memory.check_n_manipulate_Z(result);
 
@@ -611,6 +611,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_IORLW(int instruction) {
+        //TODO
         System.out.println("IORLW");
     }
 
@@ -704,6 +705,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_SUBLW(int instruction) {
+        //TODO
         System.out.println("SUBLW");
     }
 
@@ -719,6 +721,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_XORLW(int instruction) {
+        //TODO
         System.out.println("XORLW");
     }
 
@@ -764,7 +767,7 @@ public class PIC {
         if(destination == 0) {
             writeInW(value);
         } else {
-            memory.write(address, value, indirect);
+            memory.write_indirect(address, value);
         }
     }
 

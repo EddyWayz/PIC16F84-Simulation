@@ -28,8 +28,8 @@ public class RAM implements Memory {
 
     /**
      * checks if two added integers would have a carry to the upper nibble and (un)sets the digit carry flag corresponding to the result
-     * @param valA
-     * @param valB
+     * @param valA first value
+     * @param valB second value
      */
     public void check_n_manipulate_DC(int valA, int valB) {
         // mask both values to only the 4 lowest bits
@@ -56,7 +56,7 @@ public class RAM implements Memory {
 
     /**
      * checks if the zero flag has to be (un)set
-     * @param result
+     * @param result that will be checked
      */
     public void check_n_manipulate_Z(int result) {
         if(result == 0) {
@@ -171,11 +171,10 @@ public class RAM implements Memory {
 
     /**
      * reads a register at a given indirect address
-     * @param address
-     * @param indirect
-     * @return
+     * @param address of the register
+     * @return the
      */
-    public int read(int address, boolean indirect) {
+    public int read_indirect(int address) {
         int bank = BitOperator.getBit(address, 8);
         return RAM[bank].read(address & Mask_Lib.ADDRESS_MASK);
     }
@@ -210,9 +209,8 @@ public class RAM implements Memory {
      * writes a value into an indirect register
      * @param address of a register
      * @param value that will be saved in the register
-     * @param indirect
      */
-    public void write(int address, int value, boolean indirect) {
+    public void write_indirect(int address, int value) {
         int bank = BitOperator.getBit(address, 8);
         address = address & Mask_Lib.ADDRESS_MASK;
         if(hasToMirrored(address)) {
