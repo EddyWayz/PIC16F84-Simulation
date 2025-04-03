@@ -33,6 +33,9 @@ public class PIC {
         W = 0;
         PC = 0;
 
+        //new instance of RAM
+        memory = new RAM();
+
         //TODO INIT of all registers at Power On
 
         //Parse file to get the program

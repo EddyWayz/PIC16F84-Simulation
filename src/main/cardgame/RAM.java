@@ -1,6 +1,7 @@
 package main.cardgame;
 
 import main.exceptions.MirroringErrorException;
+import main.tools.BitOperator;
 import main.tools.Label_Lib;
 import main.tools.Mask_Lib;
 
@@ -70,9 +71,12 @@ public class RAM implements Memory {
      */
     public int check_IndirectAddressing(int address) {
         //TODO check for length of FSR
-        int result = address;
+        int destination = BitOperator.getBit(address, 8);
+
+
+
         // reads the address of the FSR register -> indirect addressing
-        return result == 0 ? read(Label_Lib.FSR) : address;
+        return address == 0 ? read(Label_Lib.FSR) : address;
     }
 
     /**
