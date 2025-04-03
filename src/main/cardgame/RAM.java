@@ -67,7 +67,6 @@ public class RAM implements Memory {
     }
 
 
-
     /**
      * checks if an address is 0 and the instruction will use an indirect addressing
      * @param address of the instruction
@@ -101,6 +100,10 @@ public class RAM implements Memory {
         unsetBit(Label_Lib.STATUS, Label_Lib.zeroflag);
     }
 
+    public int get_Z() {
+        return getBit(Label_Lib.STATUS, Label_Lib.zeroflag);
+    }
+
     /**
      * SETS the rp0 bit in status register
      */
@@ -115,6 +118,10 @@ public class RAM implements Memory {
         unsetBit(Label_Lib.STATUS, Label_Lib.rp0);
     }
 
+    public int get_RP0() {
+        return getBit(Label_Lib.STATUS, Label_Lib.rp0);
+    }
+
     /**
      * SETS the carry flag in status register
      */
@@ -122,12 +129,15 @@ public class RAM implements Memory {
         setBit(Label_Lib.STATUS, Label_Lib.carry);
     }
 
-
     /**
      * UNSETS the carry flag in status register
      */
     public void unset_C() {
         unsetBit(Label_Lib.STATUS, Label_Lib.carry);
+    }
+
+    public int get_C() {
+        return getBit(Label_Lib.STATUS, Label_Lib.carry);
     }
 
 
@@ -143,6 +153,10 @@ public class RAM implements Memory {
      */
     public void unset_DC() {
         unsetBit(Label_Lib.STATUS, Label_Lib.digitcarry);
+    }
+
+    public int get_DC() {
+        return getBit(Label_Lib.STATUS, Label_Lib.digitcarry);
     }
 
     /**

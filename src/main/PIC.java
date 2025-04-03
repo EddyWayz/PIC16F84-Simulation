@@ -209,10 +209,11 @@ public class PIC {
      * @param instruction
      */
     private void instr_ADDWF(int instruction) {
+        // mask the address
         int address = instruction & Mask_Lib.ADDRESS_MASK;
         boolean indirect = memory.check_indirectAddressing(address);
         address = memory.getIndirectAddress(address);
-
+        // get value of the register
         int value = memory.read(address, indirect);
 
         //check for digit carry
@@ -221,8 +222,8 @@ public class PIC {
         int result = W + value;
         memory.check_n_manipulate_C(result);
         memory.check_n_manipulate_Z(result);
-
-        writeInMemoryWithDestinationBit(instruction, address, result);
+        //writes the result in the right location
+        writeInMemoryWithDestinationBit(instruction, address, result, indirect);
 
         System.out.println("ADDWF");
     }
@@ -239,17 +240,14 @@ public class PIC {
      */
     private void instr_ANDWF(int instruction) {
         int address = instruction & Mask_Lib.ADDRESS_MASK;
+        boolean indirect = memory.check_indirectAddressing(address);
         address = memory.getIndirectAddress(address);
 
-        int result = W & memory.read(address);
+        int value = memory.read(address, indirect);
+        int result = W & value;
         memory.check_n_manipulate_Z(result);
 
-        writeInMemoryWithDestinationBit(instruction, address, result);
-
-
-
-
-
+        writeInMemoryWithDestinationBit(instruction, address, result, indirect);
         System.out.println("ANDWF");
     }
 
@@ -751,6 +749,22 @@ public class PIC {
             writeInW(value);
         } else {
             memory.write(address, value);
+        }
+    }
+
+    /**
+     * overloaded method: writes in the memory depending on the destination bit with a indirect address
+     * @param instruction
+     * @param address
+     * @param value
+     * @param indirect
+     */
+    private void writeInMemoryWithDestinationBit(int instruction, int address, int value, boolean indirect) {
+        int destination = BitOperator.getBit(instruction, 8);
+        if(destination == 0) {
+            writeInW(value);
+        } else {
+            memory.write(address, value, indirect);
         }
     }
 
