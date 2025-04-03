@@ -1,19 +1,20 @@
 package main;
 
 import main.cardgame.RAM;
+
 import main.tools.BitOperator;
 import main.tools.Instr_Lib;
 import main.tools.Label_Lib;
+import main.tools.Mask_Lib;
+
 
 import java.util.ArrayList;
 
 
 public class PIC {
-    //mask to delete all upper bits (except first 8)
-    private final int UPPERZEROS_MASK = 0b1111_1111;
-    private final int ADDRESS_MASK  = 0b0111_1111;
-    private final int NIBBLE_MASK = 0b1111;
-    private final int LITERAL_MASK  = 0b1111_1111;
+
+
+
     //memory for data and program
 
     public RAM memory;
@@ -32,16 +33,17 @@ public class PIC {
         W = 0;
         PC = 0;
 
-        //TODO INIT of all registers at PO
+        //new instance of RAM
+        memory = new RAM();
+
+        //TODO INIT of all registers at Power On
 
         //Parse file to get the program
         InstructionParser instrParser = new InstructionParser(path);
         program = instrParser.parseLinesToInstructions();
 
-
         //TODO Link to IO Pins
         //TODO Stack init
-
 
     }
 
@@ -207,38 +209,16 @@ public class PIC {
      * @param instruction
      */
     private void instr_ADDWF(int instruction) {
-        int address = instruction & ADDRESS_MASK;
-        if(address == 0) {
-            // reads the address of the FSR register -> indirect addressing
-            address = memory.read(4);
-        }
+        int address = instruction & Mask_Lib.ADDRESS_MASK;
+        address = memory.check_IndirectAddressing(address);
 
-        if(check_DC(W, memory.read(address))) {
-            memory.set_DC();
-        } else {
-            memory.unset_DC();
-        }
+        memory.check_n_manipulate_DC(W, memory.read(address));
 
         int result = W + memory.read(address);
+        memory.check_n_manipulate_C(result);
+        memory.check_n_manipulate_Z(result);
 
-        if(result > 255) {
-            memory.set_C();
-        } else {
-            memory.unset_C();
-        }
-
-        if(result == 0) {
-            memory.set_Z();
-        } else {
-            memory.unset_Z();
-        }
-
-        int destination = BitOperator.getBit(instruction, 8);
-        if(destination == 0) {
-            writeInW(result);
-        } else {
-            memory.write(address, result);
-        }
+        writeInMemoryWithDestinationBit(instruction, address, result);
 
         System.out.println("ADDWF");
     }
@@ -631,7 +611,7 @@ public class PIC {
      * @param instruction
      */
     public void instr_MOVLW(int instruction) {
-        writeInW(instruction & LITERAL_MASK);
+        writeInW(instruction & Mask_Lib.LITERAL_MASK);
         System.out.println("MOVLW");
     }
 
@@ -730,24 +710,6 @@ public class PIC {
 
 
     //GENERAL METHODS
-
-
-    /**
-     * checks if two added integers would have a carry to the upper nibble
-     * @param valA
-     * @param valB
-     * @return true if DC will be set
-     */
-    private boolean check_DC(int valA, int valB) {
-        // mask both values to only the 4 lowest bits
-        int masked_val1 = valA & NIBBLE_MASK;
-        int masked_val2 = valB & NIBBLE_MASK;
-        return (masked_val1 + masked_val2) > NIBBLE_MASK;
-    }
-
-
-
-
     /**
      * increments the programm counter and writes the lower 8 Bit into the PCL register
      */
@@ -756,17 +718,31 @@ public class PIC {
         if(PC >= 1024) {
             PC = 0;
         }
-        int pcl_val = PC & UPPERZEROS_MASK;
+        int pcl_val = PC & Mask_Lib.UPPERZEROS_MASK;
         memory.write(Label_Lib.PCL, pcl_val);
     }
 
+    /**
+     * writes in the memory depending on the destination bit
+     * @param instruction
+     * @param address of the register
+     * @param value that will be written in the register
+     */
+    private void writeInMemoryWithDestinationBit(int instruction, int address, int value) {
+        int destination = BitOperator.getBit(instruction, 8);
+        if(destination == 0) {
+            writeInW(value);
+        } else {
+            memory.write(address, value);
+        }
+    }
 
     /**
      * writes the given value into the W register after masking it
      * @param value
      */
     private void writeInW(int value) {
-        W = value & UPPERZEROS_MASK;
+        W = value & Mask_Lib.UPPERZEROS_MASK;
     }
 
     public int getWRegister() {

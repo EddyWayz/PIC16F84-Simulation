@@ -27,9 +27,16 @@ public class Bank implements Memory {
     }
 
     @Override
-    public void writeBit(int address, int position) {
+    public void setBit(int address, int position) {
         int tmp_value = read(address);
         tmp_value = BitOperator.setBit(tmp_value, position);
+        write(address, tmp_value);
+    }
+
+    @Override
+    public void unsetBit(int address, int position) {
+        int tmp_value = read(address);
+        tmp_value = BitOperator.unsetBit(tmp_value, position);
         write(address, tmp_value);
     }
 
