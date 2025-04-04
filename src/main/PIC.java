@@ -12,14 +12,11 @@ import java.util.ArrayList;
 
 
 public class PIC {
-
-
-
     //memory for data and program
-
     public RAM memory;
-
     private final ArrayList<Integer> program;
+
+    Stack_PIC stack;
 
     //special registers
     private int W;
@@ -28,10 +25,12 @@ public class PIC {
 
 
     public PIC(String path) {
-
-        //INIT of basic register
+        //INIT of special registers
         W = 0;
         PC = 0;
+
+        //INIT of stack
+        stack = new Stack_PIC();
 
         //new instance of RAM
         memory = new RAM();

@@ -1,0 +1,51 @@
+package main;
+
+/**
+ * class to reassemble the hidden stack of the PIC
+ */
+public class Stack_PIC {
+    private int[] stack;
+    private int stack_pointer;
+
+    public Stack_PIC() {
+        stack = new int[8];
+        stack_pointer = 0;
+    }
+
+    /**
+     * pushes a new address onto the stack
+     * @param address that will be put onto the stack
+     */
+    public void push(int address) {
+        stack[stack_pointer] = address;
+        inc_SP();
+    }
+
+    /**
+     * pops the element on top of the stack
+     * @return the popped element
+     */
+    public int pop() {
+        dec_SP();
+        return stack[stack_pointer];
+    }
+
+    /**
+     * method to increment the stack pointer
+     */
+    private void inc_SP() {
+        stack_pointer++;
+        stack_pointer %= 8;
+    }
+
+    /**
+     * method to drecrement the stack pointer
+     */
+    private void dec_SP() {
+        stack_pointer--;
+        if(stack_pointer < 0) {
+            stack_pointer = 7;
+        }
+    }
+
+}
