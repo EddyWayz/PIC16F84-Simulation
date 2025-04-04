@@ -42,7 +42,6 @@ public class PIC {
         program = instrParser.parseLinesToInstructions();
 
         //TODO Link to IO Pins
-        //TODO Stack init
 
     }
 
@@ -549,8 +548,7 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_GOTO(int instruction) {
-        int k_11bit = instruction & Mask_Lib.GOTO_CALL_MASK;
-        PC = k_11bit;
+        PC = instruction & Mask_Lib.GOTO_CALL_MASK;
 
         // puts the third and fourth bit of pclath into the PC
         int pclath_3 = memory.readBit(Label_Lib.PCLATH, 3);
@@ -666,17 +664,17 @@ public class PIC {
         int k = instruction & Mask_Lib.LITERAL_MASK;
         int result = k - W;
         // setting of carry flag is inverted due to a hardware error
-        if(result > 255) {
-            memory.unset_C();
-        } else {
+        // page 16
+        if(result > 0) {
             memory.set_C();
+        } else {
+            memory.unset_C();
         }
 
         // setting of digit carry flag is inverted due to a hardware error
         int nibbleK = k & Mask_Lib.NIBBLE_MASK;
         int nibbleW = W & Mask_Lib.NIBBLE_MASK;
-        //TODO IntelliJ --> will always be false
-        if((nibbleK - nibbleW) > 15) {
+        if((nibbleK - nibbleW) > 0) {
             memory.unset_DC();
         } else {
             memory.set_DC();
