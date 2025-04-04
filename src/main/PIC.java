@@ -611,7 +611,10 @@ public class PIC {
      * @param instruction
      */
     public void instr_IORLW(int instruction) {
-        //TODO
+        int k = instruction & Mask_Lib.LITERAL_MASK;
+        int result = k | W;
+        memory.check_n_manipulate_Z(result);
+        writeInW(result);
         System.out.println("IORLW");
     }
 
@@ -712,16 +715,18 @@ public class PIC {
     /**
      * Exclusive OR literal with W
      *
-     * Exclusive OR the contents of the W
-     * register with contents of register 'f'. If 'd' is
-     * 0 the result is stored in the W register. If 'd' is
-     * 1 the result is stored back in register 'f'.
+     * The contents of the W register are
+     * XOR’ed with the eight bit literal 'k'.
+     * The result is placed in the W register.
      *
      * Status affected: Z
      * @param instruction
      */
     public void instr_XORLW(int instruction) {
-        //TODO
+        int k = instruction & Mask_Lib.LITERAL_MASK;
+        int result = k ^ W;
+        memory.check_n_manipulate_Z(result);
+        writeInW(result);
         System.out.println("XORLW");
     }
 
