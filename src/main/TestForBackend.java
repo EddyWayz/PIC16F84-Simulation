@@ -28,6 +28,8 @@ public class TestForBackend {
         PIC pic = new PIC(path);
         for (Integer i : list) {
             System.out.println(Integer.toHexString(i.intValue()));
+        }
+        for(int x = 0; x < 10; x++) {
             pic.step();
             System.out.println("Status: " + Integer.toBinaryString(pic.memory.read(3)) + "\n");
         }
