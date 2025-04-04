@@ -454,7 +454,7 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    public void instr_SWAPF(int instruction) {
+    private void instr_SWAPF(int instruction) {
         System.out.println("SWAPF");
     }
 
@@ -467,7 +467,7 @@ public class PIC {
      * Status affected: Z
      * @param instruction
      */
-    public void instr_XORWF(int instruction) {
+    private void instr_XORWF(int instruction) {
         System.out.println("XORWF");
     }
 
@@ -480,7 +480,7 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    public void instr_BCF(int instruction) {
+    private void instr_BCF(int instruction) {
         System.out.println("BCF");
     }
 
@@ -492,7 +492,7 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    public void instr_BSF(int instruction) {
+    private void instr_BSF(int instruction) {
         System.out.println("BSF");
     }
 
@@ -506,7 +506,7 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    public void instr_BTFSC(int instruction) {
+    private void instr_BTFSC(int instruction) {
         System.out.println("BTFSC");
     }
 
@@ -520,7 +520,7 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    public void instr_BTFSS(int instruction) {
+    private void instr_BTFSS(int instruction) {
         System.out.println("BTFSS");
     }
 
@@ -535,7 +535,13 @@ public class PIC {
      * Status affected: C, DC, Z
      * @param instruction
      */
-    public void instr_ADDLW(int instruction) {
+    private void instr_ADDLW(int instruction) {
+        int k = instruction & Mask_Lib.LITERAL_MASK;
+        int result = k + W;
+        memory.check_n_manipulate_DC(k, W);
+        memory.check_n_manipulate_C(result);
+        memory.check_n_manipulate_Z(result);
+        writeInW(result);
         System.out.println("ADDLW");
     }
 
@@ -549,7 +555,7 @@ public class PIC {
      * Status affected: Z
      * @param instruction
      */
-    public void instr_ANDLW(int instruction) {
+    private void instr_ANDLW(int instruction) {
         System.out.println("ANDLW");
     }
 
@@ -566,7 +572,7 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    public void instr_CALL(int instruction) {
+    private void instr_CALL(int instruction) {
         System.out.println("CALL");
     }
 
@@ -580,7 +586,7 @@ public class PIC {
      * Status affected: !TO, !PD (also so ein Dach Strich drauf)
      * @param instruction
      */
-    public void instr_CLRWDT(int instruction) {
+    private void instr_CLRWDT(int instruction) {
         System.out.println("CLRWDT");
     }
 
@@ -596,7 +602,24 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    public void instr_GOTO(int instruction) {
+    private void instr_GOTO(int instruction) {
+        int k_11bit = instruction & Mask_Lib.GOTO_CALL_MASK;
+        PC = k_11bit;
+
+        // puts the third and fourth bit of pclath into the PC
+        int pclath_3 = memory.readBit(Label_Lib.PCLATH, 3);
+        int pclath_4 = memory.readBit(Label_Lib.PCLATH, 4);
+
+        if(pclath_3 == 0) {
+            PC = BitOperator.unsetBit(PC, 11);
+        } else {
+            PC = BitOperator.setBit(PC, 11);
+        }
+        if(pclath_4 == 0) {
+            PC = BitOperator.unsetBit(PC, 12);
+        } else {
+            PC = BitOperator.setBit(PC, 12);
+        }
         System.out.println("GOTO");
     }
 
@@ -610,7 +633,7 @@ public class PIC {
      * Status affected: Z
      * @param instruction
      */
-    public void instr_IORLW(int instruction) {
+    private void instr_IORLW(int instruction) {
         int k = instruction & Mask_Lib.LITERAL_MASK;
         int result = k | W;
         memory.check_n_manipulate_Z(result);
@@ -628,7 +651,7 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    public void instr_MOVLW(int instruction) {
+    private void instr_MOVLW(int instruction) {
         writeInW(instruction & Mask_Lib.LITERAL_MASK);
         System.out.println("MOVLW");
     }
@@ -646,7 +669,7 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    public void instr_RETFIE(int instruction) {
+    private void instr_RETFIE(int instruction) {
         System.out.println("RETFIE");
     }
 
@@ -662,7 +685,7 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    public void instr_RETLW(int instruction) {
+    private void instr_RETLW(int instruction) {
         System.out.println("RETLW");
     }
 
@@ -677,7 +700,7 @@ public class PIC {
      * Status affected: None
      * @param instruction
      */
-    public void instr_RETURN(int instruction) {
+    private void instr_RETURN(int instruction) {
         System.out.println("RETURN");
     }
 
@@ -694,7 +717,7 @@ public class PIC {
      * Status affected: !TO, !PD
      * @param instruction
      */
-    public void instr_SLEEP(int instruction) {
+    private void instr_SLEEP(int instruction) {
         System.out.println("SLEEP");
     }
 
@@ -707,8 +730,26 @@ public class PIC {
      * Status affected: C, DC, Z
      * @param instruction
      */
-    public void instr_SUBLW(int instruction) {
-        //TODO
+    private void instr_SUBLW(int instruction) {
+        int k = instruction & Mask_Lib.LITERAL_MASK;
+        int result = k - W;
+        // setting of carry flag is inverted due to a hardware error
+        if(result > 255) {
+            memory.unset_C();
+        } else {
+            memory.set_C();
+        }
+
+        // setting of digit carry flag is inverted due to a hardware error
+        int nibbleK = k & Mask_Lib.NIBBLE_MASK;
+        int nibbleW = W & Mask_Lib.NIBBLE_MASK;
+        if((nibbleK - nibbleW) > 15) {
+            memory.unset_DC();
+        } else {
+            memory.set_DC();
+        }
+        memory.check_n_manipulate_Z(result);
+        writeInW(result);
         System.out.println("SUBLW");
     }
 
@@ -722,7 +763,7 @@ public class PIC {
      * Status affected: Z
      * @param instruction
      */
-    public void instr_XORLW(int instruction) {
+    private void instr_XORLW(int instruction) {
         int k = instruction & Mask_Lib.LITERAL_MASK;
         int result = k ^ W;
         memory.check_n_manipulate_Z(result);
@@ -740,7 +781,7 @@ public class PIC {
         if(PC >= 1024) {
             PC = 0;
         }
-        int pcl_val = PC & Mask_Lib.UPPERZEROS_MASK;
+        int pcl_val = PC & Mask_Lib.LOWER8BIT_MASK;
         memory.write(Label_Lib.PCL, pcl_val);
     }
 
@@ -781,10 +822,10 @@ public class PIC {
      * @param value
      */
     private void writeInW(int value) {
-        W = value & Mask_Lib.UPPERZEROS_MASK;
+        W = value & Mask_Lib.LOWER8BIT_MASK;
     }
 
-    public int getWRegister() {
+    public int getW() {
         return W;
     }
 

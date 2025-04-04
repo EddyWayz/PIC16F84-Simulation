@@ -23,13 +23,13 @@ public class TestForBackend {
             System.out.println("Running on another OS: " + osName);
         }
 
-        FileLineParser flParser = new FileLineParser(path);
-        flParser.printFile();
-
         InstructionParser instParser = new InstructionParser(path);
         ArrayList<Integer> list = instParser.parseLinesToInstructions();
+        PIC pic = new PIC(path);
         for (Integer i : list) {
             System.out.println(Integer.toHexString(i.intValue()));
+            pic.step();
+            System.out.println("Status: " + Integer.toBinaryString(pic.memory.read(3)) + "\n");
         }
 /*
         //testing of decoder method
