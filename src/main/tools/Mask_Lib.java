@@ -5,6 +5,7 @@ public class Mask_Lib {
     public static final int LOWER8BIT_MASK = 0b1111_1111;
     public static final int ADDRESS_MASK  = 0b0111_1111;
     public static final int NIBBLE_MASK = 0b1111;
+    public static final int UPPER_NIBBLE_MASK = 0b1111_0000;
     // redundant to LOWER8BIT_MASK but added for readability
     public static final int LITERAL_MASK  = 0b1111_1111;
     // lowest 11 bits

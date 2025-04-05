@@ -174,9 +174,14 @@ public class RAM implements Memory {
      * @param address of the register
      * @return the
      */
-    public int read_indirect(int address) {
-        int bank = BitOperator.getBit(address, 8);
-        return RAM[bank].read(address & Mask_Lib.ADDRESS_MASK);
+    public int read_indirect(int address, boolean indirect) {
+        if(indirect) {
+            int bank = BitOperator.getBit(address, 8);
+            return RAM[bank].read(address & Mask_Lib.ADDRESS_MASK);
+        } else {
+            return read(address);
+        }
+
     }
 
     /**
