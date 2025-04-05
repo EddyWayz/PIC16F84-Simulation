@@ -108,13 +108,6 @@ public class TableLSTController implements Initializable {
         columnBlock6.setCellValueFactory(cellData -> cellData.getValue().block6);
 
         // Zugriff auf den PIC (aus MainController) – hier nur zum Testen
-        Platform.runLater(() -> {
-            if (MainController.pic != null) {
-                System.out.println("PIC aus MainController: " + MainController.pic);
-            } else {
-                System.out.println("PIC ist nicht initialisiert!");
-            }
-        });
 
         // Konfiguriere den FilePicker-Button und lade die Tabelle
         filePickerButtonPushed();
@@ -153,16 +146,15 @@ public class TableLSTController implements Initializable {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
-                    // Standardzustand: keine Grafik, evtl. Text leer
-                    if (empty || item == null) {
+                    DataRow dataRow = getTableRow() == null ? null : getTableRow().getItem();
+                    if (empty || dataRow == null) {
                         setText(null);
                         setGraphic(null);
                     } else {
-                        // Standardmäßig nichts anzeigen
                         setText("");
-                        // Wenn bereits ein Breakpoint gesetzt wurde, könnte hier der Kreis schon da sein
-                        if (getGraphic() instanceof Circle) {
-                            // Grafik bleibt erhalten
+                        if (dataRow.isBreakpointActive()) {
+                            Circle circle = new Circle(7, Color.RED);
+                            setGraphic(circle);
                         } else {
                             setGraphic(null);
                         }
@@ -173,14 +165,12 @@ public class TableLSTController implements Initializable {
             // Beim Klicken soll der rote Kreis ein- bzw. wieder ausgeblendet werden
             cell.setOnMouseClicked(event -> {
                 if (!cell.isEmpty()) {
-                    // Prüfe, ob bereits ein roter Kreis gesetzt ist
-                    if (cell.getGraphic() == null) {
-                        // Erzeuge einen roten Kreis
-                        Circle circle = new Circle(7, Color.RED);
-                        cell.setGraphic(circle);
-                    } else {
-                        // Entferne den Kreis
-                        cell.setGraphic(null);
+                    DataRow dataRow = cell.getTableRow().getItem();
+                    if (dataRow != null) {
+                        // Toggle den Breakpoint-Zustand in der DataRow
+                        dataRow.setBreakpointActive(!dataRow.isBreakpointActive());
+                        // Aktualisiere die gesamte TableView, damit updateItem() neu aufgerufen wird
+                        tableViewLST.refresh();
                     }
                 }
             });

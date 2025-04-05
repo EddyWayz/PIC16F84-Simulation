@@ -750,7 +750,4 @@ public class PIC {
     public int getW() {
         return W;
     }
-
-
-
 }

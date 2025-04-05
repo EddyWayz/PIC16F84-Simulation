@@ -53,7 +53,7 @@
                 GridPane.rowSpan="3"/>
 
     <!-- Bereich: Register und Buttons (unten, Zeile 3, Spalten 0-1) -->
-    <fx:include fx:id="buttonsInclude" source="Buttons.fxml"
+    <fx:include source="Buttons.fxml"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="3"
                 GridPane.columnSpan="2"/>
