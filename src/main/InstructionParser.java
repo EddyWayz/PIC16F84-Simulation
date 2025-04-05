@@ -44,13 +44,11 @@ public class InstructionParser {
     private int findFirstIndex() {
         char current = fileAsLines.getFirst().charAt(0);
         int index = 0;
-        //TODO max length has to be 1024
 
         while (current == ' ') {
             index++;
             current = fileAsLines.get(index).charAt(0);
         }
-
         return index;
     }
 
