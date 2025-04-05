@@ -14,7 +14,7 @@ public class TestForBackend {
         String path = "";
         String osName = System.getProperty("os.name").toLowerCase();
         if (osName.contains("win")) {
-            path = "C:\\Users\\Noah\\Desktop\\HSO\\Prakt Rechnerarchitekturen\\PIC Sim\\test_files\\TPicSim1.LST";
+            path = "C:\\Users\\Noah\\Desktop\\HSO\\Prakt Rechnerarchitekturen\\PIC Sim\\test_files\\TPicSim2.LST";
             System.out.println("Running on Windows");
         } else if (osName.contains("mac")) {
             path = "/Users/eddywayz/Desktop/Studium/Rechnerarchitektur/test_files/TPicSim1.LST";
@@ -23,29 +23,15 @@ public class TestForBackend {
             System.out.println("Running on another OS: " + osName);
         }
 
-        InstructionParser instParser = new InstructionParser(path);
-        ArrayList<Integer> list = instParser.parseLinesToInstructions();
+
         PIC pic = new PIC(path);
-        for (Integer i : list) {
-            System.out.println(Integer.toHexString(i.intValue()));
-        }
-        for(int x = 0; x < 10; x++) {
+
+        pic.decode_n_execute(0x3e25);
+        for(int x = 0; x < 12; x++) {
             pic.step();
-            System.out.println("Status: " + Integer.toBinaryString(pic.memory.read(3)) + "\n");
+            System.out.println("Status: " + Integer.toBinaryString(pic.memory.read(3)));
+            System.out.println("W: " + Integer.toHexString(pic.getW()) + "\n");
         }
-/*
-        //testing of decoder method
-        PIC pic = new PIC("C:\\Users\\Noah\\Desktop\\HSO\\Prakt Rechnerarchitekturen\\PIC Sim\\test_files\\TPicSim1.LST");
-
-        String tmp;
-        do {
-            tmp = In.readString("exit or input: ");
-            pic.decode_n_execute(Integer.parseInt(tmp, 16));
-        } while (!tmp.equals("exit"));
-
-*/
-
-
 
     }
 }

@@ -30,7 +30,7 @@ public class InstructionParser {
         for (int i = findFirstIndex(); i < fileAsLines.size(); i++) {
             currentLine = fileAsLines.get(i);
             int instruction = getInstruction(currentLine);
-            if(instruction != 0 && program.size() < 1024) {
+            if(instruction != -1 && program.size() < 1024) {
                 program.add(instruction);
             }
         }
@@ -50,6 +50,7 @@ public class InstructionParser {
             index++;
             current = fileAsLines.get(index).charAt(0);
         }
+
         return index;
     }
 
@@ -65,7 +66,7 @@ public class InstructionParser {
                 instruction += line.charAt(i);
             }
         } else {
-            instruction = "0";
+            instruction = "-1";
         }
         return Integer.parseInt(instruction, 16);
     }

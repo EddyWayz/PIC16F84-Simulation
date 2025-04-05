@@ -522,6 +522,10 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_CALL(int instruction) {
+        int k11 = instruction & Mask_Lib.GOTO_CALL_MASK;
+        stack.push(PC);
+        pclath_3n4_ontoPC();
+        PC = PC | k11;
         System.out.println("CALL");
     }
 
@@ -548,22 +552,9 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_GOTO(int instruction) {
-        PC = instruction & Mask_Lib.GOTO_CALL_MASK;
-
-        // puts the third and fourth bit of pclath into the PC
-        int pclath_3 = memory.readBit(Label_Lib.PCLATH, 3);
-        int pclath_4 = memory.readBit(Label_Lib.PCLATH, 4);
-
-        if(pclath_3 == 0) {
-            PC = BitOperator.unsetBit(PC, 11);
-        } else {
-            PC = BitOperator.setBit(PC, 11);
-        }
-        if(pclath_4 == 0) {
-            PC = BitOperator.unsetBit(PC, 12);
-        } else {
-            PC = BitOperator.setBit(PC, 12);
-        }
+        int k11 = instruction & Mask_Lib.GOTO_CALL_MASK;
+        pclath_3n4_ontoPC();
+        PC = PC | k11;
         System.out.println("GOTO");
     }
 
@@ -622,6 +613,9 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_RETLW(int instruction) {
+        int k = instruction & Mask_Lib.LITERAL_MASK;
+        writeInW(k);
+        PC = stack.pop();
         System.out.println("RETLW");
     }
 
@@ -635,6 +629,7 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_RETURN(int instruction) {
+        PC = stack.pop();
         System.out.println("RETURN");
     }
 
@@ -712,6 +707,17 @@ public class PIC {
         }
         int pcl_val = PC & Mask_Lib.LOWER8BIT_MASK;
         memory.write(Label_Lib.PCL, pcl_val);
+    }
+
+    /**
+     * puts the 3rd and 4th bit of the pclath register at the 12th and 11th bit of the PC
+     */
+    private void pclath_3n4_ontoPC() {
+        // puts the third and fourth bit of pclath into the PC
+        int pclath = memory.read(Label_Lib.PCLATH);
+        pclath = pclath & Mask_Lib.PCLATH_3_4_MASK;
+        pclath = pclath << 8;
+        PC = pclath;
     }
 
     /**

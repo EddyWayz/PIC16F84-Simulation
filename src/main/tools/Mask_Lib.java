@@ -9,5 +9,6 @@ public class Mask_Lib {
     public static final int LITERAL_MASK  = 0b1111_1111;
     // lowest 11 bits
     public static final int GOTO_CALL_MASK = 0b0111_1111_1111;
+    public static final int PCLATH_3_4_MASK = 0b1_1000;
 
 }
