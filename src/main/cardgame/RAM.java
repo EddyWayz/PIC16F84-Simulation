@@ -296,6 +296,6 @@ public class RAM implements Memory {
     }
 
     public String convertPCLTo4BitsString(){
-        return String.format("%04d", RAM[0].read(Label_Lib.PCL));
+        return String.format("%04X", RAM[0].read(Label_Lib.PCL));
     }
 }
