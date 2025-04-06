@@ -459,6 +459,7 @@ public class PIC {
 
         int value = memory.read_indirect(address, indirect);
         int result = value - W;
+
         memory.check_n_manipulate_Z(result);
         if(result >= 0) { // 0 or positive
             memory.set_C();
@@ -466,7 +467,19 @@ public class PIC {
             result = result & Mask_Lib.LOWER8BIT_MASK;
             memory.unset_C();
         }
-        //TODO digitcarry
+
+        //TODO digitcarry is not set correctly
+        int w_nibble = W & Mask_Lib.NIBBLE_MASK;
+        int val_nibble = ~value;
+        val_nibble = val_nibble + 1;
+        val_nibble = val_nibble & Mask_Lib.NIBBLE_MASK;
+
+        if((val_nibble + w_nibble) > Mask_Lib.NIBBLE_MASK) {
+            memory.unset_DC();
+        } else {
+            memory.set_DC();
+        }
+
         writeInMemoryDestinationBit_indirect(instruction, address, result, indirect);
         System.out.println("SUBWF");
     }

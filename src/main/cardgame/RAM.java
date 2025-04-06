@@ -183,7 +183,6 @@ public class RAM implements Memory {
         } else {
             return read(address);
         }
-
     }
 
     /**
