@@ -74,8 +74,7 @@ public class PIC {
      * decodes and executes the next instruction
      * @param instruction as 14bit
      */
-    //TODO public only for testing
-    public void decode_n_execute(int instruction) {
+    private void decode_n_execute(int instruction) {
         //fetch special instruction with 14 bit code
         switch(instruction) {
             case Instr_Lib.NOP:
@@ -210,9 +209,8 @@ public class PIC {
      */
     private void instr_ADDWF(int instruction) {
         // mask the address
-        address = instruction & Mask_Lib.ADDRESS_MASK;
-        indirect = memory.check_indirectAddressing(address);
-        address = memory.getIndirectAddress(address);
+        computeAddress(instruction);
+
         // get value of the register
         int value = memory.read_indirect(address, indirect);
 
@@ -238,9 +236,7 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_ANDWF(int instruction) {
-        address = instruction & Mask_Lib.ADDRESS_MASK;
-        indirect = memory.check_indirectAddressing(address);
-        address = memory.getIndirectAddress(address);
+        computeAddress(instruction);
 
         int value = memory.read_indirect(address, indirect);
         int result = W & value;
@@ -258,9 +254,7 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_CLRF(int instruction) {
-        address = instruction & Mask_Lib.ADDRESS_MASK;
-        indirect = memory.check_indirectAddressing(address);
-        address = memory.getIndirectAddress(address);
+        computeAddress(instruction);
 
         memory.set_Z();
         writeInMemoryDestinationBit_indirect(instruction, address, 0, indirect);
@@ -288,9 +282,7 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_COMF(int instruction) {
-        address = instruction & Mask_Lib.ADDRESS_MASK;
-        indirect = memory.check_indirectAddressing(address);
-        address = memory.getIndirectAddress(address);
+        computeAddress(instruction);
 
         //complement of the content of the register of given address
         int value = ~memory.read_indirect(address, indirect);
@@ -309,6 +301,16 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_DECF(int instruction) {
+        computeAddress(instruction);
+
+        int value = memory.read_indirect(address, indirect);
+        value--;
+        if(value < 0) {
+            value = 255;
+        }
+        memory.check_n_manipulate_Z(value);
+        writeInMemoryDestinationBit_indirect(instruction, address, value, indirect);
+
         System.out.println("DECF");
     }
 
@@ -336,6 +338,15 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_INCF(int instruction) {
+        computeAddress(instruction);
+
+        int value = memory.read_indirect(address, indirect);
+        value++;
+        if(value > 255) {
+            value = 0;
+        }
+        memory.check_n_manipulate_Z(value);
+        writeInMemoryDestinationBit_indirect(instruction, address, value, indirect);
         System.out.println("INCF");
     }
 
@@ -361,9 +372,7 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_IORWF(int instruction) {
-        address = instruction & Mask_Lib.ADDRESS_MASK;
-        indirect = memory.check_indirectAddressing(address);
-        address = memory.getIndirectAddress(address);
+        computeAddress(instruction);
 
         int result = W | memory.read_indirect(address, indirect);
         memory.check_n_manipulate_Z(result);
@@ -381,9 +390,7 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_MOVF(int instruction) {
-        address = instruction & Mask_Lib.ADDRESS_MASK;
-        indirect = memory.check_indirectAddressing(address);
-        address = memory.getIndirectAddress(address);
+        computeAddress(instruction);
 
         int value = memory.read_indirect(address, indirect);
 
@@ -399,9 +406,7 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_MOVWF(int instruction) {
-        address = instruction & Mask_Lib.ADDRESS_MASK;
-        indirect = memory.check_indirectAddressing(address);
-        address = memory.getIndirectAddress(address);
+        computeAddress(instruction);
 
         writeInMemoryDestinationBit_indirect(instruction, address, W, indirect);
         System.out.println("MOVWF");
@@ -450,6 +455,18 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_SUBWF(int instruction) {
+        computeAddress(instruction);
+
+        int value = memory.read_indirect(address, indirect);
+        int result = value - W;
+        memory.check_n_manipulate_Z(result);
+        if(result >= 0) { // 0 or positive
+            memory.set_C();
+        } else { // negative
+            memory.unset_C();
+        }
+
+        writeInMemoryDestinationBit_indirect(instruction, address, value, indirect);
         System.out.println("SUBWF");
     }
 
@@ -462,9 +479,7 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_SWAPF(int instruction) {
-        address = instruction & Mask_Lib.ADDRESS_MASK;
-        indirect = memory.check_indirectAddressing(address);
-        address = memory.getIndirectAddress(address);
+        computeAddress(instruction);
 
         // get nibbles from f
         int value = memory.read_indirect(address, indirect);
@@ -487,9 +502,7 @@ public class PIC {
      * @param instruction as 14bit
      */
     private void instr_XORWF(int instruction) {
-        address = instruction & Mask_Lib.ADDRESS_MASK;
-        indirect = memory.check_indirectAddressing(address);
-        address = memory.getIndirectAddress(address);
+        computeAddress(instruction);
 
         int result = W ^ memory.read_indirect(address, indirect);
         memory.check_n_manipulate_Z(result);
@@ -791,16 +804,16 @@ public class PIC {
      * @param value that will be stored
      */
     private void writeInMemoryDestinationBit_indirect(int instruction, int address, int value, boolean indirect) {
-        int destination = BitOperator.getBit(instruction, 8);
+        int destination = BitOperator.getBit(instruction, 7);
+        if(indirect) {
+            memory.write_indirect(address, value);
+        } else {
             if(destination == 0) {
                 writeInW(value);
             } else {
-                if(indirect) {
-                    memory.write_indirect(address, value);
-                } else {
-                    memory.write(address, value);
-                }
+                memory.write(address, value);
             }
+        }
     }
 
     /**
@@ -813,5 +826,18 @@ public class PIC {
 
     public int getW() {
         return W;
+    }
+
+    /**
+     * checks if an indirect address has been used. If so the new address will be stored in the global variable address
+     * and the boolean variable will be true
+     * @param instruction of the current cycle
+     */
+    private void computeAddress(int instruction) {
+        address = instruction & Mask_Lib.ADDRESS_MASK;
+        indirect = (address == 0);
+        if(address == 0) {
+            address = memory.read(Label_Lib.FSR);
+        }
     }
 }

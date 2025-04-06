@@ -69,11 +69,12 @@ public class RAM implements Memory {
 
     /**
      * checks if an address is 0 and the instruction will use an indirect addressing
-     * @param address of the instruction
+     * @param instruction of current cycle
      * @return correct address
      */
-    public int getIndirectAddress(int address) {
+    public int getIndirectAddress(int instruction) {
         // reads the address of the FSR register -> indirect addressing
+        int address  = instruction & Mask_Lib.ADDRESS_MASK;
         return address == 0 ? read(Label_Lib.FSR) : address;
     }
 
@@ -83,7 +84,8 @@ public class RAM implements Memory {
      * @return true if address is 0
      */
     public boolean check_indirectAddressing(int address) {
-        return address == 0;
+        String tmp = Integer.toBinaryString(address);
+        return tmp.length() == 8;
     }
 
     /**
