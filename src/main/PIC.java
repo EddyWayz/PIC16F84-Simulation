@@ -463,10 +463,11 @@ public class PIC {
         if(result >= 0) { // 0 or positive
             memory.set_C();
         } else { // negative
+            result = result & Mask_Lib.LOWER8BIT_MASK;
             memory.unset_C();
         }
-
-        writeInMemoryDestinationBit_indirect(instruction, address, value, indirect);
+        //TODO digitcarry
+        writeInMemoryDestinationBit_indirect(instruction, address, result, indirect);
         System.out.println("SUBWF");
     }
 
@@ -484,7 +485,10 @@ public class PIC {
         // get nibbles from f
         int value = memory.read_indirect(address, indirect);
         int lower_Nibble = value & Mask_Lib.NIBBLE_MASK;
-        int upper_Nibble = value & Mask_Lib.UPPER_NIBBLE_MASK;
+        int upper_Nibble_tmp = value & Mask_Lib.UPPER_NIBBLE_MASK;
+
+        int upper_Nibble = lower_Nibble << 4;
+        lower_Nibble = upper_Nibble_tmp >> 4;
 
         // swap nibbles
         int result = 0 | lower_Nibble;
@@ -805,11 +809,11 @@ public class PIC {
      */
     private void writeInMemoryDestinationBit_indirect(int instruction, int address, int value, boolean indirect) {
         int destination = BitOperator.getBit(instruction, 7);
-        if(indirect) {
-            memory.write_indirect(address, value);
+        if(destination == 0) {
+            writeInW(value);
         } else {
-            if(destination == 0) {
-                writeInW(value);
+            if(indirect) {
+                memory.write_indirect(address, value);
             } else {
                 memory.write(address, value);
             }

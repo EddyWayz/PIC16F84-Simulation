@@ -27,15 +27,14 @@ public class TestForBackend {
 
         PIC pic = new PIC(path);
 
-        for(int x = 0; x < 17; x++) {
+        for(int x = 0; x < 0x17; x++) {
             pic.step();
             System.out.println("W: " + Integer.toHexString(pic.getW()));
-            System.out.println("C: " + pic.memory.readBit(Label_Lib.STATUS, Label_Lib.carry) + " ");
-            System.out.println("DC: " + pic.memory.readBit(Label_Lib.STATUS, Label_Lib.digitcarry) + " ");
-            System.out.println("Z: " + pic.memory.readBit(Label_Lib.STATUS, Label_Lib.zeroflag) + " ");
             System.out.println("Wert1: " + Integer.toHexString(pic.memory.read(0xC)) + " ");
             System.out.println("Wert2: " + Integer.toHexString(pic.memory.read(0xD)) + " ");
-            System.out.println("Erg: " + Integer.toHexString(pic.memory.read(0xE)) + " " + "\n");
+            System.out.print("C: " + pic.memory.readBit(Label_Lib.STATUS, Label_Lib.carry) + " ");
+            System.out.print("DC: " + pic.memory.readBit(Label_Lib.STATUS, Label_Lib.digitcarry) + " ");
+            System.out.println("Z: " + pic.memory.readBit(Label_Lib.STATUS, Label_Lib.zeroflag) + " \n");
         }
 
     }

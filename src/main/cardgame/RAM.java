@@ -218,7 +218,7 @@ public class RAM implements Memory {
      * @param value that will be saved in the register
      */
     public void write_indirect(int address, int value) {
-        int bank = BitOperator.getBit(address, 8);
+        int bank = BitOperator.getBit(address, 7);
         address = address & Mask_Lib.ADDRESS_MASK;
         if(hasToMirrored(address)) {
             RAM[0].write(address, value);
