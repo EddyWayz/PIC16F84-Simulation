@@ -57,6 +57,7 @@ public class PIC {
         //PC increment
         increment_PC();
         decode_n_execute(current_instr);
+        //TODO: update IO Pins
     }
 
     /**

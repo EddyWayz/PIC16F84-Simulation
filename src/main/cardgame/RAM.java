@@ -289,6 +289,7 @@ public class RAM implements Memory {
      */
     private boolean hasToMirrored(int address) {
         switch(address) {
+            //TODO: alle Werte größer 0Bh müssen gespiegelt werden
             case Label_Lib.PCL, Label_Lib.STATUS, Label_Lib.FSR, Label_Lib.PCLATH, Label_Lib.INTCON:
                 return true;
             default:
