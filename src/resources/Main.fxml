@@ -47,7 +47,7 @@
                 GridPane.rowIndex="1"/>
 
     <!-- Bereich: RAM/GPR (rechts, Zeile 2) -->
-    <fx:include source="RAMGPR.fxml"
+    <fx:include source="RAMTabs.fxml"
                 GridPane.columnIndex="2"
                 GridPane.rowIndex="0"
                 GridPane.rowSpan="3"/>

@@ -20,13 +20,13 @@ import java.io.IOException;
 
 public class TableLSTController implements Initializable {
 
-    // Statische Referenz, um von anderen Klassen (z. B. MainController) darauf zugreifen zu können.
+    // Statische Referenz, um von anderen Klassen (z.B. MainController) darauf zugreifen zu können.
     public static TableLSTController instance;
 
     @FXML
     public Button btnFilePicker;
     @FXML
-    private TableView<DataRow> tableViewLST;
+    TableView<DataRow> tableViewLST;
     @FXML
     private TableColumn<DataRow, String> columnBlock0;
     @FXML
@@ -98,7 +98,7 @@ public class TableLSTController implements Initializable {
                         setGraphic(null);
                     } else {
                         setText("");
-                        if (dataRow.isBreakpointActive()) {
+                        if (dataRow.getBreakpointActive()) {
                             Circle circle = new Circle(7, Color.RED);
                             setGraphic(circle);
                         } else {
@@ -113,7 +113,7 @@ public class TableLSTController implements Initializable {
                 if (!cell.isEmpty()) {
                     DataRow dataRow = cell.getTableRow().getItem();
                     if (dataRow != null) {
-                        dataRow.setBreakpointActive(!dataRow.isBreakpointActive());
+                        dataRow.toggleBreakpointActive();
                         tableViewLST.refresh();
                     }
                 }

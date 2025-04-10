@@ -3,7 +3,6 @@ package main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,9 +14,8 @@ public class MainController implements Initializable {
     // Öffentliche statische Variable für den PIC
     public static PIC pic;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Initialisiere den PIC – passe den Pfad an deine Bedürfnisse an
+    static {
+        // Bestimme den Pfad abhängig vom Betriebssystem
         String path = "";
         String osName = System.getProperty("os.name").toLowerCase();
         if (osName.contains("win")) {
@@ -27,9 +25,14 @@ public class MainController implements Initializable {
             path = "/Users/eddywayz/Desktop/Studium/Rechnerarchitektur/test_files/TPicSim1.LST";
             System.out.println("Running on Mac");
         } else {
+            path = "/default/path/to/file"; // Füge einen sinnvollen Default-Pfad ein
             System.out.println("Running on another OS: " + osName);
         }
         pic = new PIC(path);
+    }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Weitere Initialisierungen, falls nötig
     }
 }

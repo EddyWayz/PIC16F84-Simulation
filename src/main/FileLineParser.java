@@ -92,7 +92,7 @@ public class FileLineParser {
     /**
      * Die DataRow-Klasse modelliert eine einzelne Zeile der LST-Datei.
      * Sie beinhaltet String-Properties für die einzelnen Blöcke sowie eine BooleanProperty,
-     * die z. B. für einen Breakpoint-Zustand genutzt werden kann.
+     * die z.B. für einen Breakpoint-Zustand genutzt werden kann.
      */
     public static class DataRow {
         private final SimpleStringProperty block0;
@@ -104,7 +104,7 @@ public class FileLineParser {
         private final SimpleStringProperty block6;
 
         // Optionale Property für den Breakpoint-Zustand
-        private final BooleanProperty breakpointActive = new SimpleBooleanProperty(false);
+        private boolean breakpointActive = false;
 
         public DataRow(String block0, String block1, String block2, String block3, String block4, String block5, String block6) {
             this.block0 = new SimpleStringProperty(block0);
@@ -152,8 +152,7 @@ public class FileLineParser {
         public SimpleStringProperty block6Property() { return block6; }
 
         // Methoden zum Verwalten der Breakpoint-Property
-        public boolean isBreakpointActive() { return breakpointActive.get(); }
-        public void setBreakpointActive(boolean active) { breakpointActive.set(active); }
-        public BooleanProperty breakpointActiveProperty() { return breakpointActive; }
+        public boolean getBreakpointActive() { return breakpointActive; }
+        public void toggleBreakpointActive() { breakpointActive = !breakpointActive;}
     }
 }
