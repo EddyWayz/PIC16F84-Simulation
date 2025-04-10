@@ -69,11 +69,12 @@ public class RAM implements Memory {
 
     /**
      * checks if an address is 0 and the instruction will use an indirect addressing
-     * @param address of the instruction
+     * @param instruction of current cycle
      * @return correct address
      */
-    public int getIndirectAddress(int address) {
+    public int getIndirectAddress(int instruction) {
         // reads the address of the FSR register -> indirect addressing
+        int address  = instruction & Mask_Lib.ADDRESS_MASK;
         return address == 0 ? read(Label_Lib.FSR) : address;
     }
 
@@ -83,7 +84,8 @@ public class RAM implements Memory {
      * @return true if address is 0
      */
     public boolean check_indirectAddressing(int address) {
-        return address == 0;
+        String tmp = Integer.toBinaryString(address);
+        return tmp.length() == 8;
     }
 
     /**
@@ -181,7 +183,6 @@ public class RAM implements Memory {
         } else {
             return read(address);
         }
-
     }
 
     /**
@@ -216,7 +217,7 @@ public class RAM implements Memory {
      * @param value that will be saved in the register
      */
     public void write_indirect(int address, int value) {
-        int bank = BitOperator.getBit(address, 8);
+        int bank = BitOperator.getBit(address, 7);
         address = address & Mask_Lib.ADDRESS_MASK;
         if(hasToMirrored(address)) {
             RAM[0].write(address, value);
@@ -288,6 +289,7 @@ public class RAM implements Memory {
      */
     private boolean hasToMirrored(int address) {
         switch(address) {
+            //TODO: alle Werte größer 0Bh müssen gespiegelt werden
             case Label_Lib.PCL, Label_Lib.STATUS, Label_Lib.FSR, Label_Lib.PCLATH, Label_Lib.INTCON:
                 return true;
             default:
