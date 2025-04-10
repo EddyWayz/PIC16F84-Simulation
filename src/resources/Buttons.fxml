@@ -7,7 +7,6 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml"  fx:controller="main.ButtonsController"
       stylesheets="" spacing="10">
-    <Label text="Register: RPO PCL ZC W DC" />
     <HBox spacing="10">
         <Button text="RUN"  fx:id="btnRun" />
         <Button text="STEP" fx:id="btnStep"/>

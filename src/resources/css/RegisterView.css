@@ -1,0 +1,4 @@
+.table-cell.vertical-separator {
+    -fx-border-color: transparent transparent transparent green;
+    -fx-border-width: 0 0 0 1;
+}

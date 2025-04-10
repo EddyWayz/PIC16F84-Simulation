@@ -24,10 +24,10 @@
 
     <!-- Definieren der Zeilen -->
     <rowConstraints>
-        <RowConstraints fx:id="row1" prefHeight="200"/>
-        <RowConstraints fx:id="row2" prefHeight="200"/>
-        <RowConstraints fx:id="row3" prefHeight="200"/>
-        <RowConstraints fx:id="row4" prefHeight="100"/>
+        <RowConstraints fx:id="row1" percentHeight="30"/>
+        <RowConstraints fx:id="row2" percentHeight="30"/>
+        <RowConstraints fx:id="row3" percentHeight="20"/>
+        <RowConstraints fx:id="row4" percentHeight="20"/>
     </rowConstraints>
 
     <!-- Bereich: Tabelle LST (links, Zeilen 0-2) -->
@@ -56,6 +56,11 @@
     <fx:include source="Buttons.fxml"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="3"
-                GridPane.columnSpan="2"/>
+                GridPane.columnSpan="1"/>
+
+    <fx:include source="Register.fxml"
+                GridPane.columnIndex="2"
+                GridPane.rowIndex="3"
+                GridPane.rowSpan="1"/>
 
 </GridPane>
