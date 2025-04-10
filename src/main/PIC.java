@@ -464,6 +464,7 @@ public class PIC {
         if(result >= 0) { // 0 or positive
             memory.set_C();
         } else { // negative
+            //redundant because it will be masked later again
             result = result & Mask_Lib.LOWER8BIT_MASK;
             memory.unset_C();
         }
@@ -474,6 +475,7 @@ public class PIC {
         val_nibble = val_nibble + 1;
         val_nibble = val_nibble & Mask_Lib.NIBBLE_MASK;
 
+        //set digit carry reversed
         if((val_nibble + w_nibble) > Mask_Lib.NIBBLE_MASK) {
             memory.unset_DC();
         } else {
