@@ -470,17 +470,16 @@ public class PIC {
             memory.unset_C();
         }
 
-        //TODO digitcarry is not set correctly
-        int w_nibble = W & Mask_Lib.NIBBLE_MASK;
-        int val_nibble = ~value;
-        val_nibble = val_nibble + 1;
-        val_nibble = val_nibble & Mask_Lib.NIBBLE_MASK;
+        int w_nibble = ~W;
+        w_nibble = w_nibble & Mask_Lib.NIBBLE_MASK;
+        //val_nibble = val_nibble;
+        int val_nibble = value & Mask_Lib.NIBBLE_MASK;
 
         //set digit carry reversed
-        if((val_nibble + w_nibble) > Mask_Lib.NIBBLE_MASK) {
-            memory.unset_DC();
-        } else {
+        if((val_nibble + w_nibble) + 1 > Mask_Lib.NIBBLE_MASK) {
             memory.set_DC();
+        } else {
+            memory.unset_DC();
         }
 
         writeInMemoryDestinationBit_indirect(instruction, address, result, indirect);
