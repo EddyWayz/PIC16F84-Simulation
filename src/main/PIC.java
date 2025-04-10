@@ -39,7 +39,7 @@ public class PIC {
 
         //new instance of RAM
         memory = new RAM();
-        memory.powerOn();
+        memory.powerOn_reset();
         //TODO INIT of all registers at Power On
 
         //Parse file to get the program
@@ -89,6 +89,7 @@ public class PIC {
         //fetch special instruction with 14 bit code
         switch(instruction) {
             case Instr_Lib.NOP:
+                instr_NOP();
                 break;
             case Instr_Lib.CLRWDT:
                 instr_CLRWDT();
@@ -592,6 +593,14 @@ public class PIC {
      * Status affected: None
      */
     private void instr_BCF() {
+        computeAddress(instruction);
+
+        int pos = instruction & Mask_Lib.LOWER8BIT_MASK;
+        int value = memory.read_indirect(address, indirect);
+
+        value = BitOperator.unsetBit(value, pos);
+
+        writeInMemoryDestinationBit_indirect(address, value, indirect);
         System.out.println("BCF");
     }
 
@@ -601,6 +610,14 @@ public class PIC {
      * Status affected: None
      */
     private void instr_BSF() {
+        computeAddress(instruction);
+
+        int pos = instruction & Mask_Lib.LOWER8BIT_MASK;
+        int value = memory.read_indirect(address, indirect);
+
+        value = BitOperator.setBit(value, pos);
+
+        writeInMemoryDestinationBit_indirect(address, value, indirect);
         System.out.println("BSF");
     }
 
@@ -612,6 +629,16 @@ public class PIC {
      * Status affected: None
      */
     private void instr_BTFSC() {
+        computeAddress(instruction);
+        int pos = instruction & Mask_Lib.LOWER8BIT_MASK;
+        int value = memory.read_indirect(address, indirect);
+
+        int bit = BitOperator.getBit(value, pos);
+        //skip if clear
+        if(bit == 0) {
+            increment_PC();
+        }
+
         System.out.println("BTFSC");
     }
 
@@ -623,6 +650,16 @@ public class PIC {
      * Status affected: None
      */
     private void instr_BTFSS() {
+        computeAddress(instruction);
+        int pos = instruction & Mask_Lib.LOWER8BIT_MASK;
+        int value = memory.read_indirect(address, indirect);
+
+        int bit = BitOperator.getBit(value, pos);
+        //skip if set
+        if(bit == 1) {
+            increment_PC();
+        }
+
         System.out.println("BTFSS");
     }
 
