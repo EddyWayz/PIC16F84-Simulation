@@ -58,6 +58,16 @@ public class PIC {
         //PC increment
         increment_PC();
         decode_n_execute();
+
+        System.out.println("W: " + Integer.toHexString(getW()));
+        System.out.println("Wert1: " + Integer.toHexString(memory.read(0xC)) + " ");
+        System.out.println("Wert2: " + Integer.toHexString(memory.read(0xD)) + " ");
+        System.out.print("DC: " + memory.readBit(Label_Lib.STATUS, Label_Lib.digitcarry) + " ");
+        System.out.print("C: " + memory.readBit(Label_Lib.STATUS, Label_Lib.carry) + " ");
+        System.out.println("Z: " + memory.readBit(Label_Lib.STATUS, Label_Lib.zeroflag) + " \n");
+
+
+
         //TODO: update IO Pins
     }
 
@@ -320,7 +330,17 @@ public class PIC {
      * Status affected: None
      */
     private void instr_DECFSZ() {
-        //TODO
+        computeAddress(instruction);
+
+        int value = memory.read_indirect(address, indirect);
+        value--;
+        if(value < 0) {
+            value = 255;
+            increment_PC();
+        }
+        memory.check_n_manipulate_Z(value);
+        writeInMemoryDestinationBit_indirect(address, value, indirect);
+
         System.out.println("DECFSZ");
     }
 
