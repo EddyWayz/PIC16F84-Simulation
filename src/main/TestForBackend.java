@@ -15,7 +15,7 @@ public class TestForBackend {
         String path = "";
         String osName = System.getProperty("os.name").toLowerCase();
         if (osName.contains("win")) {
-            path = "C:\\Users\\Noah\\Desktop\\HSO\\Prakt Rechnerarchitekturen\\PIC Sim\\test_files\\TPicSim3.LST";
+            path = "C:\\Users\\Noah\\Desktop\\HSO\\Prakt Rechnerarchitekturen\\PIC Sim\\test_files\\TPicSim4.LST";
             System.out.println("Running on Windows");
         } else if (osName.contains("mac")) {
             path = "/Users/eddywayz/Desktop/Studium/Rechnerarchitektur/test_files/TPicSim1.LST";

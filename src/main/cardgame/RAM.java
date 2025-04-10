@@ -289,11 +289,11 @@ public class RAM implements Memory {
      */
     private boolean hasToMirrored(int address) {
         switch(address) {
-            //TODO: alle Werte größer 0Bh müssen gespiegelt werden
-            case Label_Lib.PCL, Label_Lib.STATUS, Label_Lib.FSR, Label_Lib.PCLATH, Label_Lib.INTCON:
-                return true;
-            default:
+            case Label_Lib.TMR0, Label_Lib.PORTA, Label_Lib.PORTB, 8, 9:
+                //bank1: OPTION, TRISA, TRISB, EEDATA, EECON1, EEADR, EECON2
                 return false;
+            default:
+                return true;
         }
     }
 
