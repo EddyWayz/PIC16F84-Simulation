@@ -25,7 +25,7 @@ public class ButtonsController implements Initializable {
                     // Starte einen neuen Thread, um den GUI-Thread nicht zu blockieren.
                     new Thread(() -> {
                         boolean breakpointErreicht = false;
-                        while (!breakpointErreicht) { //TODO: Change to row anzahl
+                        while (!breakpointErreicht) {
                             // Einen Step ausführen
                             MainController.pic.step();
 
