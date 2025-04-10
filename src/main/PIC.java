@@ -652,6 +652,12 @@ public class PIC {
      * Status affected: Z
      */
     private void instr_ANDLW() {
+        int k = instruction & Mask_Lib.LITERAL_MASK;
+
+        int value = k & W;
+        memory.check_n_manipulate_Z(value);
+
+        writeInW(value);
         System.out.println("ANDLW");
     }
 
