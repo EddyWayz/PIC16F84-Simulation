@@ -22,9 +22,18 @@ public class RAM implements Memory {
         RAM[1] = bank1;
     }
 
-    public void powerOn(){
+    /**
+     * Init of all registers a Power On
+     */
+    public void powerOn_reset(){
         RAM[0].write(Label_Lib.PCL, 0);
+        writeBothBanks(Label_Lib.STATUS, 0b0001_1000);
+        writeBothBanks(Label_Lib.OPTION, 0b1111_1111);
+        RAM[1].write(Label_Lib.TRISA, 0b0001_1111);
+        RAM[1].write(Label_Lib.TRISB, 0b1111_1111);
     }
+
+
 
     /**
      * checks if two added integers would have a carry to the upper nibble and (un)sets the digit carry flag corresponding to the result
@@ -204,8 +213,7 @@ public class RAM implements Memory {
     @Override
     public void write(int address, int value) {
         if(hasToMirrored(address)) {
-            RAM[0].write(address, value);
-            RAM[1].write(address, value);
+            writeBothBanks(address, value);
         } else {
             RAM[getRP0()].write(address, value);
         }
@@ -220,8 +228,7 @@ public class RAM implements Memory {
         int bank = BitOperator.getBit(address, 7);
         address = address & Mask_Lib.ADDRESS_MASK;
         if(hasToMirrored(address)) {
-            RAM[0].write(address, value);
-            RAM[1].write(address, value);
+            writeBothBanks(address, value);
         } else {
             RAM[bank].write(address, value);
         }
@@ -235,8 +242,7 @@ public class RAM implements Memory {
     @Override
     public void setBit(int address, int position) {
         if(hasToMirrored(address)) {
-            RAM[0].setBit(address, position);
-            RAM[1].setBit(address, position);
+            setBitBothBanks(address, position);
         } else {
             RAM[getRP0()].setBit(address, position);
         }
@@ -250,8 +256,7 @@ public class RAM implements Memory {
     @Override
     public void unsetBit(int address, int position) {
         if(hasToMirrored(address)) {
-            RAM[0].unsetBit(address, position);
-            RAM[1].unsetBit(address, position);
+            unsetBitBothBanks(address, position);
         } else {
             RAM[getRP0()].unsetBit(address, position);
         }
@@ -295,6 +300,36 @@ public class RAM implements Memory {
             default:
                 return true;
         }
+    }
+
+    /**
+     * writes a value on both banks
+     * @param address of register
+     * @param value that will be written
+     */
+    private void writeBothBanks(int address, int value) {
+        RAM[0].write(address, value);
+        RAM[1].write(address, value);
+    }
+
+    /**
+     * sets a bit on both banks
+     * @param address of register
+     * @param position of the set bit
+     */
+    private void setBitBothBanks(int address, int position) {
+        RAM[0].setBit(address, position);
+        RAM[1].setBit(address, position);
+    }
+
+    /**
+     * unsets a bit on both banks
+     * @param address of register
+     * @param position of the unset bit
+     */
+    private void unsetBitBothBanks(int address, int position) {
+        RAM[0].unsetBit(address, position);
+        RAM[1].unsetBit(address, position);
     }
 
     public String convertPCLTo4BitsString(){
