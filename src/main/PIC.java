@@ -15,6 +15,7 @@ public class PIC {
     // special vars for computing instructions
     int address;
     boolean indirect;
+    private int instruction;
 
     //memory for data and program
     public RAM memory;
@@ -25,7 +26,7 @@ public class PIC {
     //special registers
     private int W;
     private int PC;
-    private int current_instr;
+
 
 
     public PIC(String path) {
@@ -53,10 +54,10 @@ public class PIC {
      * simunlates one line of assembly code
      */
     public void step() {
-        int current_instr = fetch();
+        instruction = fetch();
         //PC increment
         increment_PC();
-        decode_n_execute(current_instr);
+        decode_n_execute();
         //TODO: update IO Pins
     }
 
@@ -67,30 +68,29 @@ public class PIC {
      */
     private int fetch() {
         //get next instruction
-        current_instr = program.get(PC);
-        return current_instr;
+        instruction = program.get(PC);
+        return instruction;
     }
 
     /**
      * decodes and executes the next instruction
-     * @param instruction as 14bit
      */
-    private void decode_n_execute(int instruction) {
+    private void decode_n_execute() {
         //fetch special instruction with 14 bit code
         switch(instruction) {
             case Instr_Lib.NOP:
                 break;
             case Instr_Lib.CLRWDT:
-                instr_CLRWDT(instruction);
+                instr_CLRWDT();
                 break;
             case Instr_Lib.RETFIE:
-                instr_RETFIE(instruction);
+                instr_RETFIE();
                 break;
             case Instr_Lib.RETURN:
-                instr_RETURN(instruction);
+                instr_RETURN();
                 break;
             case Instr_Lib.SLEEP:
-                instr_SLEEP(instruction);
+                instr_SLEEP();
                 break;
         }
 
@@ -98,13 +98,13 @@ public class PIC {
         int maskedInstr_7bit = instruction & 0x3F80;
         switch(maskedInstr_7bit) {
             case Instr_Lib.CLRF:
-                instr_CLRF(instruction);
+                instr_CLRF();
                 break;
             case Instr_Lib.CLRW:
-                instr_CLRW(instruction);
+                instr_CLRW();
                 break;
             case Instr_Lib.MOVWF:
-                instr_MOVWF(instruction);
+                instr_MOVWF();
                 break;
         }
 
@@ -112,87 +112,87 @@ public class PIC {
         int maskedInstr_6bit = instruction & 0x3F00;
         switch(maskedInstr_6bit) {
             case Instr_Lib.ADDWF:
-                instr_ADDWF(instruction);
+                instr_ADDWF();
                 break;
             case Instr_Lib.ANDWF:
-                instr_ANDWF(instruction);
+                instr_ANDWF();
                 break;
             case Instr_Lib.COMF:
-                instr_COMF(instruction);
+                instr_COMF();
                 break;
             case Instr_Lib.DECF:
-                instr_DECF(instruction);
+                instr_DECF();
                 break;
             case Instr_Lib.DECFSZ:
-                instr_DECFSZ(instruction);
+                instr_DECFSZ();
                 break;
             case Instr_Lib.INCF:
-                instr_INCF(instruction);
+                instr_INCF();
                 break;
             case Instr_Lib.INCFSZ:
-                instr_INCFSZ(instruction);
+                instr_INCFSZ();
                 break;
             case Instr_Lib.IORWF:
-                instr_IORWF(instruction);
+                instr_IORWF();
                 break;
             case Instr_Lib.MOVF:
-                instr_MOVF(instruction);
+                instr_MOVF();
                 break;
             case Instr_Lib.RLF:
-                instr_RLF(instruction);
+                instr_RLF();
                 break;
             case Instr_Lib.RRF:
-                instr_RRF(instruction);
+                instr_RRF();
                 break;
             case Instr_Lib.SUBWF:
-                instr_SUBWF(instruction);
+                instr_SUBWF();
                 break;
             case Instr_Lib.SWAPF:
-                instr_SWAPF(instruction);
+                instr_SWAPF();
                 break;
             case Instr_Lib.XORWF:
-                instr_XORWF(instruction);
+                instr_XORWF();
                 break;
             case Instr_Lib.BCF:
-                instr_BCF(instruction);
+                instr_BCF();
                 break;
             case Instr_Lib.BSF:
-                instr_BSF(instruction);
+                instr_BSF();
                 break;
             case Instr_Lib.BTFSC:
-                instr_BTFSC(instruction);
+                instr_BTFSC();
                 break;
             case Instr_Lib.BTFSS:
-                instr_BTFSS(instruction);
+                instr_BTFSS();
                 break;
             case Instr_Lib.ADDLW:
-                instr_ADDLW(instruction);
+                instr_ADDLW();
                 break;
             case Instr_Lib.ANDLW:
-                instr_ANDLW(instruction);
+                instr_ANDLW();
                 break;
             case Instr_Lib.CALL:
-                instr_CALL(instruction);
+                instr_CALL();
                 break;
             //CLRWDT see above
             case Instr_Lib.GOTO:
-                instr_GOTO(instruction);
+                instr_GOTO();
                 break;
             case Instr_Lib.IORLW:
-                instr_IORLW(instruction);
+                instr_IORLW();
                 break;
             case Instr_Lib.MOVLW:
-                instr_MOVLW(instruction);
+                instr_MOVLW();
                 break;
             //RETFIE see above
             case Instr_Lib.RETLW:
-                instr_RETLW(instruction);
+                instr_RETLW();
                 break;
             case Instr_Lib.SUBLW:
-                instr_SUBLW(instruction);
+                instr_SUBLW();
                 break;
             case Instr_Lib.XORLW:
-                instr_XORLW(instruction);
+                instr_XORLW();
                 break;
         }
 
@@ -206,9 +206,8 @@ public class PIC {
      * If d is 0 the result is stored back in the W register
      * If d is 1 the result is stored back in register f
      * Status affected: C, DC, Z
-     * @param instruction as 14bit
      */
-    private void instr_ADDWF(int instruction) {
+    private void instr_ADDWF() {
         // mask the address
         computeAddress(instruction);
 
@@ -223,7 +222,7 @@ public class PIC {
         memory.check_n_manipulate_Z(result);
 
         //writes the result in the right location
-        writeInMemoryDestinationBit_indirect(instruction, address, result, indirect);
+        writeInMemoryDestinationBit_indirect(address, result, indirect);
 
         System.out.println("ADDWF");
     }
@@ -234,16 +233,15 @@ public class PIC {
      * If 'd' is 0 the result is stored in the W register.
      * If 'd' is 1 the result is stored back in register 'f'.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_ANDWF(int instruction) {
+    private void instr_ANDWF() {
         computeAddress(instruction);
 
         int value = memory.read_indirect(address, indirect);
         int result = W & value;
         memory.check_n_manipulate_Z(result);
 
-        writeInMemoryDestinationBit_indirect(instruction, address, result, indirect);
+        writeInMemoryDestinationBit_indirect(address, result, indirect);
         System.out.println("ANDWF");
     }
 
@@ -252,13 +250,12 @@ public class PIC {
      * The contents of register ’f’ are cleared
      * and the Z bit is set.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_CLRF(int instruction) {
+    private void instr_CLRF() {
         computeAddress(instruction);
 
         memory.set_Z();
-        writeInMemoryDestinationBit_indirect(instruction, address, 0, indirect);
+        writeInMemoryDestinationBit_indirect(address, 0, indirect);
         System.out.println("CLRF");
     }
 
@@ -266,9 +263,8 @@ public class PIC {
      * Clear W
      * W register is cleared. Zero bit (Z) is set.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_CLRW(int instruction) {
+    private void instr_CLRW() {
         writeInW(0);
         memory.set_Z();
         System.out.println("CLRW");
@@ -280,16 +276,15 @@ public class PIC {
      * If ’d’ is 1 the result is stored back in
      * register ’f’.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_COMF(int instruction) {
+    private void instr_COMF() {
         computeAddress(instruction);
 
         //complement of the content of the register of given address
         int value = ~memory.read_indirect(address, indirect);
         memory.check_n_manipulate_Z(value);
 
-        writeInMemoryDestinationBit_indirect(instruction, address, value, indirect);
+        writeInMemoryDestinationBit_indirect(address, value, indirect);
         System.out.println("COMF");
     }
 
@@ -299,9 +294,8 @@ public class PIC {
      * result is stored in the W register. If ’d’ is
      * 1 the result is stored back in register ’f’.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_DECF(int instruction) {
+    private void instr_DECF() {
         computeAddress(instruction);
 
         int value = memory.read_indirect(address, indirect);
@@ -310,7 +304,7 @@ public class PIC {
             value = 255;
         }
         memory.check_n_manipulate_Z(value);
-        writeInMemoryDestinationBit_indirect(instruction, address, value, indirect);
+        writeInMemoryDestinationBit_indirect(address, value, indirect);
 
         System.out.println("DECF");
     }
@@ -324,9 +318,9 @@ public class PIC {
      * executed. If the result is 0, then a NOP is
      * executed instead making it a 2TCY instruction.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_DECFSZ(int instruction) {
+    private void instr_DECFSZ() {
+        //TODO
         System.out.println("DECFSZ");
     }
 
@@ -336,9 +330,8 @@ public class PIC {
      * If ’d’ is 0 the result is placed in the W register.
      * If ’d’ is 1 the result is placed back in register ’f’.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_INCF(int instruction) {
+    private void instr_INCF() {
         computeAddress(instruction);
 
         int value = memory.read_indirect(address, indirect);
@@ -347,7 +340,7 @@ public class PIC {
             value = 0;
         }
         memory.check_n_manipulate_Z(value);
-        writeInMemoryDestinationBit_indirect(instruction, address, value, indirect);
+        writeInMemoryDestinationBit_indirect(address, value, indirect);
         System.out.println("INCF");
     }
 
@@ -358,9 +351,18 @@ public class PIC {
      * If the result is not 0, the next instruction is executed.
      * If the result is 0, a NOP is executed instead making it a 2TCY instruction.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_INCFSZ(int instruction) {
+    private void instr_INCFSZ() {
+        computeAddress(instruction);
+
+        int value = memory.read_indirect(address, indirect);
+        value++;
+        if(value > 255) {
+            value = 0;
+            increment_PC();
+        }
+
+        writeInMemoryDestinationBit_indirect(address, value, indirect);
         System.out.println("INCFSZ");
     }
 
@@ -370,15 +372,14 @@ public class PIC {
      * If ’d’ is 0 the result is placed in the W register. If ’d’ is 1 the result is placed
      * back in register ’f’.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_IORWF(int instruction) {
+    private void instr_IORWF() {
         computeAddress(instruction);
 
         int result = W | memory.read_indirect(address, indirect);
         memory.check_n_manipulate_Z(result);
 
-        writeInMemoryDestinationBit_indirect(instruction, address, result, indirect);
+        writeInMemoryDestinationBit_indirect(address, result, indirect);
         System.out.println("IORWF");
     }
 
@@ -388,15 +389,14 @@ public class PIC {
      * If d = 0, destination is W register. If d = 1, the destination is file register f itself.
      * d = 1 is useful to test a file register since status flag Z is affected.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_MOVF(int instruction) {
+    private void instr_MOVF() {
         computeAddress(instruction);
 
         int value = memory.read_indirect(address, indirect);
 
         memory.check_n_manipulate_Z(value);
-        writeInMemoryDestinationBit_indirect(instruction, address, value, indirect);
+        writeInMemoryDestinationBit_indirect(address, value, indirect);
         System.out.println("MOVF");
     }
 
@@ -404,12 +404,11 @@ public class PIC {
      * Move W to f
      * Move data from W register to register
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_MOVWF(int instruction) {
+    private void instr_MOVWF() {
         computeAddress(instruction);
 
-        writeInMemoryDestinationBit_indirect(instruction, address, W, indirect);
+        writeInMemoryDestinationBit_indirect(address, W, indirect);
         System.out.println("MOVWF");
     }
 
@@ -417,9 +416,8 @@ public class PIC {
      * No Operation
      * No operation.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_NOP(int instruction) {
+    private void instr_NOP() {
         System.out.println("NOP");
     }
 
@@ -429,9 +427,29 @@ public class PIC {
      * If ’d’ is 0 the result is placed in the W register. If ’d’ is 1 the result is stored
      * back in register ’f’.
      * Status affected: C
-     * @param instruction as 14bit
      */
-    private void instr_RLF(int instruction) {
+    private void instr_RLF() {
+        computeAddress(instruction);
+        //get carry and value of f
+        int value = memory.read_indirect(address, indirect);
+        int carry = memory.get_C();
+        int bit7 = BitOperator.getBit(value, 7);
+
+        //left shift of one bit
+        value = value << 1;
+        //manipulate first bit corresponding to carry flag
+        if(carry == 1) {
+            value = BitOperator.setBit(value, 0);
+        }
+
+        //manipulate carry corresponding to MSb
+        if(bit7 == 0) {
+            memory.unset_C();
+        } else {
+            memory.set_C();
+        }
+
+        writeInMemoryDestinationBit_indirect(address, value, indirect);
         System.out.println("RLF");
     }
 
@@ -441,9 +459,29 @@ public class PIC {
      * If ’d’ is 0 the result is placed in the W register.
      * If ’d’ is 1 the result is placed back in register ’f’.
      * Status affected: C
-     * @param instruction as 14bit
      */
-    private void instr_RRF(int instruction) {
+    private void instr_RRF() {
+        computeAddress(instruction);
+        //get carry flag and value of f
+        int value = memory.read_indirect(address, indirect);
+        int carry = memory.get_C();
+        int bit0 = BitOperator.getBit(value, 0);
+
+        //right shift of one bit
+        value = value >> 1;
+        //manipulate MSb corresponding to carry flag
+        if(carry == 1) {
+            value = BitOperator.setBit(value, 7);
+        }
+
+        //manipulate carry corresponding to LSb
+        if(bit0 == 0) {
+            memory.unset_C();
+        } else {
+            memory.set_C();
+        }
+
+        writeInMemoryDestinationBit_indirect(address, value, indirect);
         System.out.println("RRF");
     }
 
@@ -453,9 +491,8 @@ public class PIC {
      * If 'd' is 0 the result is stored in the W register. If 'd' is 1 the
      * result is stored back in register 'f'.
      * Status affected: C, DC, Z
-     * @param instruction as 14bit
      */
-    private void instr_SUBWF(int instruction) {
+    private void instr_SUBWF() {
         computeAddress(instruction);
 
         int value = memory.read_indirect(address, indirect);
@@ -482,7 +519,7 @@ public class PIC {
             memory.unset_DC();
         }
 
-        writeInMemoryDestinationBit_indirect(instruction, address, result, indirect);
+        writeInMemoryDestinationBit_indirect(address, result, indirect);
         System.out.println("SUBWF");
     }
 
@@ -492,9 +529,8 @@ public class PIC {
      * If 'd' is 0 the result is placed in W register.
      * If 'd' is 1 the result is placed in register 'f'.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_SWAPF(int instruction) {
+    private void instr_SWAPF() {
         computeAddress(instruction);
 
         // get nibbles from f
@@ -506,10 +542,10 @@ public class PIC {
         lower_Nibble = upper_Nibble_tmp >> 4;
 
         // swap nibbles
-        int result = 0 | lower_Nibble;
+        int result = lower_Nibble;
         result = result | upper_Nibble;
 
-        writeInMemoryDestinationBit_indirect(instruction, address, result, indirect);
+        writeInMemoryDestinationBit_indirect(address, result, indirect);
         System.out.println("SWAPF");
     }
 
@@ -518,15 +554,14 @@ public class PIC {
      * The contents of the W register are XOR’ed with the eight bit literal 'k'.
      * The result is placed in the W register.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_XORWF(int instruction) {
+    private void instr_XORWF() {
         computeAddress(instruction);
 
         int result = W ^ memory.read_indirect(address, indirect);
         memory.check_n_manipulate_Z(result);
 
-        writeInMemoryDestinationBit_indirect(instruction, address, result, indirect);
+        writeInMemoryDestinationBit_indirect(address, result, indirect);
         System.out.println("XORWF");
     }
 
@@ -535,9 +570,8 @@ public class PIC {
      * Bit Clear f
      * Bit ’b’ in register ’f’ is cleared
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_BCF(int instruction) {
+    private void instr_BCF() {
         System.out.println("BCF");
     }
 
@@ -545,9 +579,8 @@ public class PIC {
      * Bit Set f
      * Bit ’b’ in register ’f’ is set.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_BSF(int instruction) {
+    private void instr_BSF() {
         System.out.println("BSF");
     }
 
@@ -557,9 +590,8 @@ public class PIC {
      * If bit ’b’, in register ’f’, is ’0’ then the next
      * instruction is discarded, and a NOP is executed instead, making this a 2TCY instruction.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_BTFSC(int instruction) {
+    private void instr_BTFSC() {
         System.out.println("BTFSC");
     }
 
@@ -569,9 +601,8 @@ public class PIC {
      * If bit ’b’ is ’1’, then the next instruction is
      * discarded and a NOP is executed instead, making this a 2TCY instruction.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_BTFSS(int instruction) {
+    private void instr_BTFSS() {
         System.out.println("BTFSS");
     }
 
@@ -582,9 +613,8 @@ public class PIC {
      * added to the eight bit literal ’k’ and the
      * result is placed in the W register.
      * Status affected: C, DC, Z
-     * @param instruction as 14bit
      */
-    private void instr_ADDLW(int instruction) {
+    private void instr_ADDLW() {
         int k = instruction & Mask_Lib.LITERAL_MASK;
         int result = k + W;
         memory.check_n_manipulate_DC(k, W);
@@ -600,9 +630,8 @@ public class PIC {
      * AND’ed with the eight bit literal 'k'. The
      * result is placed in the W register.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_ANDLW(int instruction) {
+    private void instr_ANDLW() {
         System.out.println("ANDLW");
     }
 
@@ -615,9 +644,8 @@ public class PIC {
      * the PC are loaded from PCLATH. CALL
      * is a two cycle instruction.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_CALL(int instruction) {
+    private void instr_CALL() {
         int k11 = instruction & Mask_Lib.GOTO_CALL_MASK;
         stack.push(PC);
         pclath_3n4_ontoPC();
@@ -631,9 +659,8 @@ public class PIC {
      * of the WDT. Status bits TO and PD are
      * set.
      * Status affected: !TO, !PD (also so ein Dach Strich drauf)
-     * @param instruction as 14bit
      */
-    private void instr_CLRWDT(int instruction) {
+    private void instr_CLRWDT() {
         System.out.println("CLRWDT");
     }
 
@@ -645,9 +672,8 @@ public class PIC {
      * PC are loaded from PCLATH<4:3>.
      * GOTO is a two cycle instruction.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_GOTO(int instruction) {
+    private void instr_GOTO() {
         int k11 = instruction & Mask_Lib.GOTO_CALL_MASK;
         pclath_3n4_ontoPC();
         PC = PC | k11;
@@ -660,9 +686,8 @@ public class PIC {
      * OR’ed with the eight bit literal 'k'. The
      * result is placed in the W register.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_IORLW(int instruction) {
+    private void instr_IORLW() {
         int k = instruction & Mask_Lib.LITERAL_MASK;
         int result = k | W;
         memory.check_n_manipulate_Z(result);
@@ -676,9 +701,8 @@ public class PIC {
      * register. The don’t cares will assemble
      * as 0’s.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_MOVLW(int instruction) {
+    private void instr_MOVLW() {
         writeInW(instruction & Mask_Lib.LITERAL_MASK);
         System.out.println("MOVLW");
     }
@@ -692,9 +716,8 @@ public class PIC {
      * (INTCON<7>). This is a two cycle
      * instruction.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_RETFIE(int instruction) {
+    private void instr_RETFIE() {
         System.out.println("RETFIE");
     }
 
@@ -706,9 +729,8 @@ public class PIC {
      * return address). This is a two cycle
      * instruction.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_RETLW(int instruction) {
+    private void instr_RETLW() {
         int k = instruction & Mask_Lib.LITERAL_MASK;
         writeInW(k);
         PC = stack.pop();
@@ -722,9 +744,8 @@ public class PIC {
      * is loaded into the program counter. This
      * is a two cycle instruction.
      * Status affected: None
-     * @param instruction as 14bit
      */
-    private void instr_RETURN(int instruction) {
+    private void instr_RETURN() {
         PC = stack.pop();
         System.out.println("RETURN");
     }
@@ -738,9 +759,8 @@ public class PIC {
      * mode with the oscillator stopped. See
      * Section 14.8 for more details.
      * Status affected: !TO, !PD
-     * @param instruction as 14bit
      */
-    private void instr_SLEEP(int instruction) {
+    private void instr_SLEEP() {
         System.out.println("SLEEP");
     }
 
@@ -749,9 +769,8 @@ public class PIC {
      * The contents of W register is subtracted (2’s complement method) from the eight bit literal 'k'.
      * The result is placed in the W register.
      * Status affected: C, DC, Z
-     * @param instruction as 14bit
      */
-    private void instr_SUBLW(int instruction) {
+    private void instr_SUBLW() {
         int k = instruction & Mask_Lib.LITERAL_MASK;
         int result = k - W;
         // setting of carry flag is inverted due to a hardware error
@@ -781,9 +800,8 @@ public class PIC {
      * XOR’ed with the eight bit literal 'k'.
      * The result is placed in the W register.
      * Status affected: Z
-     * @param instruction as 14bit
      */
-    private void instr_XORLW(int instruction) {
+    private void instr_XORLW() {
         int k = instruction & Mask_Lib.LITERAL_MASK;
         int result = k ^ W;
         memory.check_n_manipulate_Z(result);
@@ -818,11 +836,11 @@ public class PIC {
 
     /**
      * overloaded method: writes in the memory depending on the destination bit with an indirect address possible
-     * @param instruction as 14bit
+     *
      * @param address of the register that will be written into
-     * @param value that will be stored
+     * @param value   that will be stored
      */
-    private void writeInMemoryDestinationBit_indirect(int instruction, int address, int value, boolean indirect) {
+    private void writeInMemoryDestinationBit_indirect(int address, int value, boolean indirect) {
         int destination = BitOperator.getBit(instruction, 7);
         if(destination == 0) {
             writeInW(value);
