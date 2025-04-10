@@ -30,7 +30,7 @@ public class ButtonsController implements Initializable {
                             MainController.pic.step();
 
                             // Aktualisiere die Tabelle in den JavaFX-Thread
-                            Platform.runLater(() -> TableLSTController.instance.refreshView());
+                            Platform.runLater(this::refreshView);
 
                             // Aktualisierte den aktuellen PC-Wert
                             String currentPC = MainController.pic.memory.convertPCLTo4BitsString();
@@ -67,14 +67,7 @@ public class ButtonsController implements Initializable {
             btnStep.setOnAction(e -> {
                 MainController.pic.step();
                 // Aktualisiere die Tabelle, indem du die statische Instanz verwendest
-                if (TableLSTController.instance != null) {
-                    TableLSTController.instance.refreshView();
-                }
-                if (TableLSTController.instance != null) {
-                    RAMTabsLSTController.instance.refreshView();
-                } else {
-                    System.out.println("TSET");
-                }
+                refreshView();
             });
         } else {
             System.out.println("btnStep wurde nicht gefunden!");
@@ -88,6 +81,15 @@ public class ButtonsController implements Initializable {
             });
         } else {
             System.out.println("btnStop wurde nicht gefunden!");
+        }
+    }
+
+    private void refreshView() {
+        if (TableLSTController.instance != null) {
+            TableLSTController.instance.refreshView();
+        }
+        if (TableLSTController.instance != null) {
+            RAMTabsLSTController.instance.refreshView();
         }
     }
 }
