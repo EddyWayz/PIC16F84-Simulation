@@ -9,7 +9,7 @@ public class Test1 {
     PIC pic;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         String path = "";
         String osName = System.getProperty("os.name").toLowerCase();
         if (osName.contains("win")) {
@@ -25,41 +25,41 @@ public class Test1 {
     }
 
     @Test
-    public void test_TestFile1() {
+    public void TestFile1() {
         //0000 movlw 11h
         pic.step();
-        Assert.assertEquals(pic.getW(), 0x11);
+        Assert.assertEquals( 0x11, pic.getW());
 
         //0001 andlw 30h
         pic.step();
-        Assert.assertEquals(pic.getW(), 0x10);
-        Assert.assertEquals(pic.memory.get_Z(), 0);
+        Assert.assertEquals(0x10, pic.getW());
+        Assert.assertEquals(0, pic.memory.get_Z());
 
         //0002 iorlw 0Dh
         pic.step();
-        Assert.assertEquals(pic.getW(), 0x1D);
-        Assert.assertEquals(pic.memory.get_Z(), 0);
+        Assert.assertEquals(0x1D, pic.getW());
+        Assert.assertEquals(0, pic.memory.get_Z());
 
         //0003 sublw 3Dh
         pic.step();
-        Assert.assertEquals(pic.getW(), 0x20);
+        Assert.assertEquals(0x20, pic.getW());
         checkFlags(1,1,0);
 
         //0004 xorlw 20h
         pic.step();
-        Assert.assertEquals(pic.getW(), 0x00);
+        Assert.assertEquals(0x00, pic.getW());
         checkFlags(1,1,1);
 
         //0005 addlw 25h
         pic.step();
-        Assert.assertEquals(pic.getW(), 0x25);
+        Assert.assertEquals(0x25, pic.getW());
         checkFlags(0,0,0);
     }
 
     private void checkFlags(int carry, int digitcarry, int zeroflag) {
-        Assert.assertEquals(pic.memory.get_C(), carry);
-        Assert.assertEquals(pic.memory.get_DC(), digitcarry);
-        Assert.assertEquals(pic.memory.get_Z(), zeroflag);
+        Assert.assertEquals(carry, pic.memory.get_C());
+        Assert.assertEquals(digitcarry, pic.memory.get_DC());
+        Assert.assertEquals(zeroflag, pic.memory.get_Z());
     }
 
 
