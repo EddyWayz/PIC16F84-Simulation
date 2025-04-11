@@ -181,6 +181,16 @@ public class RAM implements Memory {
     }
 
     /**
+     * returns the value of a register at a given address and bank
+     * @param address of register
+     * @param bank for reading
+     * @return value of register
+     */
+    public int read_bank(int address, int bank) {
+        return RAM[bank].read(address);
+    }
+
+    /**
      * reads a register at a given indirect address
      * @param address of the register
      * @return the
@@ -203,6 +213,17 @@ public class RAM implements Memory {
     @Override
     public int readBit(int address, int position) {
         return RAM[getRP0()].readBit(address, position);
+    }
+
+    /**
+     * returns the value of a bit of a register at a given address and bank
+     * @param address of register
+     * @param position of bit
+     * @param bank for reading
+     * @return value of the bit
+     */
+    public int readBit_bank(int address, int position, int bank) {
+        return RAM[bank].readBit(address, position);
     }
 
     /**
