@@ -20,8 +20,15 @@ public class Label_Lib {
     public static final int INTCON = 0xB;
 
     //labels for different bits
+    //status register;
     public static final int carry = 0;
     public static final int digitcarry = 1;
     public static final int zeroflag = 2;
     public static final int rp0 = 5;
+
+    //option register
+    public static final int psa = 3;
+
+    //intcon
+    public static final int t0if = 2;
 }

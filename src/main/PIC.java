@@ -2,6 +2,7 @@ package main;
 
 import main.cardgame.RAM;
 
+import main.timers.Prescaler;
 import main.tools.BitOperator;
 import main.tools.Instr_Lib;
 import main.tools.Label_Lib;
@@ -17,6 +18,8 @@ public class PIC {
     boolean indirect;
     private int instruction;
 
+    private boolean sleep = false;
+
     //memory for data and program
     public RAM memory;
     private final ArrayList<Integer> program;
@@ -26,6 +29,9 @@ public class PIC {
     //special registers
     private int W;
     private int PC;
+
+    //prescaler and timers in PS
+    Prescaler prescaler;
 
 
 
@@ -46,6 +52,10 @@ public class PIC {
         InstructionParser instrParser = new InstructionParser(path);
         program = instrParser.parseLinesToInstructions();
 
+
+        //instance of prescaler
+        prescaler = new Prescaler(this);
+
         //TODO Link to IO Pins
 
     }
@@ -59,12 +69,10 @@ public class PIC {
         increment_PC();
         decode_n_execute();
 
-        System.out.println("W: " + Integer.toHexString(getW()));
-        System.out.println("Wert1: " + Integer.toHexString(memory.read(0xC)) + " ");
-        System.out.println("Wert2: " + Integer.toHexString(memory.read(0xD)) + " ");
-        System.out.print("DC: " + memory.readBit(Label_Lib.STATUS, Label_Lib.digitcarry) + " ");
-        System.out.print("C: " + memory.readBit(Label_Lib.STATUS, Label_Lib.carry) + " ");
-        System.out.println("Z: " + memory.readBit(Label_Lib.STATUS, Label_Lib.zeroflag) + " \n");
+        //update timers and prescaler
+        prescaler.update();
+
+
 
 
 
@@ -939,5 +947,17 @@ public class PIC {
         if(address == 0) {
             address = memory.read(Label_Lib.FSR);
         }
+    }
+
+    public boolean getSleep() {
+        return sleep;
+    }
+
+    public void wakeUp_WDT() {
+
+    }
+
+    public void reset_WDT() {
+
     }
 }

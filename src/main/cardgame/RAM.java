@@ -240,6 +240,10 @@ public class RAM implements Memory {
         }
     }
 
+    public void write_bank(int address, int value, int bank) {
+        RAM[bank].write(address, value);
+    }
+
     /**
      * writes a value into an indirect register
      * @param address of a register
@@ -267,6 +271,16 @@ public class RAM implements Memory {
         } else {
             RAM[getRP0()].setBit(address, position);
         }
+    }
+
+    /**
+     * sets a bit at a given address, position and bank
+     * @param address of register
+     * @param position of bit
+     * @param bank of RAM
+     */
+    public void setBit_bank(int address, int position, int bank) {
+        RAM[bank].setBit(address, position);
     }
 
     /**
