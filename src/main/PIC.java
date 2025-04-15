@@ -72,7 +72,8 @@ public class PIC {
         //update timers and prescaler
         prescaler.update();
 
-
+        //checks for interrupts and possible wake-ups
+        checkForInterrupts();
 
 
 
@@ -957,7 +958,74 @@ public class PIC {
 
     }
 
+    public void wakeUp_Interrupt() {
+
+    }
+
     public void reset_WDT() {
 
+    }
+
+    /**
+     * checks for any kind of interrupts and wakes up the pic if GIE is cleared
+     * If GIE is set the CPU will be interrupted
+     */
+    private void checkForInterrupts() {
+        boolean tmr0_int = check_TMR0_Interrupt();
+        boolean rb0_int = check_INT_Interrupt();
+        boolean rbChange_int = check_RB_Interrupt();
+        boolean eeprom_int = check_EEPROM_Interrupt();
+
+        int GIE = memory.readBit(Label_Lib.INTCON, Label_Lib.GIE);
+        if(tmr0_int || rb0_int || rbChange_int || eeprom_int) {
+            wakeUp_Interrupt();
+            if(GIE == 1) {
+                //interrupt CPU
+                memory.unsetBit(Label_Lib.INTCON, Label_Lib.GIE);
+                stack.push(PC);
+                PC = 0x0004;
+            }
+        }
+
+    }
+
+    /**
+     * checks if the timer0 interrupt flag has been set and the enable bit
+     * @return true if both are set
+     */
+    private boolean check_TMR0_Interrupt() {
+        int t0if = memory.readBit(Label_Lib.INTCON, Label_Lib.T0IF);
+        int t0ie = memory.readBit(Label_Lib.INTCON, Label_Lib.T0IE);
+        return (t0if == 1) && (t0ie == 1);
+    }
+
+    /**
+     * checks if the INT / External RB0 interrupt and the corresponding flag is set
+     * @return true if both are set
+     */
+    private boolean check_INT_Interrupt() {
+        int intf = memory.readBit(Label_Lib.INTCON, Label_Lib.INTF);
+        int inte = memory.readBit(Label_Lib.INTCON, Label_Lib.INTE);
+        return (intf == 1) && (inte == 1);
+    }
+
+    /**
+     * checks if the PortB interrupt and the corresponding flag is set
+     * @return true if both are set
+     */
+    private boolean check_RB_Interrupt() {
+        int rbif = memory.readBit(Label_Lib.INTCON, Label_Lib.RBIF);
+        int rbie = memory.readBit(Label_Lib.INTCON, Label_Lib.RBIE);
+        return (rbif == 1) && (rbie == 1);
+    }
+
+    /**
+     * checks if the EEPROM interrupt and the corresponding flag is set
+     * @return true if both are set
+     */
+    private boolean check_EEPROM_Interrupt() {
+        int eeif = memory.readBit(Label_Lib.INTCON, Label_Lib.EEIF);
+        int eeie = memory.readBit(Label_Lib.INTCON, Label_Lib.EEIE);
+        return (eeif == 1) && (eeie == 1);
     }
 }

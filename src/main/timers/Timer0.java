@@ -36,7 +36,7 @@ public class Timer0 {
 
         int value = pic.memory.read_bank(Label_Lib.TMR0,0);
         if(value == 0) {
-            pic.memory.setBit(Label_Lib.INTCON, Label_Lib.t0if);
+            pic.memory.setBit(Label_Lib.INTCON, Label_Lib.T0IF);
         }
     }
 

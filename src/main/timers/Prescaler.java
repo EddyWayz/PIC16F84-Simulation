@@ -36,7 +36,7 @@ public class Prescaler {
      * updates the rates of the prescaler corresponding to the bit in the option register
      */
     public void update() {
-        int psa_updated = pic.memory.readBit_bank(Label_Lib.OPTION, Label_Lib.psa, 1);
+        int psa_updated = pic.memory.readBit_bank(Label_Lib.OPTION, Label_Lib.PSA, 1);
         if(psa_updated != PSA) {
             PSA = psa_updated;
             //prescaler changed to timer?
