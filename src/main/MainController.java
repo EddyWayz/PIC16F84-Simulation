@@ -30,13 +30,10 @@ public class MainController implements Initializable {
             System.out.println("⚠ IO_PINS_Controller ist noch nicht initialisiert!");
         }
 
-        if (tableLSTController != null) {
-            tableLSTController.reloadTable(newPath);
-        }
-
         if(ramTabsLSTController != null){
             ramTabsLSTController.updatePIC(pic);
-            System.out.println("Test");
+        } else {
+            System.out.println("⚠ RAMTabsLSTController ist noch nicht initialisiert!");
         }
     }
 
