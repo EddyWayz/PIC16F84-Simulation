@@ -348,6 +348,7 @@ public class PIC {
         if(value < 0) {
             value = 255;
             increment_PC();
+            prescaler.TMR.update();
         }
         memory.check_n_manipulate_Z(value);
         writeInMemoryDestinationBit_indirect(address, value, indirect);
@@ -391,6 +392,7 @@ public class PIC {
         if(value > 255) {
             value = 0;
             increment_PC();
+            prescaler.TMR.update();
         }
 
         writeInMemoryDestinationBit_indirect(address, value, indirect);
@@ -646,6 +648,7 @@ public class PIC {
         int bit = BitOperator.getBit(value, pos);
         //skip if clear
         if(bit == 0) {
+            prescaler.TMR.update();
             increment_PC();
         }
 
@@ -668,6 +671,7 @@ public class PIC {
         //skip if set
         if(bit == 1) {
             increment_PC();
+            prescaler.TMR.update();
         }
 
         System.out.println("BTFSS");
@@ -723,6 +727,10 @@ public class PIC {
         stack.push(PC);
         pclath_3n4_ontoPC();
         PC = PC | k11;
+
+        // 2 cycle instruction
+        prescaler.TMR.update();
+
         System.out.println("CALL");
     }
 
@@ -761,6 +769,7 @@ public class PIC {
         int k11 = instruction & Mask_Lib.GOTO_CALL_MASK;
         pclath_3n4_ontoPC();
         PC = PC | k11;
+        prescaler.TMR.update();
         System.out.println("GOTO");
     }
 
@@ -802,7 +811,9 @@ public class PIC {
      * Status affected: None
      */
     private void instr_RETFIE() {
-        //TODO
+        PC = stack.pop();
+        memory.setBit(Label_Lib.INTCON, Label_Lib.GIE);
+        prescaler.TMR.update();
         System.out.println("RETFIE");
     }
 
@@ -819,6 +830,7 @@ public class PIC {
         int k = instruction & Mask_Lib.LITERAL_MASK;
         writeInW(k);
         PC = stack.pop();
+        prescaler.TMR.update();
         System.out.println("RETLW");
     }
 
@@ -832,6 +844,7 @@ public class PIC {
      */
     private void instr_RETURN() {
         PC = stack.pop();
+        prescaler.TMR.update();
         System.out.println("RETURN");
     }
 
