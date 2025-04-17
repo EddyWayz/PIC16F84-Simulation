@@ -28,7 +28,7 @@ public class PIC {
 
     //special registers
     private int W;
-    private int PC;
+    //private int PC;
 
     //prescaler and timers in PS
     Prescaler prescaler;
@@ -38,7 +38,7 @@ public class PIC {
     public PIC(String path) {
         //INIT of special registers
         W = 0;
-        PC = 0;
+        //PC = 0;
 
         //INIT of stack
         stack = new Stack_PIC();
@@ -67,7 +67,7 @@ public class PIC {
         if(!sleep) {
             instruction = fetch();
             //PC increment
-            increment_PC();
+            memory.increment_PC();
             decode_n_execute();
         }
 
@@ -88,7 +88,7 @@ public class PIC {
      */
     private int fetch() {
         //get next instruction
-        instruction = program.get(PC);
+        instruction = program.get(memory.getPC());
         return instruction;
     }
 
@@ -347,7 +347,7 @@ public class PIC {
         value--;
         if(value < 0) {
             value = 255;
-            increment_PC();
+            memory.increment_PC();
             prescaler.TMR.update();
         }
         memory.check_n_manipulate_Z(value);
@@ -391,7 +391,7 @@ public class PIC {
         value++;
         if(value > 255) {
             value = 0;
-            increment_PC();
+            memory.increment_PC();
             prescaler.TMR.update();
         }
 
@@ -649,7 +649,7 @@ public class PIC {
         //skip if clear
         if(bit == 0) {
             prescaler.TMR.update();
-            increment_PC();
+            memory.increment_PC();
         }
 
         System.out.println("BTFSC");
@@ -670,7 +670,7 @@ public class PIC {
         int bit = BitOperator.getBit(value, pos);
         //skip if set
         if(bit == 1) {
-            increment_PC();
+            memory.increment_PC();
             prescaler.TMR.update();
         }
 
@@ -724,9 +724,12 @@ public class PIC {
      */
     private void instr_CALL() {
         int k11 = instruction & Mask_Lib.GOTO_CALL_MASK;
-        stack.push(PC);
-        pclath_3n4_ontoPC();
-        PC = PC | k11;
+        stack.push(memory.getPC());
+        memory.pclath_3n4_ontoPC();
+
+        int pc = memory.getPC();
+        pc = pc | k11;
+        memory.setPC(pc);
 
         // 2 cycle instruction
         prescaler.TMR.update();
@@ -767,8 +770,12 @@ public class PIC {
      */
     private void instr_GOTO() {
         int k11 = instruction & Mask_Lib.GOTO_CALL_MASK;
-        pclath_3n4_ontoPC();
-        PC = PC | k11;
+        memory.pclath_3n4_ontoPC();
+
+        int pc = memory.getPC();
+        pc = pc | k11;
+        memory.setPC(pc);
+
         prescaler.TMR.update();
         System.out.println("GOTO");
     }
@@ -811,7 +818,7 @@ public class PIC {
      * Status affected: None
      */
     private void instr_RETFIE() {
-        PC = stack.pop();
+        memory.setPC(stack.pop());
         memory.setBit(Label_Lib.INTCON, Label_Lib.GIE);
         prescaler.TMR.update();
         System.out.println("RETFIE");
@@ -829,7 +836,7 @@ public class PIC {
     private void instr_RETLW() {
         int k = instruction & Mask_Lib.LITERAL_MASK;
         writeInW(k);
-        PC = stack.pop();
+        memory.setPC(stack.pop());
         prescaler.TMR.update();
         System.out.println("RETLW");
     }
@@ -843,7 +850,7 @@ public class PIC {
      * Status affected: None
      */
     private void instr_RETURN() {
-        PC = stack.pop();
+        memory.setPC(stack.pop());
         prescaler.TMR.update();
         System.out.println("RETURN");
     }
@@ -922,28 +929,9 @@ public class PIC {
 
 
     //GENERAL METHODS FOR PC
-    /**
-     * increments the programm counter and writes the lower 8 Bit into the PCL register
-     */
-    private void increment_PC() {
-        PC++;
-        if(PC >= 1024) {
-            PC = 0;
-        }
-        int pcl_val = PC & Mask_Lib.LOWER8BIT_MASK;
-        memory.write(Label_Lib.PCL, pcl_val);
-    }
 
-    /**
-     * puts the 3rd and 4th bit of the pclath register at the 12th and 11th bit of the PC
-     */
-    private void pclath_3n4_ontoPC() {
-        // puts the third and fourth bit of pclath into the PC
-        int pclath = memory.read(Label_Lib.PCLATH);
-        pclath = pclath & Mask_Lib.PCLATH_3_4_MASK;
-        pclath = pclath << 8;
-        PC = pclath;
-    }
+
+
 
 
     //METHODS FOR MEMORY MANIPULATION
@@ -1015,7 +1003,7 @@ public class PIC {
      */
     private void wakeUp() {
         sleep = false;
-        increment_PC();
+        memory.increment_PC();
     }
 
     /**
@@ -1090,8 +1078,8 @@ public class PIC {
             if(GIE == 1) {
                 //interrupt CPU
                 memory.unsetBit(Label_Lib.INTCON, Label_Lib.GIE);
-                stack.push(PC);
-                PC = 0x0004;
+                stack.push(memory.getPC());
+                memory.setPC(0x0004);
             }
         }
 

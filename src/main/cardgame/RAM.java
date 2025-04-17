@@ -13,6 +13,8 @@ public class RAM implements Memory {
     // array of both banks
     Bank[] RAM;
 
+    private int PC;
+
     public RAM() {
         //create memory
         RAM = new Bank[2];
@@ -20,6 +22,39 @@ public class RAM implements Memory {
         bank1 = new Bank();
         RAM[0] = bank0;
         RAM[1] = bank1;
+
+        PC = 0;
+    }
+
+    public int getPC() {
+        return PC;
+    }
+
+    public void setPC(int value) {
+        PC = value;
+    }
+
+    /**
+     * increments the programm counter and writes the lower 8 Bit into the PCL register
+     */
+    public void increment_PC() {
+        PC++;
+        if(PC >= 1024) {
+            PC = 0;
+        }
+        int pcl_val = PC & Mask_Lib.LOWER8BIT_MASK;
+        write(Label_Lib.PCL, pcl_val);
+    }
+
+    /**
+     * puts the 3rd and 4th bit of the pclath register at the 12th and 11th bit of the PC
+     */
+    public void pclath_3n4_ontoPC() {
+        // puts the third and fourth bit of pclath into the PC
+        int pclath = read(Label_Lib.PCLATH);
+        pclath = pclath & Mask_Lib.PCLATH_3_4_MASK;
+        pclath = pclath << 8;
+        PC = pclath;
     }
 
     /**
