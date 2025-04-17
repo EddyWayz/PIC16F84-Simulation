@@ -14,27 +14,23 @@ public class ButtonsController implements Initializable {
     public Button btnRun;
     public Button btnStep;
     public Button btnStop;
+    private volatile boolean stopButtonPushed = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        // Beispielhafter Button-Zugriff
         if (btnRun != null) {
             btnRun.setOnAction(e -> {
                 if (TableLSTController.instance != null && MainController.pic != null) {
-                    // Starte einen neuen Thread, um den GUI-Thread nicht zu blockieren.
+                    stopButtonPushed = false; // sicherstellen, dass beim Start zurückgesetzt wird
+
                     new Thread(() -> {
                         boolean breakpointErreicht = false;
-                        while (!breakpointErreicht) {
-                            // Einen Step ausführen
+                        while (!breakpointErreicht && !stopButtonPushed) {
                             MainController.pic.step();
 
-                            // Aktualisiere die Tabelle in den JavaFX-Thread
                             Platform.runLater(this::refreshView);
 
-                            // Aktualisierte den aktuellen PC-Wert
                             String currentPC = MainController.pic.memory.convertPCLTo4BitsString();
-                            // Finde die Zeile mit dem entsprechenden PC
                             FileLineParser.DataRow currentRow = null;
                             ObservableList<FileLineParser.DataRow> rows = TableLSTController.instance.tableViewLST.getItems();
                             for (FileLineParser.DataRow row : rows) {
@@ -47,40 +43,34 @@ public class ButtonsController implements Initializable {
                                 breakpointErreicht = true;
                                 System.out.println("Breakpoint erreicht an PC: " + currentPC);
                             }
-                            // Kurze Pause einfügen, um z.B. eine hohe CPU-Last zu vermeiden
+
                             try {
                                 Thread.sleep(100);
                             } catch (InterruptedException ex) {
                                 ex.printStackTrace();
                             }
                         }
+
+                        // Optional: Wenn der Stopp durch Benutzer kam, etwas anzeigen
+                        if (stopButtonPushed) {
+                            System.out.println("Ausführung durch Stop-Button gestoppt.");
+                        }
                     }).start();
                 }
             });
-
-        } else {
-            System.out.println("btnRun wurde nicht gefunden!");
         }
 
-        // Zugriff auf den STEP-Button
         if (btnStep != null) {
             btnStep.setOnAction(e -> {
                 MainController.pic.step();
-                // Aktualisiere die Tabelle, indem du die statische Instanz verwendest
                 refreshView();
             });
-        } else {
-            System.out.println("btnStep wurde nicht gefunden!");
         }
 
-        // Zugriff auf den STOP-Button
         if (btnStop != null) {
             btnStop.setOnAction(e -> {
-                System.out.println("STOP Button wurde gedrückt!");
-                // Weitere Logik hier
+                stopButtonPushed = true;
             });
-        } else {
-            System.out.println("btnStop wurde nicht gefunden!");
         }
     }
 
@@ -88,8 +78,9 @@ public class ButtonsController implements Initializable {
         if (TableLSTController.instance != null) {
             TableLSTController.instance.refreshView();
         }
-        if (TableLSTController.instance != null) {
+        if (RAMTabsLSTController.instance != null) {
             RAMTabsLSTController.instance.refreshView();
         }
     }
 }
+
