@@ -12,7 +12,34 @@ public class MainController implements Initializable {
     private VBox ioPinsInclude;
 
     // Öffentliche statische Variable für den PIC
-    public static PIC pic;
+    private static PIC pic;
+
+    public static IO_PINS_Controller ioPinsController;  // Referenz setzen bei initialize()
+    public static TableLSTController tableLSTController;
+    public static RAMTabsLSTController ramTabsLSTController;
+    public static PIC getStaticPic() {
+        return pic;
+    }
+    public static void updatePIC(String newPath) {
+        pic = new PIC(newPath);
+        System.out.println("Neuer PIC geladen: " + newPath);
+
+        if (ioPinsController != null) {
+            ioPinsController.updatePIC(pic);
+        } else {
+            System.out.println("⚠ IO_PINS_Controller ist noch nicht initialisiert!");
+        }
+
+        if (tableLSTController != null) {
+            tableLSTController.reloadTable(newPath);
+        }
+
+        if(ramTabsLSTController != null){
+            ramTabsLSTController.updatePIC(pic);
+            System.out.println("Test");
+        }
+    }
+
 
     static {
         // Bestimme den Pfad abhängig vom Betriebssystem

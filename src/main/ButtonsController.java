@@ -20,17 +20,17 @@ public class ButtonsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         if (btnRun != null) {
             btnRun.setOnAction(e -> {
-                if (TableLSTController.instance != null && MainController.pic != null) {
+                if (TableLSTController.instance != null && MainController.getStaticPic() != null) {
                     stopButtonPushed = false; // sicherstellen, dass beim Start zurückgesetzt wird
 
                     new Thread(() -> {
                         boolean breakpointErreicht = false;
                         while (!breakpointErreicht && !stopButtonPushed) {
-                            MainController.pic.step();
+                            MainController.getStaticPic().step();
 
                             Platform.runLater(this::refreshView);
 
-                            String currentPC = MainController.pic.memory.convertPCLTo4BitsString();
+                            String currentPC = MainController.getStaticPic().memory.convertPCLTo4BitsString();
                             FileLineParser.DataRow currentRow = null;
                             ObservableList<FileLineParser.DataRow> rows = TableLSTController.instance.tableViewLST.getItems();
                             for (FileLineParser.DataRow row : rows) {
@@ -62,7 +62,7 @@ public class ButtonsController implements Initializable {
 
         if (btnStep != null) {
             btnStep.setOnAction(e -> {
-                MainController.pic.step();
+                MainController.getStaticPic().step();
                 refreshView();
             });
         }
@@ -79,7 +79,7 @@ public class ButtonsController implements Initializable {
             TableLSTController.instance.refreshView();
         }
         if (RAMTabsLSTController.instance != null) {
-            RAMTabsLSTController.instance.refreshView();
+            RAMTabsLSTController.instance.updatePIC(MainController.getStaticPic());
         }
     }
 }

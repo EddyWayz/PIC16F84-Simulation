@@ -78,7 +78,7 @@ public class TableLSTController implements Initializable {
                 getStyleClass().remove("highlight-row");
                 if (!empty && item != null) {
                     // Beispiel: Abruf des aktuellen Programmzählers aus einer anderen Klasse
-                    String currentPC = MainController.pic.memory.convertPCLTo4BitsString();
+                    String currentPC = MainController.getStaticPic().memory.convertPCLTo4BitsString();
                     if (item.getBlock1().equals(currentPC)) {
                         getStyleClass().add("highlight-row");
                     }
@@ -132,7 +132,7 @@ public class TableLSTController implements Initializable {
      *
      * @param path Pfad zur LST-Datei
      */
-    private void reloadTable(String path) {
+    void reloadTable(String path) {
         FileLineParser flParser = new FileLineParser(path);
         ArrayList<DataRow> dataRows = new ArrayList<>();
         try {
@@ -174,7 +174,7 @@ public class TableLSTController implements Initializable {
                 if (selectedFile != null) {
                     System.out.println("Ausgewählte Datei: " + selectedFile.getAbsolutePath());
                     // Neuinitialisieren des PIC mit der ausgewählten Datei
-                    MainController.pic = new PIC(selectedFile.getAbsolutePath());
+                    MainController.updatePIC(selectedFile.getAbsolutePath());
                     // Danach die Tabelle mit den neuen Daten aktualisieren
                     reloadTable(selectedFile.getAbsolutePath());
                 }
