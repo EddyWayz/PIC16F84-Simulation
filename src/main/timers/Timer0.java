@@ -2,6 +2,7 @@ package main.timers;
 
 import main.PIC;
 import main.libraries.Label_Lib;
+import main.libraries.register_libraries.INTCON_lib;
 
 public class Timer0 {
     PIC pic;
@@ -22,7 +23,7 @@ public class Timer0 {
         int TOSE = pic.memory.readBit_bank(Label_Lib.OPTION, 5, 1);
 
         //TMR0 is only active when the PIC is awake
-        if(pic.getSleep() == false) {
+        if(!pic.getSleep()) {
             if(TOCS == 1) {
                 if(TOSE == 0) {
                     //rising edge
@@ -38,7 +39,7 @@ public class Timer0 {
 
             int value = pic.memory.read_bank(Label_Lib.TMR0,0);
             if(value == 0) {
-                pic.memory.setBit(Label_Lib.INTCON, Label_Lib.T0IF);
+                pic.memory.setBit(Label_Lib.INTCON, INTCON_lib.T0IF);
             }
         }
 

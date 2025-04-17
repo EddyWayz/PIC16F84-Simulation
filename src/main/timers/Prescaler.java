@@ -2,6 +2,7 @@ package main.timers;
 
 import main.PIC;
 import main.libraries.Label_Lib;
+import main.libraries.register_libraries.OPTION_lib;
 
 public class Prescaler {
     PIC pic;
@@ -36,7 +37,7 @@ public class Prescaler {
      * updates the rates of the prescaler corresponding to the bit in the option register
      */
     public void update() {
-        int psa_updated = pic.memory.readBit_bank(Label_Lib.OPTION, Label_Lib.PSA, 1);
+        int psa_updated = pic.memory.readBit_bank(Label_Lib.OPTION, OPTION_lib.PSA, 1);
         if(psa_updated != PSA) {
             PSA = psa_updated;
             //prescaler changed to timer?
@@ -106,13 +107,15 @@ public class Prescaler {
      * @return the current rate that is selected
      */
     private int getPSA_Rate() {
-        int ps0 = pic.memory.readBit_bank(Label_Lib.OPTION, 0, 1);
-        int ps1 = pic.memory.readBit_bank(Label_Lib.OPTION, 1, 1);
-        int ps2 = pic.memory.readBit_bank(Label_Lib.OPTION, 2, 1);
+        int ps0 = pic.memory.readBit_bank(Label_Lib.OPTION, OPTION_lib.PS0, 1);
+        int ps1 = pic.memory.readBit_bank(Label_Lib.OPTION, OPTION_lib.PS1, 1);
+        int ps2 = pic.memory.readBit_bank(Label_Lib.OPTION, OPTION_lib.PS2, 1);
 
+        //shifting Prescaler bits
         ps1 = ps1 << 1;
         ps2 = ps2 << 2;
 
+        //combine all three bits
         return (ps0 | ps1 | ps2);
     }
 

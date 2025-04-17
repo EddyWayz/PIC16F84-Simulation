@@ -1,7 +1,9 @@
 package main.libraries.register_libraries;
 
+/**
+ * labels for the bits of the INTCON register
+ */
 public class INTCON_lib {
-    //bits of the INTCON Register
     //PortB (RB7:RB4) change interrupt flag
     public static final int RBIF = 0;
     //External Interrupt RB0/INT pin
@@ -18,6 +20,5 @@ public class INTCON_lib {
     public static final int EEIE = 6;
     //Global Interrupt enable bit
     public static final int GIE = 7;
-
 
 }

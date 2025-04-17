@@ -1,6 +1,7 @@
 package main;
 
 import main.libraries.Label_Lib;
+import main.libraries.register_libraries.STATUS_lib;
 
 /**
  * class to test backend functions
@@ -27,9 +28,9 @@ public class TestForBackend {
             System.out.println("W: " + Integer.toHexString(pic.getW()));
             System.out.println("Wert1: " + Integer.toHexString(pic.memory.read(0xC)) + " ");
             System.out.println("Wert2: " + Integer.toHexString(pic.memory.read(0xD)) + " ");
-            System.out.print("C: " + pic.memory.readBit(Label_Lib.STATUS, Label_Lib.carry) + " ");
-            System.out.print("DC: " + pic.memory.readBit(Label_Lib.STATUS, Label_Lib.digitcarry) + " ");
-            System.out.println("Z: " + pic.memory.readBit(Label_Lib.STATUS, Label_Lib.zeroflag) + " \n");
+            System.out.print("C: " + pic.memory.readBit(Label_Lib.STATUS, STATUS_lib.carry) + " ");
+            System.out.print("DC: " + pic.memory.readBit(Label_Lib.STATUS, STATUS_lib.digitcarry) + " ");
+            System.out.println("Z: " + pic.memory.readBit(Label_Lib.STATUS, STATUS_lib.zeroflag) + " \n");
         }
 
     }

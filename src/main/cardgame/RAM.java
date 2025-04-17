@@ -1,6 +1,7 @@
 package main.cardgame;
 
 import main.exceptions.MirroringErrorException;
+import main.libraries.register_libraries.STATUS_lib;
 import main.tools.BitOperator;
 import main.libraries.Label_Lib;
 import main.libraries.Mask_Lib;
@@ -117,54 +118,54 @@ public class RAM implements Memory {
      * SETS the zeroflag in status register
      */
     public void set_Z() {
-        setBit(Label_Lib.STATUS, Label_Lib.zeroflag);
+        setBit(Label_Lib.STATUS, STATUS_lib.zeroflag);
     }
 
     /**
      * UNSETS the zeroflag in the status register
      */
     public void unset_Z() {
-        unsetBit(Label_Lib.STATUS, Label_Lib.zeroflag);
+        unsetBit(Label_Lib.STATUS, STATUS_lib.zeroflag);
     }
 
     public int get_Z() {
-        return getBit(Label_Lib.STATUS, Label_Lib.zeroflag);
+        return getBit(Label_Lib.STATUS, STATUS_lib.zeroflag);
     }
 
     /**
      * SETS the rp0 bit in status register
      */
     public void set_RP0() {
-        setBit(Label_Lib.STATUS, Label_Lib.rp0);
+        setBit(Label_Lib.STATUS, STATUS_lib.rp0);
     }
 
     /**
      * UNSETS the rp0 bit in the status register
      */
     public void unset_RP0() {
-        unsetBit(Label_Lib.STATUS, Label_Lib.rp0);
+        unsetBit(Label_Lib.STATUS, STATUS_lib.rp0);
     }
 
     public int get_RP0() {
-        return getBit(Label_Lib.STATUS, Label_Lib.rp0);
+        return getBit(Label_Lib.STATUS, STATUS_lib.rp0);
     }
 
     /**
      * SETS the carry flag in status register
      */
     public void set_C() {
-        setBit(Label_Lib.STATUS, Label_Lib.carry);
+        setBit(Label_Lib.STATUS, STATUS_lib.carry);
     }
 
     /**
      * UNSETS the carry flag in status register
      */
     public void unset_C() {
-        unsetBit(Label_Lib.STATUS, Label_Lib.carry);
+        unsetBit(Label_Lib.STATUS, STATUS_lib.carry);
     }
 
     public int get_C() {
-        return getBit(Label_Lib.STATUS, Label_Lib.carry);
+        return getBit(Label_Lib.STATUS, STATUS_lib.carry);
     }
 
 
@@ -172,18 +173,18 @@ public class RAM implements Memory {
      * SETS the digit carry in status register
      */
     public void set_DC() {
-        setBit(Label_Lib.STATUS, Label_Lib.digitcarry);
+        setBit(Label_Lib.STATUS, STATUS_lib.digitcarry);
     }
 
     /**
      * UNSETS the digit carry in status register
      */
     public void unset_DC() {
-        unsetBit(Label_Lib.STATUS, Label_Lib.digitcarry);
+        unsetBit(Label_Lib.STATUS, STATUS_lib.digitcarry);
     }
 
     public int get_DC() {
-        return getBit(Label_Lib.STATUS, Label_Lib.digitcarry);
+        return getBit(Label_Lib.STATUS, STATUS_lib.digitcarry);
     }
 
     /**
@@ -348,8 +349,8 @@ public class RAM implements Memory {
      * @return value of rp0 bit
      */
     public int getRP0() {
-        int first = bank0.readBit(Label_Lib.STATUS, Label_Lib.rp0);
-        int second = bank1.readBit(Label_Lib.STATUS, Label_Lib.rp0);
+        int first = bank0.readBit(Label_Lib.STATUS, STATUS_lib.rp0);
+        int second = bank1.readBit(Label_Lib.STATUS, STATUS_lib.rp0);
         if (first == second) {
             return first;
         } else {

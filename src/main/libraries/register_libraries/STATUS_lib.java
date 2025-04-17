@@ -1,5 +1,8 @@
 package main.libraries.register_libraries;
 
+/**
+ * labels for the bits of the STATUS register
+ */
 public class STATUS_lib {
     //bits of the Status register
     public static final int carry = 0;

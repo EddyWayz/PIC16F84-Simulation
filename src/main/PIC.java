@@ -2,6 +2,9 @@ package main;
 
 import main.cardgame.RAM;
 
+import main.libraries.register_libraries.EECON1_lib;
+import main.libraries.register_libraries.INTCON_lib;
+import main.libraries.register_libraries.STATUS_lib;
 import main.timers.Prescaler;
 import main.tools.BitOperator;
 import main.libraries.Instr_Lib;
@@ -754,10 +757,10 @@ public class PIC {
         prescaler.clearPS_WDT();
 
         //!PD Bit
-        memory.setBit(Label_Lib.STATUS, Label_Lib.powerdown);
+        memory.setBit(Label_Lib.STATUS, STATUS_lib.powerdown);
 
         //!TO Bit
-        memory.setBit(Label_Lib.STATUS, Label_Lib.timeout);
+        memory.setBit(Label_Lib.STATUS, STATUS_lib.timeout);
 
         System.out.println("CLRWDT");
     }
@@ -822,7 +825,7 @@ public class PIC {
      */
     private void instr_RETFIE() {
         memory.setPC(stack.pop());
-        memory.setBit(Label_Lib.INTCON, Label_Lib.GIE);
+        memory.setBit(Label_Lib.INTCON, INTCON_lib.GIE);
         prescaler.TMR.update();
         System.out.println("RETFIE");
     }
@@ -870,10 +873,10 @@ public class PIC {
      */
     private void instr_SLEEP() {
         //clear PD bit
-        memory.unsetBit(Label_Lib.STATUS, Label_Lib.powerdown);
+        memory.unsetBit(Label_Lib.STATUS, STATUS_lib.powerdown);
 
         //set Time out bi
-        memory.setBit(Label_Lib.STATUS, Label_Lib.timeout);
+        memory.setBit(Label_Lib.STATUS, STATUS_lib.timeout);
 
         //clear prescaler and WDT
         prescaler.clear();
@@ -986,8 +989,8 @@ public class PIC {
      */
     public void wakeUp_WDT() {
         wakeUp();
-        memory.unsetBit(Label_Lib.STATUS, Label_Lib.powerdown);
-        memory.unsetBit(Label_Lib.STATUS, Label_Lib.timeout);
+        memory.unsetBit(Label_Lib.STATUS, STATUS_lib.powerdown);
+        memory.unsetBit(Label_Lib.STATUS, STATUS_lib.timeout);
     }
 
     /**
@@ -995,8 +998,8 @@ public class PIC {
      */
     public void wakeUp_Interrupt() {
         wakeUp();
-        memory.unsetBit(Label_Lib.STATUS, Label_Lib.powerdown);
-        memory.setBit(Label_Lib.STATUS, Label_Lib.timeout);
+        memory.unsetBit(Label_Lib.STATUS, STATUS_lib.powerdown);
+        memory.setBit(Label_Lib.STATUS, STATUS_lib.timeout);
     }
 
     /**
@@ -1012,8 +1015,8 @@ public class PIC {
      */
     public void reset_WDT() {
         reset();
-        memory.setBit(Label_Lib.STATUS, Label_Lib.powerdown);
-        memory.unsetBit(Label_Lib.STATUS, Label_Lib.timeout);
+        memory.setBit(Label_Lib.STATUS, STATUS_lib.powerdown);
+        memory.unsetBit(Label_Lib.STATUS, STATUS_lib.timeout);
     }
 
     /**
@@ -1024,8 +1027,8 @@ public class PIC {
         //if MCLR Button pressed
         reset();
         if (sleep) {
-            memory.unsetBit(Label_Lib.STATUS, Label_Lib.powerdown);
-            memory.setBit(Label_Lib.STATUS, Label_Lib.timeout);
+            memory.unsetBit(Label_Lib.STATUS, STATUS_lib.powerdown);
+            memory.setBit(Label_Lib.STATUS, STATUS_lib.timeout);
         }
     }
 
@@ -1073,12 +1076,12 @@ public class PIC {
         boolean rbChange_int = check_RB_Interrupt();
         boolean eeprom_int = check_EEPROM_Interrupt();
 
-        int GIE = memory.readBit(Label_Lib.INTCON, Label_Lib.GIE);
+        int GIE = memory.readBit(Label_Lib.INTCON, INTCON_lib.GIE);
         if (tmr0_int || rb0_int || rbChange_int || eeprom_int) {
             wakeUp_Interrupt();
             if (GIE == 1) {
                 //interrupt CPU
-                memory.unsetBit(Label_Lib.INTCON, Label_Lib.GIE);
+                memory.unsetBit(Label_Lib.INTCON, INTCON_lib.GIE);
                 stack.push(memory.getPC());
                 memory.setPC(0x0004);
             }
@@ -1092,8 +1095,8 @@ public class PIC {
      * @return true if both are set
      */
     private boolean check_TMR0_Interrupt() {
-        int t0if = memory.readBit(Label_Lib.INTCON, Label_Lib.T0IF);
-        int t0ie = memory.readBit(Label_Lib.INTCON, Label_Lib.T0IE);
+        int t0if = memory.readBit(Label_Lib.INTCON, INTCON_lib.T0IF);
+        int t0ie = memory.readBit(Label_Lib.INTCON, INTCON_lib.T0IE);
         return (t0if == 1) && (t0ie == 1);
     }
 
@@ -1103,8 +1106,8 @@ public class PIC {
      * @return true if both are set
      */
     private boolean check_INT_Interrupt() {
-        int intf = memory.readBit(Label_Lib.INTCON, Label_Lib.INTF);
-        int inte = memory.readBit(Label_Lib.INTCON, Label_Lib.INTE);
+        int intf = memory.readBit(Label_Lib.INTCON, INTCON_lib.INTF);
+        int inte = memory.readBit(Label_Lib.INTCON, INTCON_lib.INTE);
         return (intf == 1) && (inte == 1);
     }
 
@@ -1114,8 +1117,8 @@ public class PIC {
      * @return true if both are set
      */
     private boolean check_RB_Interrupt() {
-        int rbif = memory.readBit(Label_Lib.INTCON, Label_Lib.RBIF);
-        int rbie = memory.readBit(Label_Lib.INTCON, Label_Lib.RBIE);
+        int rbif = memory.readBit(Label_Lib.INTCON, INTCON_lib.RBIF);
+        int rbie = memory.readBit(Label_Lib.INTCON, INTCON_lib.RBIE);
         return (rbif == 1) && (rbie == 1);
     }
 
@@ -1125,8 +1128,8 @@ public class PIC {
      * @return true if both are set
      */
     private boolean check_EEPROM_Interrupt() {
-        int eeif = memory.readBit(Label_Lib.INTCON, Label_Lib.EEIF);
-        int eeie = memory.readBit(Label_Lib.INTCON, Label_Lib.EEIE);
+        int eeif = memory.readBit(Label_Lib.INTCON, EECON1_lib.EEIF);
+        int eeie = memory.readBit(Label_Lib.INTCON, INTCON_lib.EEIE);
         return (eeif == 1) && (eeie == 1);
     }
 
