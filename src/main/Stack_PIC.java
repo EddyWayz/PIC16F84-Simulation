@@ -48,4 +48,13 @@ public class Stack_PIC {
         }
     }
 
+    /**
+     * getter method for a value of the stack
+     * @param index of an elem in the stack
+     * @return integer of the index
+     */
+    public int getVal(int index) {
+        return stack[index];
+    }
+
 }
