@@ -70,7 +70,7 @@ public class PIC {
         decode_n_execute();
 
         //update timers and prescaler
-        //prescaler.update();
+        prescaler.update();
 
         //checks for interrupts and possible wake-ups
         checkForInterrupts();

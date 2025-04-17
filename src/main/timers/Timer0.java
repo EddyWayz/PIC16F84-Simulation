@@ -19,7 +19,7 @@ public class Timer0 {
         //Timer0 Counter Selection Bit
         int TOCS = pic.memory.readBit_bank(Label_Lib.OPTION, 5, 1);
         //Timer0 Selection Edge Bit
-        int TOSE = pic.memory.readBit_bank(Label_Lib.OPTION, 5, 4);
+        int TOSE = pic.memory.readBit_bank(Label_Lib.OPTION, 5, 1);
 
         if(TOCS == 1) {
             if(TOSE == 0) {
