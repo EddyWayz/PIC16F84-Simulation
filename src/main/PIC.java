@@ -4,9 +4,9 @@ import main.cardgame.RAM;
 
 import main.timers.Prescaler;
 import main.tools.BitOperator;
-import main.tools.Instr_Lib;
-import main.tools.Label_Lib;
-import main.tools.Mask_Lib;
+import main.libraries.Instr_Lib;
+import main.libraries.Label_Lib;
+import main.libraries.Mask_Lib;
 
 
 import java.util.ArrayList;

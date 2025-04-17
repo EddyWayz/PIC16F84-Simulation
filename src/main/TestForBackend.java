@@ -1,11 +1,6 @@
 package main;
 
-import main.tools.In;
-import main.tools.Label_Lib;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
+import main.libraries.Label_Lib;
 
 /**
  * class to test backend functions

@@ -2,8 +2,8 @@ package main.cardgame;
 
 import main.exceptions.MirroringErrorException;
 import main.tools.BitOperator;
-import main.tools.Label_Lib;
-import main.tools.Mask_Lib;
+import main.libraries.Label_Lib;
+import main.libraries.Mask_Lib;
 
 
 public class RAM implements Memory {

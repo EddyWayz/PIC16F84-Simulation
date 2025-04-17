@@ -1,4 +1,4 @@
-package main.tools;
+package main.libraries;
 
 public class Mask_Lib {
     // mask to delete all upper bits (except first 8)

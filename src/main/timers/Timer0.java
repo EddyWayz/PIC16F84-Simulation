@@ -1,7 +1,7 @@
 package main.timers;
 
 import main.PIC;
-import main.tools.Label_Lib;
+import main.libraries.Label_Lib;
 
 public class Timer0 {
     PIC pic;

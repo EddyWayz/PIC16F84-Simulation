@@ -1,4 +1,4 @@
-package main.tools;
+package main.libraries;
 
 /**
  * class as a library for commonly used register addresses can be imported

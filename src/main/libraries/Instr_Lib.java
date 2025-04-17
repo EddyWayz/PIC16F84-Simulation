@@ -1,4 +1,4 @@
-package main.tools;
+package main.libraries;
 
 /**
  * class to hold all masks for each instruction of the PIC
