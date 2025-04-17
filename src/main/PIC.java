@@ -34,7 +34,6 @@ public class PIC {
     Prescaler prescaler;
 
 
-
     public PIC(String path) {
         //INIT of special registers
         W = 0;
@@ -64,7 +63,7 @@ public class PIC {
      * simunlates one line of assembly code
      */
     public void step() {
-        if(!sleep) {
+        if (!sleep) {
             instruction = fetch();
             //PC increment
             memory.increment_PC();
@@ -84,6 +83,7 @@ public class PIC {
     /**
      * fetches the next instruction from the program at index of the program counter
      * increments the PC
+     *
      * @return the current instrcution that will be executed
      */
     private int fetch() {
@@ -97,7 +97,7 @@ public class PIC {
      */
     private void decode_n_execute() {
         //fetch special instruction with 14 bit code
-        switch(instruction) {
+        switch (instruction) {
             case Instr_Lib.NOP:
                 instr_NOP();
                 break;
@@ -117,7 +117,7 @@ public class PIC {
 
         //7 BIT INSTRUCTIONS
         int maskedInstr_7bit = instruction & 0x3F80;
-        switch(maskedInstr_7bit) {
+        switch (maskedInstr_7bit) {
             case Instr_Lib.CLRF:
                 instr_CLRF();
                 break;
@@ -131,7 +131,7 @@ public class PIC {
 
         //6 BIT INSTRUCTIONS (Table order without instructions above)
         int maskedInstr_6bit = instruction & 0x3F00;
-        switch(maskedInstr_6bit) {
+        switch (maskedInstr_6bit) {
             case Instr_Lib.ADDWF:
                 instr_ADDWF();
                 break;
@@ -221,6 +221,7 @@ public class PIC {
     }
 
     //BYTE-ORIENTED FILE REGISTER OPERATIONS
+
     /**
      * Add W and f
      * Add the contents of the W register with the contents of register f.
@@ -321,7 +322,7 @@ public class PIC {
 
         int value = memory.read_indirect(address, indirect);
         value--;
-        if(value < 0) {
+        if (value < 0) {
             value = 255;
         }
         memory.check_n_manipulate_Z(value);
@@ -345,7 +346,7 @@ public class PIC {
 
         int value = memory.read_indirect(address, indirect);
         value--;
-        if(value < 0) {
+        if (value < 0) {
             value = 255;
             memory.increment_PC();
             prescaler.TMR.update();
@@ -368,7 +369,7 @@ public class PIC {
 
         int value = memory.read_indirect(address, indirect);
         value++;
-        if(value > 255) {
+        if (value > 255) {
             value = 0;
         }
         memory.check_n_manipulate_Z(value);
@@ -389,7 +390,7 @@ public class PIC {
 
         int value = memory.read_indirect(address, indirect);
         value++;
-        if(value > 255) {
+        if (value > 255) {
             value = 0;
             memory.increment_PC();
             prescaler.TMR.update();
@@ -471,12 +472,12 @@ public class PIC {
         //left shift of one bit
         value = value << 1;
         //manipulate first bit corresponding to carry flag
-        if(carry == 1) {
+        if (carry == 1) {
             value = BitOperator.setBit(value, 0);
         }
 
         //manipulate carry corresponding to MSb
-        if(bit7 == 0) {
+        if (bit7 == 0) {
             memory.unset_C();
         } else {
             memory.set_C();
@@ -503,12 +504,12 @@ public class PIC {
         //right shift of one bit
         value = value >> 1;
         //manipulate MSb corresponding to carry flag
-        if(carry == 1) {
+        if (carry == 1) {
             value = BitOperator.setBit(value, 7);
         }
 
         //manipulate carry corresponding to LSb
-        if(bit0 == 0) {
+        if (bit0 == 0) {
             memory.unset_C();
         } else {
             memory.set_C();
@@ -532,7 +533,7 @@ public class PIC {
         int result = value - W;
 
         memory.check_n_manipulate_Z(result);
-        if(result >= 0) { // 0 or positive
+        if (result >= 0) { // 0 or positive
             memory.set_C();
         } else { // negative
             //redundant because it will be masked later again
@@ -546,7 +547,7 @@ public class PIC {
         int val_nibble = value & Mask_Lib.NIBBLE_MASK;
 
         //set digit carry reversed
-        if((val_nibble + w_nibble) + 1 > Mask_Lib.NIBBLE_MASK) {
+        if ((val_nibble + w_nibble) + 1 > Mask_Lib.NIBBLE_MASK) {
             memory.set_DC();
         } else {
             memory.unset_DC();
@@ -599,6 +600,7 @@ public class PIC {
     }
 
     //BIT-ORIENTED FILE REGISTER OPERATIONS
+
     /**
      * Bit Clear f
      * Bit ’b’ in register ’f’ is cleared
@@ -647,7 +649,7 @@ public class PIC {
 
         int bit = BitOperator.getBit(value, pos);
         //skip if clear
-        if(bit == 0) {
+        if (bit == 0) {
             prescaler.TMR.update();
             memory.increment_PC();
         }
@@ -669,7 +671,7 @@ public class PIC {
 
         int bit = BitOperator.getBit(value, pos);
         //skip if set
-        if(bit == 1) {
+        if (bit == 1) {
             memory.increment_PC();
             prescaler.TMR.update();
         }
@@ -678,6 +680,7 @@ public class PIC {
     }
 
     //LITERAL AND CONTROL OPERATIONS
+
     /**
      * Add literal and W
      * The contents of the W register are
@@ -893,7 +896,7 @@ public class PIC {
         int result = k - W;
         // setting of carry flag is inverted due to a hardware error
         // page 16
-        if(result > 0) {
+        if (result > 0) {
             memory.set_C();
         } else {
             memory.unset_C();
@@ -902,7 +905,7 @@ public class PIC {
         // setting of digit carry flag is inverted due to a hardware error
         int nibbleK = k & Mask_Lib.NIBBLE_MASK;
         int nibbleW = W & Mask_Lib.NIBBLE_MASK;
-        if((nibbleK - nibbleW) > 0) {
+        if ((nibbleK - nibbleW) > 0) {
             memory.unset_DC();
         } else {
             memory.set_DC();
@@ -931,10 +934,8 @@ public class PIC {
     //GENERAL METHODS FOR PC
 
 
-
-
-
     //METHODS FOR MEMORY MANIPULATION
+
     /**
      * overloaded method: writes in the memory depending on the destination bit with an indirect address possible
      *
@@ -943,10 +944,10 @@ public class PIC {
      */
     private void writeInMemoryDestinationBit_indirect(int address, int value, boolean indirect) {
         int destination = BitOperator.getBit(instruction, 7);
-        if(destination == 0) {
+        if (destination == 0) {
             writeInW(value);
         } else {
-            if(indirect) {
+            if (indirect) {
                 memory.write_indirect(address, value);
             } else {
                 memory.write(address, value);
@@ -956,6 +957,7 @@ public class PIC {
 
     /**
      * writes the given value into the W register after masking it
+     *
      * @param value that will be written in W
      */
     private void writeInW(int value) {
@@ -965,17 +967,16 @@ public class PIC {
     /**
      * checks if an indirect address has been used. If so the new address will be stored in the global variable address
      * and the boolean variable will be true
+     *
      * @param instruction of the current cycle
      */
     private void computeAddress(int instruction) {
         address = instruction & Mask_Lib.ADDRESS_MASK;
         indirect = (address == 0);
-        if(address == 0) {
+        if (address == 0) {
             address = memory.read(Label_Lib.FSR);
         }
     }
-
-
 
 
     //WAKE UP AND INTERRUPT METHODS
@@ -1022,7 +1023,7 @@ public class PIC {
         //TODO: Button in der GUI Eddy
         //if MCLR Button pressed
         reset();
-        if(sleep) {
+        if (sleep) {
             memory.unsetBit(Label_Lib.STATUS, Label_Lib.powerdown);
             memory.setBit(Label_Lib.STATUS, Label_Lib.timeout);
         }
@@ -1073,9 +1074,9 @@ public class PIC {
         boolean eeprom_int = check_EEPROM_Interrupt();
 
         int GIE = memory.readBit(Label_Lib.INTCON, Label_Lib.GIE);
-        if(tmr0_int || rb0_int || rbChange_int || eeprom_int) {
+        if (tmr0_int || rb0_int || rbChange_int || eeprom_int) {
             wakeUp_Interrupt();
-            if(GIE == 1) {
+            if (GIE == 1) {
                 //interrupt CPU
                 memory.unsetBit(Label_Lib.INTCON, Label_Lib.GIE);
                 stack.push(memory.getPC());
@@ -1087,6 +1088,7 @@ public class PIC {
 
     /**
      * checks if the timer0 interrupt flag has been set and the enable bit
+     *
      * @return true if both are set
      */
     private boolean check_TMR0_Interrupt() {
@@ -1097,6 +1099,7 @@ public class PIC {
 
     /**
      * checks if the INT / External RB0 interrupt and the corresponding flag is set
+     *
      * @return true if both are set
      */
     private boolean check_INT_Interrupt() {
@@ -1107,6 +1110,7 @@ public class PIC {
 
     /**
      * checks if the PortB interrupt and the corresponding flag is set
+     *
      * @return true if both are set
      */
     private boolean check_RB_Interrupt() {
@@ -1117,6 +1121,7 @@ public class PIC {
 
     /**
      * checks if the EEPROM interrupt and the corresponding flag is set
+     *
      * @return true if both are set
      */
     private boolean check_EEPROM_Interrupt() {
