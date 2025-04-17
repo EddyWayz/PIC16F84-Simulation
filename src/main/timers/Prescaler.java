@@ -5,8 +5,8 @@ import main.tools.Label_Lib;
 
 public class Prescaler {
     PIC pic;
-    Timer0 TMR;
-    WatchdogTMR WDT;
+    public Timer0 TMR;
+    public WatchdogTMR WDT;
 
     //Prescaler Counter
     private int psCounter;
@@ -86,9 +86,18 @@ public class Prescaler {
     }
 
     /**
-     * clears the current counter of the prescaler
+     * clears the current counter of the prescaler for the WDT
      */
-    public void clearPS() {
+    public void clearPS_WDT() {
+        if(PSA == PSA_WDT) {
+            psCounter = 0;
+        }
+    }
+
+    /**
+     * clears the prescaler value
+     */
+    public void clear() {
         psCounter = 0;
     }
 

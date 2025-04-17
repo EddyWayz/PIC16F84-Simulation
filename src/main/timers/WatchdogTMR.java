@@ -40,4 +40,8 @@ public class WatchdogTMR {
         counter++;
     }
 
+    public void clear() {
+        counter = 0;
+    }
+
 }

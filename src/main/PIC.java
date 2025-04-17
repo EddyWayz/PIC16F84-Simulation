@@ -64,10 +64,12 @@ public class PIC {
      * simunlates one line of assembly code
      */
     public void step() {
-        instruction = fetch();
-        //PC increment
-        increment_PC();
-        decode_n_execute();
+        if(!sleep) {
+            instruction = fetch();
+            //PC increment
+            increment_PC();
+            decode_n_execute();
+        }
 
         //update timers and prescaler
         prescaler.update();
@@ -75,7 +77,8 @@ public class PIC {
         //checks for interrupts and possible wake-ups
         checkForInterrupts();
 
-
+        //check for Master Clear
+        checkMCLR();
 
         //TODO: update IO Pins
     }
@@ -733,6 +736,17 @@ public class PIC {
      * Status affected: !TO, !PD (also so ein Dach Strich drauf)
      */
     private void instr_CLRWDT() {
+        //clear WDT
+        prescaler.WDT.clear();
+        //clear Prescaler of WDT
+        prescaler.clearPS_WDT();
+
+        //!PD Bit
+        memory.setBit(Label_Lib.STATUS, Label_Lib.powerdown);
+
+        //!TO Bit
+        memory.setBit(Label_Lib.STATUS, Label_Lib.timeout);
+
         System.out.println("CLRWDT");
     }
 
@@ -790,6 +804,7 @@ public class PIC {
      * Status affected: None
      */
     private void instr_RETFIE() {
+        //TODO
         System.out.println("RETFIE");
     }
 
@@ -833,6 +848,19 @@ public class PIC {
      * Status affected: !TO, !PD
      */
     private void instr_SLEEP() {
+        //clear PD bit
+        memory.unsetBit(Label_Lib.STATUS, Label_Lib.powerdown);
+
+        //set Time out bi
+        memory.setBit(Label_Lib.STATUS, Label_Lib.timeout);
+
+        //clear prescaler and WDT
+        prescaler.clear();
+        prescaler.WDT.clear();
+
+        //set PIC into sleep mode
+        sleep = true;
+
         System.out.println("SLEEP");
     }
 
@@ -955,14 +983,64 @@ public class PIC {
     }
 
     public void wakeUp_WDT() {
+        wakeUp();
 
     }
 
     public void wakeUp_Interrupt() {
+        //PD auf 1 gesetzt
+        wakeUp();
+    }
 
+    private void wakeUp() {
+        sleep = false;
     }
 
     public void reset_WDT() {
+
+
+
+
+    }
+
+    private void reset() {
+        //clear PCL
+        memory.write(Label_Lib.PCL, 0);
+        //reset OPTION register
+        memory.write_bank(Label_Lib.OPTION, 0b1111_1111, 1);
+
+        //reset Status to 000q quuu (q = depending if WDT or MCLR reset)
+        int status = memory.read(Label_Lib.STATUS);
+        status = status & 0b0001_1111;
+        memory.write(Label_Lib.STATUS, status);
+
+        //reset TRIS registers
+        memory.write_bank(Label_Lib.TRISA, 0b1111_1111, 1);
+        memory.write_bank(Label_Lib.TRISB, 0b1111_1111, 1);
+
+        //reset EECON1
+        int eecon1 = memory.read_bank(8, 1);
+        eecon1 = eecon1 & 0b1110_1000;
+        memory.write_bank(8, eecon1, 1);
+
+        //clear PCLATH
+        memory.write(Label_Lib.PCLATH, 0);
+
+        //reset intcon register
+        int intcon = memory.read(Label_Lib.INTCON);
+        intcon = intcon & 0b0000_0001;
+        memory.write(Label_Lib.INTCON, intcon);
+
+    }
+
+    public void checkMCLR() {
+        //check if Master clear Bit is set
+        //--> Master Clear
+        //TODO: Button in der GUI Eddy
+
+
+
+
 
     }
 

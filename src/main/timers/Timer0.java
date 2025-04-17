@@ -21,23 +21,27 @@ public class Timer0 {
         //Timer0 Selection Edge Bit
         int TOSE = pic.memory.readBit_bank(Label_Lib.OPTION, 5, 1);
 
-        if(TOCS == 1) {
-            if(TOSE == 0) {
-                //rising edge
-                //TODO: Eddy connection to IO Pins
+        //TMR0 is only active when the PIC is awake
+        if(pic.getSleep() == false) {
+            if(TOCS == 1) {
+                if(TOSE == 0) {
+                    //rising edge
+                    //TODO: Eddy connection to IO Pins
+                } else {
+                    //falling edge
+                    //TODO: Eddy connection to IO Pins
+                }
             } else {
-                //falling edge
-                //TODO: Eddy connection to IO Pins
+                //Timer Mode
+                ps.impulsFromTMR();
             }
-        } else {
-            //Timer Mode
-            ps.impulsFromTMR();
+
+            int value = pic.memory.read_bank(Label_Lib.TMR0,0);
+            if(value == 0) {
+                pic.memory.setBit(Label_Lib.INTCON, Label_Lib.T0IF);
+            }
         }
 
-        int value = pic.memory.read_bank(Label_Lib.TMR0,0);
-        if(value == 0) {
-            pic.memory.setBit(Label_Lib.INTCON, Label_Lib.T0IF);
-        }
     }
 
     /**
