@@ -112,27 +112,6 @@ public class RAM implements Memory {
 
 
     /**
-     * checks if an address is 0 and the instruction will use an indirect addressing
-     * @param instruction of current cycle
-     * @return correct address
-     */
-    public int getIndirectAddress(int instruction) {
-        // reads the address of the FSR register -> indirect addressing
-        int address  = instruction & Mask_Lib.ADDRESS_MASK;
-        return address == 0 ? read(Label_Lib.FSR) : address;
-    }
-
-    /**
-     * checks if an address is 0
-     * @param address of a register
-     * @return true if address is 0
-     */
-    public boolean check_indirectAddressing(int address) {
-        String tmp = Integer.toBinaryString(address);
-        return tmp.length() == 8;
-    }
-
-    /**
      * SETS the zeroflag in status register
      */
     public void set_Z() {
