@@ -77,8 +77,6 @@ public class PIC {
         //checks for interrupts and possible wake-ups
         checkForInterrupts();
 
-        //check for Master Clear
-        checkMCLR();
 
         //TODO: update IO Pins
     }
@@ -910,7 +908,7 @@ public class PIC {
     }
 
 
-    //GENERAL METHODS
+    //GENERAL METHODS FOR PC
     /**
      * increments the programm counter and writes the lower 8 Bit into the PCL register
      */
@@ -934,6 +932,8 @@ public class PIC {
         PC = pclath;
     }
 
+
+    //METHODS FOR MEMORY MANIPULATION
     /**
      * overloaded method: writes in the memory depending on the destination bit with an indirect address possible
      *
@@ -961,10 +961,6 @@ public class PIC {
         W = value & Mask_Lib.LOWER8BIT_MASK;
     }
 
-    public int getW() {
-        return W;
-    }
-
     /**
      * checks if an indirect address has been used. If so the new address will be stored in the global variable address
      * and the boolean variable will be true
@@ -978,31 +974,62 @@ public class PIC {
         }
     }
 
-    public boolean getSleep() {
-        return sleep;
-    }
 
+
+
+    //WAKE UP AND INTERRUPT METHODS
+
+    /**
+     * Wake Up that will be triggered from the WDT
+     */
     public void wakeUp_WDT() {
         wakeUp();
-
+        memory.unsetBit(Label_Lib.STATUS, Label_Lib.powerdown);
+        memory.unsetBit(Label_Lib.STATUS, Label_Lib.timeout);
     }
 
+    /**
+     * Wake Up that will be triggered from an Interrupt without GIE set
+     */
     public void wakeUp_Interrupt() {
-        //PD auf 1 gesetzt
         wakeUp();
+        memory.unsetBit(Label_Lib.STATUS, Label_Lib.powerdown);
+        memory.setBit(Label_Lib.STATUS, Label_Lib.timeout);
     }
 
+    /**
+     * general Method for of things in both kind of Wake-Ups
+     */
     private void wakeUp() {
         sleep = false;
+        increment_PC();
     }
 
+    /**
+     * reset that the WDT will trigger
+     */
     public void reset_WDT() {
-
-
-
-
+        reset();
+        memory.setBit(Label_Lib.STATUS, Label_Lib.powerdown);
+        memory.unsetBit(Label_Lib.STATUS, Label_Lib.timeout);
     }
 
+    /**
+     * Master Clear for the PIC
+     */
+    public void MCLR() {
+        //TODO: Button in der GUI Eddy
+        //if MCLR Button pressed
+        reset();
+        if(sleep) {
+            memory.unsetBit(Label_Lib.STATUS, Label_Lib.powerdown);
+            memory.setBit(Label_Lib.STATUS, Label_Lib.timeout);
+        }
+    }
+
+    /**
+     * resets the values that are the same for WDT Reset and MCLR
+     */
     private void reset() {
         //clear PCL
         memory.write(Label_Lib.PCL, 0);
@@ -1033,16 +1060,6 @@ public class PIC {
 
     }
 
-    public void checkMCLR() {
-        //check if Master clear Bit is set
-        //--> Master Clear
-        //TODO: Button in der GUI Eddy
-
-
-
-
-
-    }
 
     /**
      * checks for any kind of interrupts and wakes up the pic if GIE is cleared
@@ -1106,4 +1123,14 @@ public class PIC {
         int eeie = memory.readBit(Label_Lib.INTCON, Label_Lib.EEIE);
         return (eeif == 1) && (eeie == 1);
     }
+
+    //GETTER METHODS
+    public int getW() {
+        return W;
+    }
+
+    public boolean getSleep() {
+        return sleep;
+    }
+
 }
