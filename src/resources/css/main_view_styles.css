@@ -1,4 +1,12 @@
-#myButton {
-    -fx-pref-width: 300;
-    -fx-pref-height: 50;
+/* Styles für das Haupt-GridPane */
+.main-grid {
+    /* Ausrichtung */
+    -fx-alignment: top-left;
+
+    /* Abstände zwischen Spalten/Zeilen */
+    -fx-hgap: 10;    /* horizontal gap */
+    -fx-vgap: 10;    /* vertical gap */
+
+    /* Innenabstand (Padding): top right bottom left */
+    -fx-padding: 10;
 }
