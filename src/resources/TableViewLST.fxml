@@ -12,7 +12,7 @@
       spacing="5">
     <Label text="LST File" />
     <Button text="File.." fx:id="btnFilePicker"/>
-    <TableView fx:id="tableViewLST">
+    <TableView fx:id="tableViewLST" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="columnBlock0" text="Breakp" />
             <TableColumn fx:id="columnBlock1" text="PC" />

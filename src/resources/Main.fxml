@@ -8,58 +8,92 @@
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:controller="main.MainController"
           alignment="TOP_LEFT"
-          hgap="10  " vgap="10">
+          hgap="10" vgap="10">
 
     <!-- Padding als Element definieren -->
     <padding>
         <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
     </padding>
 
-    <!-- Definieren der Spalten -->
+    <!-- Definieren der 10 gleich großen Spalten mit horizontalem Wachsen und FillWidth -->
     <columnConstraints>
-        <ColumnConstraints fx:id="col1" percentWidth="50"/>
-        <ColumnConstraints fx:id="col2" percentWidth="25"/>
-        <ColumnConstraints fx:id="col3" percentWidth="25"/>
+        <ColumnConstraints percentWidth="10" hgrow="ALWAYS" fillWidth="true"/>
+        <ColumnConstraints percentWidth="10" hgrow="ALWAYS" fillWidth="true"/>
+        <ColumnConstraints percentWidth="10" hgrow="ALWAYS" fillWidth="true"/>
+        <ColumnConstraints percentWidth="10" hgrow="ALWAYS" fillWidth="true"/>
+        <ColumnConstraints percentWidth="10" hgrow="ALWAYS" fillWidth="true"/>
+        <ColumnConstraints percentWidth="10" hgrow="ALWAYS" fillWidth="true"/>
+        <ColumnConstraints percentWidth="10" hgrow="ALWAYS" fillWidth="true"/>
+        <ColumnConstraints percentWidth="10" hgrow="ALWAYS" fillWidth="true"/>
+        <ColumnConstraints percentWidth="10" hgrow="ALWAYS" fillWidth="true"/>
+        <ColumnConstraints percentWidth="10" hgrow="ALWAYS" fillWidth="true"/>
     </columnConstraints>
 
-    <!-- Definieren der Zeilen -->
+    <!-- Definieren der 10 gleich großen Zeilen -->
     <rowConstraints>
-        <RowConstraints fx:id="row1" percentHeight="30"/>
-        <RowConstraints fx:id="row2" percentHeight="30"/>
-        <RowConstraints fx:id="row3" percentHeight="20"/>
-        <RowConstraints fx:id="row4" percentHeight="20"/>
+        <RowConstraints percentHeight="10" vgrow="ALWAYS" fillHeight="true"/>
+        <RowConstraints percentHeight="10" vgrow="ALWAYS" fillHeight="true"/>
+        <RowConstraints percentHeight="10" vgrow="ALWAYS" fillHeight="true"/>
+        <RowConstraints percentHeight="10" vgrow="ALWAYS" fillHeight="true"/>
+        <RowConstraints percentHeight="10" vgrow="ALWAYS" fillHeight="true"/>
+        <RowConstraints percentHeight="10" vgrow="ALWAYS" fillHeight="true"/>
+        <RowConstraints percentHeight="10" vgrow="ALWAYS" fillHeight="true"/>
+        <RowConstraints percentHeight="10" vgrow="ALWAYS" fillHeight="true"/>
+        <RowConstraints percentHeight="10" vgrow="ALWAYS" fillHeight="true"/>
+        <RowConstraints percentHeight="10" vgrow="ALWAYS" fillHeight="true"/>
     </rowConstraints>
 
-    <!-- Bereich: Tabelle LST (links, Zeilen 0-2) -->
+    <!-- Bereich: Tabelle LST -->
     <fx:include source="TableViewLST.fxml"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="0"
-                GridPane.rowSpan="3"/>
+                GridPane.rowSpan="9"
+                GridPane.columnSpan="4"
+                GridPane.vgrow="ALWAYS"
+                GridPane.hgrow="ALWAYS"/>
 
-    <!-- Bereich: I/O-Pins (rechts, Zeile 0) -->
+    <!-- Bereich: I/O-Pins -->
     <fx:include fx:id="ioPinsInclude" source="IOPins.fxml"
-                GridPane.columnIndex="1"
-                GridPane.rowIndex="0"/>
-
-    <!-- Bereich: STACK (rechts, Zeile 1) -->
-    <fx:include source="Stack.fxml"
-                GridPane.columnIndex="1"
-                GridPane.rowIndex="1"/>
-
-    <!-- Bereich: RAM/GPR (rechts, Zeile 2) -->
-    <fx:include source="RAMTabs.fxml"
-                GridPane.columnIndex="2"
+                GridPane.columnIndex="4"
                 GridPane.rowIndex="0"
-                GridPane.rowSpan="3"/>
+                GridPane.rowSpan="3"
+                GridPane.columnSpan="2"
+                GridPane.vgrow="ALWAYS"
+                GridPane.hgrow="ALWAYS"/>
 
-    <!-- Bereich: Register und Buttons (unten, Zeile 3, Spalten 0-1) -->
+    <!-- Bereich: STACK -->
+    <fx:include source="Stack.fxml"
+                GridPane.columnIndex="4"
+                GridPane.rowIndex="4"
+                GridPane.rowSpan="3"
+                GridPane.columnSpan="3"
+                GridPane.vgrow="ALWAYS"
+                GridPane.hgrow="ALWAYS"/>
+
+    <!-- Bereich: RAM/GPR -->
+    <fx:include source="RAMTabs.fxml"
+                GridPane.columnIndex="7"
+                GridPane.rowIndex="0"
+                GridPane.rowSpan="4"
+                GridPane.columnSpan="4"
+                GridPane.vgrow="ALWAYS"
+                GridPane.hgrow="ALWAYS"/>
+
+    <!-- Bereich: Buttons -->
     <fx:include source="Buttons.fxml"
                 GridPane.columnIndex="0"
-                GridPane.rowIndex="3"
-                GridPane.columnSpan="1"/>
+                GridPane.rowIndex="9"
+                GridPane.rowSpan="1"
+                GridPane.columnSpan="2"
+                GridPane.vgrow="ALWAYS"
+                GridPane.hgrow="ALWAYS"/>
 
+    <!-- Bereich: Register -->
     <fx:include source="Register.fxml"
-                GridPane.columnIndex="2"
-                GridPane.rowIndex="3"
-                GridPane.rowSpan="1"/>
+                GridPane.columnIndex="7"
+                GridPane.rowIndex="4"
+                GridPane.rowSpan="4"
+                GridPane.columnSpan="4"
+                GridPane.vgrow="ALWAYS"
+                GridPane.hgrow="ALWAYS"/>
 </GridPane>

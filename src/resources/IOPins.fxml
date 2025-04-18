@@ -4,6 +4,6 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="main.IO_PINS_Controller"
       stylesheets="" spacing="10">
-<GridPane fx:id="gridPane">
+<GridPane fx:id="gridPane" VBox.vgrow="ALWAYS">
 </GridPane>
 </VBox>
