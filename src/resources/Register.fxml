@@ -1,51 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:controller="main.RegisterController"
-          hgap="5" vgap="5"
-          style="-fx-padding: 10;">
+          stylesheets="@css/RegisterView.css"
+          styleClass="grid-pane">
+
+    <!-- 3 Spalten: links, Divider, rechts -->
+    <columnConstraints>
+        <!-- linke Spalte -->
+        <ColumnConstraints hgrow="ALWAYS" />
+        <!-- Divider-Spalte: fixe Breite -->
+        <ColumnConstraints minWidth="1" maxWidth="1" />
+        <!-- rechte Spalte -->
+        <ColumnConstraints hgrow="ALWAYS" />
+    </columnConstraints>
+
     <children>
-        <!-- Zeile 0 -->
-        <Label fx:id="cell00" text="Zelle 0,0"
+        <!-- Linke Block (Col 0) -->
+        <Label fx:id="statusLabel" text="STATUS:"
                GridPane.rowIndex="0" GridPane.columnIndex="0"
-               style="-fx-background-color: green; -fx-alignment: center;" />
-        <Label fx:id="cell01" text="Zelle 0,1"
-               GridPane.rowIndex="0" GridPane.columnIndex="1"
-               style="-fx-background-color: lightgray; -fx-alignment: center;" />
-
-        <!-- Zeile 1 -->
-        <Label fx:id="cell10" text="Zelle 1,0"
+               styleClass="cell" />
+        <Label fx:id="RP0" text="RP0: "
                GridPane.rowIndex="1" GridPane.columnIndex="0"
-               style="-fx-background-color: white; -fx-alignment: center;" />
-        <Label fx:id="cell11" text="Zelle 1,1"
-               GridPane.rowIndex="1" GridPane.columnIndex="1"
-               style="-fx-background-color: white; -fx-alignment: center;" />
-
-        <!-- Zeile 2 -->
-        <Label fx:id="cell20" text="Zelle 2,0"
+               styleClass="cell" />
+        <Label fx:id="Z" text="Z: "
                GridPane.rowIndex="2" GridPane.columnIndex="0"
-               style="-fx-background-color: white; -fx-alignment: center;" />
-        <Label fx:id="cell21" text="Zelle 2,1"
-               GridPane.rowIndex="2" GridPane.columnIndex="1"
-               style="-fx-background-color: white; -fx-alignment: center;" />
-
-        <!-- Zeile 3 -->
-        <Label fx:id="cell30" text="Zelle 3,0"
+               styleClass="cell" />
+        <Label fx:id="DC" text="DC: "
                GridPane.rowIndex="3" GridPane.columnIndex="0"
-               style="-fx-background-color: white; -fx-alignment: center;" />
-        <Label fx:id="cell31" text="Zelle 3,1"
-               GridPane.rowIndex="3" GridPane.columnIndex="1"
-               style="-fx-background-color: white; -fx-alignment: center;" />
-
-        <!-- Zeile 4 -->
-        <Label fx:id="cell40" text="Zelle 4,0"
+               styleClass="cell" />
+        <Label fx:id="C" text="C: "
                GridPane.rowIndex="4" GridPane.columnIndex="0"
-               style="-fx-background-color: white; -fx-alignment: center;" />
-        <Label fx:id="cell41" text="Zelle 4,1"
-               GridPane.rowIndex="4" GridPane.columnIndex="1"
-               style="-fx-background-color: white; -fx-alignment: center;" />
+               styleClass="cell" />
+
+        <!-- Separator (Col 1) -->
+        <Separator GridPane.rowIndex="0" GridPane.rowSpan="5" GridPane.columnIndex="1"
+                   orientation="VERTICAL" />
+
+        <!-- Rechte Block (Col 2) -->
+        <Label fx:id="W" text="W: "
+               GridPane.rowIndex="0" GridPane.columnIndex="2"
+               styleClass="cell" />
+        <Label fx:id="WValue" text="Error"
+               GridPane.rowIndex="1" GridPane.columnIndex="2"
+               styleClass="cell" />
+        <Label fx:id="PCL" text="PCL: "
+               GridPane.rowIndex="2" GridPane.columnIndex="2"
+               styleClass="cell" />
+        <Label fx:id="PCLLabel" text="Error"
+               GridPane.rowIndex="3" GridPane.columnIndex="2"
+               styleClass="cell" />
     </children>
 </GridPane>

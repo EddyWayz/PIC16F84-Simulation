@@ -1,12 +1,38 @@
-/* Styles für das Haupt-GridPane */
-.main-grid {
-    /* Ausrichtung */
-    -fx-alignment: top-left;
+/* TableViewLST links, Zeilen 0–2 */
+.table-lst {
+  -my-gridpane-column-index: 0;
+  -my-gridpane-row-index:    0;
+  -my-gridpane-row-span:     3;
+  -my-gridpane-column-span:  5;
+}
 
-    /* Abstände zwischen Spalten/Zeilen */
-    -fx-hgap: 10;    /* horizontal gap */
-    -fx-vgap: 10;    /* vertical gap */
+/* I/O‑Pins rechts oben */
+.io-pins {
+  -my-gridpane-column-index: 1;
+  -my-gridpane-row-index:    0;
+}
 
-    /* Innenabstand (Padding): top right bottom left */
-    -fx-padding: 10;
+/* Stack rechts, Zeile 1 */
+.stack {
+  -my-gridpane-column-index: 1;
+  -my-gridpane-row-index:    1;
+}
+
+/* RAM/GPR rechts, Spalte 2, Zeilen 0–2 */
+.ram-gpr {
+  -my-gridpane-column-index: 2;
+  -my-gridpane-row-index:    0;
+  -my-gridpane-row-span:     3;
+}
+
+/* Buttons unten links */
+.buttons {
+  -my-gridpane-column-index: 0;
+  -my-gridpane-row-index:    3;
+}
+
+/* Register unten rechts */
+.register {
+  -my-gridpane-column-index: 2;
+  -my-gridpane-row-index:    3;
 }

@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+
     @FXML
     private VBox ioPinsInclude;
 
@@ -17,6 +18,7 @@ public class MainController implements Initializable {
     public static IO_PINS_Controller ioPinsController;  // Referenz setzen bei initialize()
     public static TableLSTController tableLSTController;
     public static RAMTabsLSTController ramTabsLSTController;
+    public static RegisterController registerController;
     public static PIC getStaticPic() {
         return pic;
     }

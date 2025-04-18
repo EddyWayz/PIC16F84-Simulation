@@ -81,6 +81,10 @@ public class ButtonsController implements Initializable {
         if (RAMTabsLSTController.instance != null) {
             RAMTabsLSTController.instance.updatePIC(MainController.getStaticPic());
         }
+
+        if(RegisterController.instance != null){
+            RegisterController.instance.updatePIC(MainController.getStaticPic());
+        }
     }
 }
 
