@@ -4,20 +4,25 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ButtonsController implements Initializable {
-
+    private PIC pic;
     public Button btnRun;
     public Button btnStep;
     public Button btnStop;
+    public CheckBox activateWatchdogCheckbox;
     private volatile boolean stopButtonPushed = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        MainController.buttonsController = this;
+        this.pic = MainController.getStaticPic();
+
         if (btnRun != null) {
             btnRun.setOnAction(e -> {
                 if (TableLSTController.instance != null && MainController.getStaticPic() != null) {
@@ -60,6 +65,12 @@ public class ButtonsController implements Initializable {
             });
         }
 
+        if (activateWatchdogCheckbox != null) {
+            activateWatchdogCheckbox.setOnAction(e -> {
+                pic.watchDogIsActive = !pic.watchDogIsActive;
+            });
+        }
+
         if (btnStep != null) {
             btnStep.setOnAction(e -> {
                 MainController.getStaticPic().step();
@@ -85,6 +96,14 @@ public class ButtonsController implements Initializable {
         if(RegisterController.instance != null){
             RegisterController.instance.updatePIC(MainController.getStaticPic());
         }
+    }
+
+    public void updatePIC(PIC newPic) {
+        this.pic = newPic;
+        if (activateWatchdogCheckbox != null) {
+            activateWatchdogCheckbox.setSelected(pic.watchDogIsActive);
+        }
+        refreshView();
     }
 }
 

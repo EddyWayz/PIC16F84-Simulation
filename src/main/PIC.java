@@ -26,7 +26,7 @@ public class PIC {
     //memory for data and program
     public RAM memory;
     private final ArrayList<Integer> program;
-
+    boolean watchDogIsActive = false;
     Stack_PIC stack;
 
     //special registers
@@ -73,7 +73,6 @@ public class PIC {
             memory.increment_PC();
             decode_n_execute();
         }
-
         //update timers and prescaler
         prescaler.update();
 

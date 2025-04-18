@@ -19,6 +19,7 @@ public class MainController implements Initializable {
     public static TableLSTController tableLSTController;
     public static RAMTabsLSTController ramTabsLSTController;
     public static RegisterController registerController;
+    public static ButtonsController buttonsController;
     public static PIC getStaticPic() {
         return pic;
     }
@@ -36,6 +37,10 @@ public class MainController implements Initializable {
             ramTabsLSTController.updatePIC(pic);
         } else {
             System.out.println("⚠ RAMTabsLSTController ist noch nicht initialisiert!");
+        }
+
+        if (buttonsController != null) {
+            buttonsController.updatePIC(pic);
         }
     }
 
