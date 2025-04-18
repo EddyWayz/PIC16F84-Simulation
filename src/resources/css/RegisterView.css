@@ -1,3 +1,10 @@
+.table-cell.vertical-separator {
+    -fx-border-color: transparent transparent transparent green;
+    -fx-border-width: 0 0 0 1;
+}
+
+/* style.css */
+
 /* GridPane-Grundeinstellungen */
 .grid-pane {
     -fx-padding: 10;
@@ -5,3 +12,18 @@
     -fx-vgap: 5;
 }
 
+/* Alle Labels gleichermaßen zentriert und mit weißem Hintergrund */
+.label.cell {
+    -fx-alignment: center;
+    -fx-background-color: white;
+}
+
+/* Spezielle Farben für einzelne Zellen */
+#cell00 {
+    -fx-background-color: green;
+}
+#cell01 {
+    -fx-background-color: lightgray;
+}
+
+/* Bei Bedarf kannst du noch weitere ID‑selektoren ergänzen */
