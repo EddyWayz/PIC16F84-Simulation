@@ -44,6 +44,7 @@ public class IO_PINS_Controller {
 
                 // Zelle komplett ausfüllen lassen
                 label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                label.prefWidthProperty().bind(label.heightProperty());
                 GridPane.setHgrow(label, Priority.ALWAYS);
                 GridPane.setVgrow(label, Priority.ALWAYS);
 

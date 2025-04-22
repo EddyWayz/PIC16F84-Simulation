@@ -2,13 +2,36 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="main.RAMTabsLSTController" spacing="10">
-    <TableView fx:id="RAMTabsLST">
-        <columns>
-            <TableColumn fx:id="address" text="Address" />
-            <TableColumn fx:id="valueH" text="Value (HEX) " />
-            <TableColumn fx:id="valueB" text="Value (Binary" />
-        </columns>
-    </TableView>
-</VBox>
+<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="main.RAMTabsLSTController" VBox.vgrow="ALWAYS">
+    <tabs>
+        <Tab text="RAM" closable="false">
+            <content>
+                <VBox spacing="10">
+                    <TableView fx:id="RAMTabsLST" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="address" text="Address" />
+                            <TableColumn fx:id="valueH" text="Value (HEX) " />
+                            <TableColumn fx:id="valueB" text="Value (Binary" />
+                        </columns>
+                    </TableView>
+                </VBox>
+            </content>
+        </Tab>
+        <Tab text="Test" closable="false">
+            <content>
+                <VBox spacing="10">
+                    <TableView fx:id="testTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="col1" text="Spalte 1" />
+                            <TableColumn fx:id="col2" text="Spalte 2" />
+                        </columns>
+                    </TableView>
+                </VBox>
+            </content>
+        </Tab>
+        <!-- Weitere Tabs hier hinzufügen -->
+    </tabs>
+</TabPane>

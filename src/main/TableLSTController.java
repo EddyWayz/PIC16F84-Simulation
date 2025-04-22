@@ -7,10 +7,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.beans.binding.Bindings;
 
 import java.io.File;
 import java.net.URL;
@@ -45,6 +48,7 @@ public class TableLSTController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         instance = this;
+        //tableViewLST.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         // Konfiguration der Spalten: Hier weisen wir die zugehörigen Property Accessoren zu.
         columnBlock0.setCellValueFactory(cellData -> cellData.getValue().block0Property());
@@ -147,6 +151,7 @@ public class TableLSTController implements Initializable {
         }
         ObservableList<DataRow> data = FXCollections.observableArrayList(dataRows);
         tableViewLST.setItems(data);
+        Platform.runLater(() -> autoResizeColumns(tableViewLST));
     }
 
     /**
@@ -182,5 +187,44 @@ public class TableLSTController implements Initializable {
         } else {
             System.out.println("btnFilePicker wurde nicht gefunden!");
         }
+    }
+    private void autoResizeColumns(TableView<DataRow> table) {
+        int columnCount = table.getColumns().size();
+        double[] maxWidths = new double[columnCount];
+        // Ermitteln der maximalen Breite für Header und Zellen
+        for (int i = 0; i < columnCount; i++) {
+            TableColumn<DataRow, ?> column = table.getColumns().get(i);
+            Text header = new Text(column.getText());
+            double maxWidth = header.getLayoutBounds().getWidth();
+            for (DataRow row : table.getItems()) {
+                Object cellData = column.getCellData(row);
+                if (cellData != null) {
+                    Text cellText = new Text(cellData.toString());
+                    double cellWidth = cellText.getLayoutBounds().getWidth();
+                    if (cellWidth > maxWidth) {
+                        maxWidth = cellWidth;
+                    }
+                }
+            }
+            maxWidths[i] = maxWidth + 20; // Puffer hinzufügen
+        }
+        // Gesamtsumme der berechneten Breiten
+        double totalWidth = 0;
+        for (double w : maxWidths) totalWidth += w;
+        // Set fixed widths for all columns except the 7th, and let the 7th fill remaining space
+        double tableWidth = table.getWidth();
+        double totalFixedWidth = 0;
+        for (int i = 0; i < columnCount; i++) {
+            TableColumn<DataRow, ?> column = table.getColumns().get(i);
+            column.prefWidthProperty().unbind();
+            if (i != 6) {
+                column.setPrefWidth(maxWidths[i]);
+                totalFixedWidth += maxWidths[i];
+            }
+        }
+        double remainingWidth = tableWidth - totalFixedWidth;
+        TableColumn<DataRow, ?> column7 = table.getColumns().get(6);
+        column7.prefWidthProperty().unbind();
+        column7.setPrefWidth(remainingWidth > maxWidths[6] ? remainingWidth : maxWidths[6]);
     }
 }

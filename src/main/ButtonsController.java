@@ -15,7 +15,8 @@ public class ButtonsController implements Initializable {
     public Button btnRun;
     public Button btnStep;
     public Button btnStop;
-    public CheckBox activateWatchdogCheckbox;
+    @FXML
+    private CheckBox activateWatchdogCheckbox;
     private volatile boolean stopButtonPushed = false;
 
     @Override
@@ -67,7 +68,7 @@ public class ButtonsController implements Initializable {
 
         if (activateWatchdogCheckbox != null) {
             activateWatchdogCheckbox.setOnAction(e -> {
-                pic.watchDogIsActive = !pic.watchDogIsActive;
+                pic.prescaler.WDT.active = activateWatchdogCheckbox.isSelected();
             });
         }
 
@@ -99,9 +100,11 @@ public class ButtonsController implements Initializable {
     }
 
     public void updatePIC(PIC newPic) {
+        boolean wasActive = activateWatchdogCheckbox != null && activateWatchdogCheckbox.isSelected();
         this.pic = newPic;
         if (activateWatchdogCheckbox != null) {
-            activateWatchdogCheckbox.setSelected(pic.watchDogIsActive);
+            pic.prescaler.WDT.active = wasActive;
+            activateWatchdogCheckbox.setSelected(wasActive);
         }
         refreshView();
     }

@@ -57,7 +57,7 @@
                 GridPane.columnIndex="4"
                 GridPane.rowIndex="0"
                 GridPane.rowSpan="3"
-                GridPane.columnSpan="2"
+                GridPane.columnSpan="3"
                 GridPane.vgrow="ALWAYS"
                 GridPane.hgrow="ALWAYS"/>
 
