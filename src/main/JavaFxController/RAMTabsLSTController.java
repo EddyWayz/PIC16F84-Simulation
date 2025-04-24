@@ -38,13 +38,14 @@ public class RAMTabsLSTController implements Initializable {
         instance = this;
         // Ensure columns exactly fill the table width without extra blank space
         RAMTabsLST.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        SFRTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         this.pic = MainController.getStaticPic();
         setupColumns();
         buildUI();
         setupSFR();
         buildSFR();
         autoResizeColumns(RAMTabsLST);
-        //autoResizeColumns(SFRTable);
+        autoResizeColumns(SFRTable);
     }
 
     /**
@@ -102,15 +103,15 @@ public class RAMTabsLSTController implements Initializable {
      * Alle Spalten auf ihre maximale Breite beschränken,
      * die letzte Spalte nimmt den übrigen Platz ein.
      */
-    private void autoResizeColumns(TableView<RAMRow> table) {
+    private <T> void autoResizeColumns(TableView<T> table) {
         int columnCount = table.getColumns().size();
         double[] maxWidths = new double[columnCount];
         // Ermitteln der maximalen Breite für Header und Zellen
         for (int i = 0; i < columnCount; i++) {
-            TableColumn<RAMRow, ?> column = table.getColumns().get(i);
+            TableColumn<T, ?> column = (TableColumn<T, ?>) table.getColumns().get(i);
             Text header = new Text(column.getText());
             double maxWidth = header.getLayoutBounds().getWidth();
-            for (RAMRow row : table.getItems()) {
+            for (T row : table.getItems()) {
                 Object cellData = column.getCellData(row);
                 if (cellData != null) {
                     Text cellText = new Text(cellData.toString());
@@ -126,13 +127,13 @@ public class RAMTabsLSTController implements Initializable {
         double tableWidth = table.getWidth();
         double totalFixedWidth = 0;
         for (int i = 0; i < columnCount - 1; i++) {
-            TableColumn<RAMRow, ?> column = table.getColumns().get(i);
+            TableColumn<T, ?> column = (TableColumn<T, ?>) table.getColumns().get(i);
             column.prefWidthProperty().unbind();
             column.setPrefWidth(maxWidths[i]);
             totalFixedWidth += maxWidths[i];
         }
         double remainingWidth = tableWidth - totalFixedWidth;
-        TableColumn<RAMRow, ?> lastColumn = table.getColumns().get(columnCount - 1);
+        TableColumn<T, ?> lastColumn = (TableColumn<T, ?>) table.getColumns().get(columnCount - 1);
         lastColumn.prefWidthProperty().unbind();
         lastColumn.setPrefWidth(remainingWidth > maxWidths[columnCount - 1] ? remainingWidth : maxWidths[columnCount - 1]);
     }
