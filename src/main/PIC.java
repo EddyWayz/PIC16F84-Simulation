@@ -21,7 +21,12 @@ public class PIC {
     boolean indirect;
     private int instruction;
 
+
     private boolean sleep = false;
+
+    //runtime and quarzfrequency
+    private double runtimeCounter; //in µs
+    private double quarz_frequenzy = 4; //in MHz
 
     //memory for data and program
     public RAM memory;
@@ -71,26 +76,21 @@ public class PIC {
      * @param port that will be updated
      */
     private void updatePort(Port port) {
-        try {
-            int address = port.getName().equals("PortA") ? 5 : 6;
+        int address = port.getName().equals("PortA") ? 5 : 6;
 
-            for (int index = 0; index < 8; index++) {
-                int tris = memory.readBit_bank(address, index, 1);
-                if (tris == 0) {
-                    boolean value = memory.readBit_bank(address, index, 0) == 1;
-                    port.pins[index].setInput(value);
+        for(int index = 0; index < 8; index++) {
+            int tris = memory.readBit_bank(address, index, 1);
+            if(tris == 0) {
+                boolean value = memory.readBit_bank(address, index, 0) == 1;
+                port.pins[index].setInput(value);
+            } else {
+                boolean value = port.pins[index].getValue();
+                if(value) {
+                    memory.setBit_bank(address, index, 0);
                 } else {
-                    boolean value = port.pins[index].getValue();
-                    if (value) {
-                        memory.setBit_bank(address, index, 0);
-                    } else {
-                        memory.unsetBit_bank(address, index, 0);
-                    }
+                    memory.unsetBit_bank(address, index, 0);
                 }
             }
-        } catch (Exception e) {
-            System.err.println("⚠ Fehler beim Aktualisieren von Port '" + port.getName() + "': " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
