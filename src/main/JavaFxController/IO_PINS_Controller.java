@@ -36,11 +36,11 @@ public class IO_PINS_Controller {
     public void buildUI() {
         gridPane.getChildren().clear();
 
-        int size = pic.IO_Pins.ioPins.length;
+        int size = pic.PortA.ioPins.length;
 
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
-                boolean value = pic.IO_Pins.ioPins[row][col].getValue();
+                boolean value = pic.PortA.ioPins[row][col].getValue();
                 Label label = new Label(value ? "1" : "0");
 
                 // Zelle komplett ausfüllen lassen
@@ -57,8 +57,8 @@ public class IO_PINS_Controller {
 
                 final int r = row, c = col;
                 label.setOnMouseClicked(event -> {
-                    pic.IO_Pins.ioPins[r][c].toggleValue();
-                    label.setText(pic.IO_Pins.ioPins[r][c].getValue() ? "1" : "0");
+                    pic.PortA.ioPins[r][c].toggleValue();
+                    label.setText(pic.PortA.ioPins[r][c].getValue() ? "1" : "0");
                 });
 
                 gridPane.add(label, col, row);

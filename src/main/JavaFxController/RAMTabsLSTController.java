@@ -43,6 +43,7 @@ public class RAMTabsLSTController implements Initializable {
         buildUI();
         setupTestColumns();
         buildTestData();
+        autoResizeColumns(RAMTabsLST);
     }
 
     /**
@@ -93,7 +94,6 @@ public class RAMTabsLSTController implements Initializable {
 
         RAMTabsLST.setItems(rows);
         RAMTabsLST.refresh();
-        autoResizeColumns(RAMTabsLST);
     }
 
     /**

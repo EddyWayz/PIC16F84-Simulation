@@ -36,8 +36,9 @@ public class PIC {
     //prescaler and timers in PS
     public Prescaler prescaler;
 
-    //
-    public IO_PINS IO_Pins = new IO_PINS();
+    //Port A and B
+    public Port PortA = new Port();
+    public Port PortB = new Port();
     public PIC(String path) {
         //INIT of special registers
         W = 0;
