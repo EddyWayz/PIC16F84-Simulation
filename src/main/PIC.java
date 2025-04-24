@@ -37,12 +37,12 @@ public class PIC {
     public Prescaler prescaler;
 
     //Port A and B
-    public Port PortA = new Port();
-    public Port PortB = new Port();
+    public Port PortA;
+    public Port PortB;
+
     public PIC(String path) {
         //INIT of special registers
         W = 0;
-        //PC = 0;
 
         //INIT of stack
         stack = new Stack_PIC();
@@ -50,7 +50,7 @@ public class PIC {
         //new instance of RAM
         memory = new RAM();
         memory.powerOn_reset();
-        //TODO INIT of all registers at Power On
+
 
         //Parse file to get the program
         InstructionParser instrParser = new InstructionParser(path);
@@ -60,8 +60,33 @@ public class PIC {
         //instance of prescaler
         prescaler = new Prescaler(this);
 
-        //TODO Link to IO Pins
+        //instance of ports
+        PortA  = new Port("PortA");
+        PortB  = new Port("PortB");
 
+    }
+
+    /**
+     * updates a port of the pic depending on the corresponding TRIS register
+     * @param port that will be updated
+     */
+    private void updatePort(Port port) {
+        int address = port.getName().equals("PortA") ? 5 : 6;
+
+        for(int index = 0; index < 8; index++) {
+            int tris = memory.readBit_bank(address, index, 1);
+            if(tris == 0) {
+                boolean value = memory.readBit_bank(address, index, 0) == 1;
+                port.pins[index].setInput(value);
+            } else {
+                boolean value = port.pins[index].getValue();
+                if(value) {
+                    memory.setBit_bank(address, index, 0);
+                } else {
+                    memory.unsetBit_bank(address, index, 0);
+                }
+            }
+        }
     }
 
     /**
@@ -80,8 +105,9 @@ public class PIC {
         //checks for interrupts and possible wake-ups
         checkForInterrupts();
 
-
-        //TODO: update IO Pins
+        //update ports
+        updatePort(PortA);
+        updatePort(PortB);
     }
 
     /**

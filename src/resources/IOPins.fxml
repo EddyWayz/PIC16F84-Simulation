@@ -2,7 +2,7 @@
 <!-- IOPins.fxml -->
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="main.JavaFxController.IO_PINS_Controller"
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="main.JavaFxController.PortController"
       stylesheets="" spacing="10">
 <GridPane fx:id="gridPane" VBox.vgrow="ALWAYS">
 </GridPane>
