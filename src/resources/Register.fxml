@@ -10,49 +10,54 @@
           styleClass="grid-pane">
 
     <!-- 3 Spalten: links, Divider, rechts -->
-    <columnConstraints>
-        <!-- linke Spalte -->
-        <ColumnConstraints hgrow="ALWAYS" />
-        <!-- Divider-Spalte: fixe Breite -->
-        <ColumnConstraints minWidth="1" maxWidth="1" />
-        <!-- rechte Spalte -->
-        <ColumnConstraints hgrow="ALWAYS" />
-    </columnConstraints>
+    <rowConstraints>
+
+
+
+    </rowConstraints>
+
+
+
 
     <children>
-        <!-- Linke Block (Col 0) -->
+
         <Label fx:id="statusLabel" text="STATUS:"
                GridPane.rowIndex="0" GridPane.columnIndex="0"
                styleClass="cell" />
+
         <Label fx:id="RP0" text="RP0: "
-               GridPane.rowIndex="1" GridPane.columnIndex="0"
+               GridPane.rowIndex="0" GridPane.columnIndex="1"
                styleClass="cell" />
-        <Label fx:id="Z" text="Z: "
-               GridPane.rowIndex="2" GridPane.columnIndex="0"
-               styleClass="cell" />
-        <Label fx:id="DC" text="DC: "
-               GridPane.rowIndex="3" GridPane.columnIndex="0"
-               styleClass="cell" />
+
         <Label fx:id="C" text="C: "
-               GridPane.rowIndex="4" GridPane.columnIndex="0"
-               styleClass="cell" />
-
-        <!-- Separator (Col 1) -->
-        <Separator GridPane.rowIndex="0" GridPane.rowSpan="5" GridPane.columnIndex="1"
-                   orientation="VERTICAL" />
-
-        <!-- Rechte Block (Col 2) -->
-        <Label fx:id="W" text="W: "
                GridPane.rowIndex="0" GridPane.columnIndex="2"
                styleClass="cell" />
+
+        <Label fx:id="DC" text="DC: "
+               GridPane.rowIndex="0" GridPane.columnIndex="3"
+               styleClass="cell" />
+
+        <Label fx:id="Z" text="Z: "
+               GridPane.rowIndex="0" GridPane.columnIndex="4"
+               styleClass="cell" />
+
+        <!-- Separator (Row 1) -->
+        <Separator GridPane.rowIndex="1" GridPane.columnSpan="5"
+                   orientation="HORIZONTAL" />
+
+
+        <Label fx:id="W" text="W: "
+               GridPane.rowIndex="2" GridPane.columnIndex="0"
+               styleClass="cell" />
+
         <Label fx:id="WValue" text="Error"
-               GridPane.rowIndex="1" GridPane.columnIndex="2"
+               GridPane.rowIndex="2" GridPane.columnIndex="1"
                styleClass="cell" />
         <Label fx:id="PCL" text="PCL: "
                GridPane.rowIndex="2" GridPane.columnIndex="2"
                styleClass="cell" />
         <Label fx:id="PCLLabel" text="Error"
-               GridPane.rowIndex="3" GridPane.columnIndex="2"
+               GridPane.rowIndex="2" GridPane.columnIndex="3"
                styleClass="cell" />
     </children>
 </GridPane>
