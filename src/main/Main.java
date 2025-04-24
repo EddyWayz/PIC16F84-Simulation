@@ -17,7 +17,7 @@ public class Main extends Application {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("../resources/Main.fxml"));
-        } catch (IOException | NullPointerException e) {
+        } catch (Exception e) {
             System.err.println("⚠ Fehler beim Laden der FXML: " + e.getMessage());
             return;
         }

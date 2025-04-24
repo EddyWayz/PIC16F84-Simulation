@@ -65,7 +65,13 @@ public class Stack_PIC {
      * @return integer of the index
      */
     public int getVal(int index) {
-        return stack[index];
+        try {
+            return stack[index];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("⚠ Ungültiger Stack-Index bei getVal: " + index + ": " + e.getMessage());
+            e.printStackTrace();
+            return -1;
+        }
     }
 
 }

@@ -65,6 +65,8 @@ public class ButtonsController implements Initializable {
                             System.out.println("Ausführung durch Stop-Button gestoppt.");
                         }
                     }).start();
+                } else {
+                    System.err.println("⚠ TableLSTController oder PIC nicht initialisiert!");
                 }
             });
         }
@@ -112,15 +114,19 @@ public class ButtonsController implements Initializable {
     }
 
     private void refreshView() {
-        if (TableLSTController.instance != null) {
-            TableLSTController.instance.refreshView();
-        }
-        if (RAMTabsLSTController.instance != null) {
-            RAMTabsLSTController.instance.buildUI();
-        }
-
-        if(RegisterController.instance != null){
-            RegisterController.instance.buildUI();
+        try {
+            if (TableLSTController.instance != null) {
+                TableLSTController.instance.refreshView();
+            }
+            if (RAMTabsLSTController.instance != null) {
+                RAMTabsLSTController.instance.buildUI();
+            }
+            if (RegisterController.instance != null) {
+                RegisterController.instance.buildUI();
+            }
+        } catch (Exception e) {
+            System.err.println("⚠ Fehler beim Aktualisieren der Ansicht: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

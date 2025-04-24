@@ -1,4 +1,5 @@
 package main.JavaFxController;
+import javafx.scene.control.Button;
 import main.FileLineParser;
 import main.FileLineParser.DataRow;
 
@@ -13,8 +14,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.event.ActionEvent;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.net.URL;
+
+import java.awt.*;
+import java.io.File;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -27,6 +35,22 @@ public class TableLSTController implements Initializable {
 
     @FXML
     public Button btnFilePicker;
+    @FXML
+    private Button btnDocs;
+    @FXML
+    private void onDocsButtonClicked(ActionEvent event) {
+        try {
+            URL pdfUrl = getClass().getResource("../../resources/docs/Mathe2-PA-05.pdf");
+            if (pdfUrl == null) {
+                System.err.println("PDF nicht gefunden: ../../resources/docs/Mathe2-PA-05.pdf");
+                return;
+            }
+            File pdfFile = new File(pdfUrl.toURI());
+            Desktop.getDesktop().open(pdfFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     public TableView<DataRow> tableViewLST;
     @FXML

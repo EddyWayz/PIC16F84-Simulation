@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- TabelleLST.fxml -->
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 
 <?import javafx.scene.control.Button?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="main.JavaFxController.TableLSTController"
       stylesheets="@css/TableLSTViewStyle.css"
       spacing="5">
-    <Label text="LST File" />
-    <Button text="File.." fx:id="btnFilePicker"/>
+    <HBox spacing="5">
+        <Button text="Dokumentation" fx:id="btnDocs" onAction="#onDocsButtonClicked"/>
+        <Button text="File.." fx:id="btnFilePicker"/>
+    </HBox>
     <TableView fx:id="tableViewLST" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="columnBlock0" text="Breakp" />

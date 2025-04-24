@@ -4,7 +4,12 @@ public class IO_PIN {
     private boolean value;
     private boolean input;
     public void toggleValue() {
-        value  = !value;
+        try {
+            value = !value;
+        } catch (Exception e) {
+            System.err.println("⚠ Fehler beim Umschalten des PIN-Werts: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void setValue(boolean value) {

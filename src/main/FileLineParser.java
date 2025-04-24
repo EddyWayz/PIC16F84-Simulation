@@ -59,7 +59,8 @@ public class FileLineParser {
                 System.out.println(line);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("⚠ Fehler beim Ausgeben der Datei: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

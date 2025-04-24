@@ -9,16 +9,6 @@
           stylesheets="@css/RegisterView.css"
           styleClass="grid-pane">
 
-    <!-- 3 Spalten: links, Divider, rechts -->
-    <rowConstraints>
-
-
-
-    </rowConstraints>
-
-
-
-
     <children>
 
         <Label fx:id="statusLabel" text="STATUS:"
@@ -43,7 +33,7 @@
 
         <!-- Separator (Row 1) -->
         <Separator GridPane.rowIndex="1" GridPane.columnSpan="5"
-                   orientation="HORIZONTAL" />
+        />
 
 
         <Label fx:id="W" text="W: "
