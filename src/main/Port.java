@@ -6,8 +6,13 @@ public class Port {
 
     public Port(String name) {
         this.name = name;
-        for (int i = 0; i< pins.length; i++) {
-            pins[i] = new IO_PIN();
+        try {
+            for (int i = 0; i < pins.length; i++) {
+                pins[i] = new IO_PIN();
+            }
+        } catch (Exception e) {
+            System.err.println("⚠ Fehler beim Initialisieren der IO_PINs: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

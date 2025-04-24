@@ -186,6 +186,7 @@ public class RAMTabsLSTController implements Initializable {
         SFRRows.add(new SFRRow(3, "STATUS", pic.memory.read_bank(3, 0)));
         SFRRows.add(new SFRRow(4, "FSR", pic.memory.read_bank(4, 0)));
         SFRRows.add(new SFRRow(5, "PORTA", pic.memory.read_bank(5, 0)));
+        SFRRows.add(new SFRRow(5, "Tris", pic.memory.read_bank(5, 1)));
 
         SFRTable.setItems(SFRRows);
         SFRTable.refresh();

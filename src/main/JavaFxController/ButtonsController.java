@@ -68,11 +68,17 @@ public class ButtonsController implements Initializable {
                 }
             });
         }
+        else {
+            System.err.println("⚠ btnRun wurde nicht initialisiert!");
+        }
 
         if (activateWatchdogCheckbox != null) {
             activateWatchdogCheckbox.setOnAction(e -> {
                 pic.prescaler.WDT.active = activateWatchdogCheckbox.isSelected();
             });
+        }
+        else {
+            System.err.println("⚠ activateWatchdogCheckbox wurde nicht initialisiert!");
         }
 
         if (btnStep != null) {
@@ -81,11 +87,17 @@ public class ButtonsController implements Initializable {
                 refreshView();
             });
         }
+        else {
+            System.err.println("⚠ btnStep wurde nicht initialisiert!");
+        }
 
         if (btnStop != null) {
             btnStop.setOnAction(e -> {
                 stopButtonPushed = true;
             });
+        }
+        else {
+            System.err.println("⚠ btnStop wurde nicht initialisiert!");
         }
 
         if(btnMCLR != null) {
@@ -93,6 +105,9 @@ public class ButtonsController implements Initializable {
                 MainController.getStaticPic().MCLR();
                 refreshView();
             });
+        }
+        else {
+            System.err.println("⚠ btnMCLR wurde nicht initialisiert!");
         }
     }
 

@@ -17,7 +17,7 @@ public class MainController implements Initializable {
     // Öffentliche statische Variable für den PIC
     private static PIC pic;
 
-    public static PortController ioPinsController;  // Referenz setzen bei initialize()
+    public static PortController ioPinsController;
     public static TableLSTController tableLSTController;
     public static RAMTabsLSTController ramTabsLSTController;
     public static RegisterController registerController;
@@ -44,11 +44,19 @@ public class MainController implements Initializable {
         if (buttonsController != null) {
             buttonsController.updatePIC(pic);
         }
+        else {
+            System.err.println("⚠ ButtonsController ist noch nicht initialisiert!");
+        }
 
         if(registerController != null){
             registerController.updatePIC(pic);
         } else{
             System.out.println("⚠ RegisterController ist noch nicht initialisiert!");
+        }
+        if(tableLSTController != null){
+            tableLSTController.reloadTable(newPath);
+        } else{
+            System.out.println("⚠ TableLSTController ist noch nicht initialisiert!");
         }
     }
 

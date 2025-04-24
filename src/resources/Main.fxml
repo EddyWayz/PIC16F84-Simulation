@@ -53,7 +53,7 @@
                 GridPane.hgrow="ALWAYS"/>
 
     <!-- Bereich: I/O-Pins -->
-    <fx:include fx:id="ioPinsInclude" source="IOPins.fxml"
+    <fx:include fx:id="ioPinsInclude" source="Ports.fxml"
                 GridPane.columnIndex="4"
                 GridPane.rowIndex="0"
                 GridPane.rowSpan="3"

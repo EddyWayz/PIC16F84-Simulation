@@ -46,6 +46,7 @@ public class TableLSTController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        MainController.tableLSTController = this;
         instance = this;
         //tableViewLST.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -71,7 +72,11 @@ public class TableLSTController implements Initializable {
         } else {
             defaultPath = "";
         }
-        reloadTable(defaultPath);
+        if (defaultPath == null || defaultPath.isEmpty()) {
+            System.err.println("⚠ Standardpfad ist leer, Datei wird nicht geladen.");
+        } else {
+            reloadTable(defaultPath);
+        }
 
         // Anpassen der RowFactory: Hervorheben der Zeile anhand des Programmzählers (PC).
         tableViewLST.setRowFactory(tv -> new TableRow<DataRow>() {
@@ -136,6 +141,10 @@ public class TableLSTController implements Initializable {
      * @param path Pfad zur LST-Datei
      */
     void reloadTable(String path) {
+        if (path == null || path.isEmpty()) {
+            System.err.println("⚠ Kein Pfad angegeben, Tabelle wird nicht geladen.");
+            return;
+        }
         FileLineParser flParser = new FileLineParser(path);
         ArrayList<DataRow> dataRows = new ArrayList<>();
         try {
@@ -144,9 +153,12 @@ public class TableLSTController implements Initializable {
                 DataRow row = FileLineParser.parseLineToDataRow(line);
                 dataRows.add(row);
             }
-
         } catch (IOException e) {
+            System.err.println("⚠ Fehler beim Einlesen der LST-Datei '" + path + "': " + e.getMessage());
             e.printStackTrace();
+        }
+        if (dataRows.isEmpty()) {
+            System.err.println("⚠ Keine Datenzeilen gefunden für Datei: " + path);
         }
         ObservableList<DataRow> data = FXCollections.observableArrayList(dataRows);
         tableViewLST.setItems(data);
@@ -179,8 +191,9 @@ public class TableLSTController implements Initializable {
                     System.out.println("Ausgewählte Datei: " + selectedFile.getAbsolutePath());
                     // Neuinitialisieren des PIC mit der ausgewählten Datei
                     MainController.updatePIC(selectedFile.getAbsolutePath());
-                    // Danach die Tabelle mit den neuen Daten aktualisieren
-                    reloadTable(selectedFile.getAbsolutePath());
+                }
+                else {
+                    System.out.println("⚠ Keine Datei ausgewählt.");
                 }
             });
         } else {

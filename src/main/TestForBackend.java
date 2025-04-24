@@ -20,6 +20,10 @@ public class TestForBackend {
             System.out.println("Running on another OS: " + osName);
         }
 
+        if (path == null || path.isEmpty()) {
+            System.err.println("⚠ Kein gültiger Pfad für LST-Datei gesetzt.");
+            return;
+        }
 
         PIC pic = new PIC(path);
 

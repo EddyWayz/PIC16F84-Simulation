@@ -8,7 +8,11 @@ public class IO_PIN {
     }
 
     public void setValue(boolean value) {
-        this.value = value;
+        try {
+            this.value = value;
+        } catch (Exception e) {
+            System.err.println("⚠ Fehler beim Setzen des PIN-Werts: " + e.getMessage());
+        }
     }
 
     public boolean getValue() {

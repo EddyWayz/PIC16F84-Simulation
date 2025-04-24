@@ -38,10 +38,9 @@ public class PortController {
 
         int size = pic.PortA.pins.length;
 
-        // RA header labels (RA7 to RA0)
+        // RA header labels (RA0 to RA7)
         for (int i = 0; i < size; i++) {
-            int pin = size - 1 - i;
-            Label header = new Label("RA" + pin);
+            Label header = new Label("RA" + i);
             header.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             header.prefWidthProperty().bind(header.heightProperty());
             GridPane.setHgrow(header, Priority.ALWAYS);
@@ -73,23 +72,35 @@ public class PortController {
             label.prefWidthProperty().bind(label.heightProperty());
             GridPane.setHgrow(label, Priority.ALWAYS);
             GridPane.setVgrow(label, Priority.ALWAYS);
+            // Hintergrundfarbe abhängig vom TRIS-Bit (0=Output, 1=Input)
+            int tris = pic.memory.readBit_bank(5, i, 1);
+            String bgColor = (tris == 0) ? "green" : "yellow";
             label.setStyle(
                 "-fx-alignment: center;" +
                 "-fx-border-color: black;" +
-                "-fx-font-size: 14;"
+                "-fx-font-size: 14;" +
+                "-fx-background-color: " + bgColor + ";"
             );
             final int index = i;
             label.setOnMouseClicked(event -> {
                 pic.PortA.pins[index].toggleValue();
                 label.setText(pic.PortA.pins[index].getValue() ? "1" : "0");
+                // Recompute background based on TRIS after toggle
+                int tris2 = pic.memory.readBit_bank(5, index, 1);
+                String bgColor2 = (tris2 == 0) ? "green" : "yellow";
+                label.setStyle(
+                    "-fx-alignment: center;" +
+                    "-fx-border-color: black;" +
+                    "-fx-font-size: 14;" +
+                    "-fx-background-color: " + bgColor2 + ";"
+                );
             });
             gridPane.add(label, i + 1, 1);
         }
 
-        // RB header labels (RB7 to RB0)
+        // RB header labels (RB0 to RB7)
         for (int i = 0; i < size; i++) {
-            int pin = size - 1 - i;
-            Label header = new Label("RB" + pin);
+            Label header = new Label("RB" + i);
             header.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             header.prefWidthProperty().bind(header.heightProperty());
             GridPane.setHgrow(header, Priority.ALWAYS);
@@ -121,15 +132,28 @@ public class PortController {
             label.prefWidthProperty().bind(label.heightProperty());
             GridPane.setHgrow(label, Priority.ALWAYS);
             GridPane.setVgrow(label, Priority.ALWAYS);
+            // Hintergrundfarbe abhängig vom TRIS-Bit (0=Output, 1=Input)
+            int tris = pic.memory.readBit_bank(6, i, 1);
+            String bgColor = (tris == 0) ? "green" : "yellow";
             label.setStyle(
                 "-fx-alignment: center;" +
                 "-fx-border-color: black;" +
-                "-fx-font-size: 14;"
+                "-fx-font-size: 14;" +
+                "-fx-background-color: " + bgColor + ";"
             );
             final int index = i;
             label.setOnMouseClicked(event -> {
                 pic.PortB.pins[index].toggleValue();
                 label.setText(pic.PortB.pins[index].getValue() ? "1" : "0");
+                // Recompute background based on TRIS after toggle
+                int tris2 = pic.memory.readBit_bank(6, index, 1);
+                String bgColor2 = (tris2 == 0) ? "green" : "yellow";
+                label.setStyle(
+                    "-fx-alignment: center;" +
+                    "-fx-border-color: black;" +
+                    "-fx-font-size: 14;" +
+                    "-fx-background-color: " + bgColor2 + ";"
+                );
             });
             gridPane.add(label, i + 1, 3);
         }

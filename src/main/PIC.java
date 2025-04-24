@@ -71,21 +71,26 @@ public class PIC {
      * @param port that will be updated
      */
     private void updatePort(Port port) {
-        int address = port.getName().equals("PortA") ? 5 : 6;
+        try {
+            int address = port.getName().equals("PortA") ? 5 : 6;
 
-        for(int index = 0; index < 8; index++) {
-            int tris = memory.readBit_bank(address, index, 1);
-            if(tris == 0) {
-                boolean value = memory.readBit_bank(address, index, 0) == 1;
-                port.pins[index].setInput(value);
-            } else {
-                boolean value = port.pins[index].getValue();
-                if(value) {
-                    memory.setBit_bank(address, index, 0);
+            for (int index = 0; index < 8; index++) {
+                int tris = memory.readBit_bank(address, index, 1);
+                if (tris == 0) {
+                    boolean value = memory.readBit_bank(address, index, 0) == 1;
+                    port.pins[index].setInput(value);
                 } else {
-                    memory.unsetBit_bank(address, index, 0);
+                    boolean value = port.pins[index].getValue();
+                    if (value) {
+                        memory.setBit_bank(address, index, 0);
+                    } else {
+                        memory.unsetBit_bank(address, index, 0);
+                    }
                 }
             }
+        } catch (Exception e) {
+            System.err.println("⚠ Fehler beim Aktualisieren von Port '" + port.getName() + "': " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

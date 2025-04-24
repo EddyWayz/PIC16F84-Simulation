@@ -22,16 +22,23 @@ public class InstructionParser {
             e.printStackTrace();
             System.out.println("Error while parsing file");
         }
+        if (fileAsLines == null || fileAsLines.isEmpty()) {
+            System.err.println("⚠ Keine Zeilen eingelesen oder Datei leer: " + path);
+        }
     }
 
     public ArrayList<Integer> parseLinesToInstructions() {
         String currentLine;
         //gets the hex code and adds it to the program list
         for (int i = findFirstIndex(); i < fileAsLines.size(); i++) {
-            currentLine = fileAsLines.get(i);
-            int instruction = getInstruction(currentLine);
-            if(instruction != -1 && program.size() < 1024) {
-                program.add(instruction);
+            try {
+                currentLine = fileAsLines.get(i);
+                int instruction = getInstruction(currentLine);
+                if (instruction != -1 && program.size() < 1024) {
+                    program.add(instruction);
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("⚠ Ungültige Instruktion in Zeile " + i + ": " + fileAsLines.get(i));
             }
         }
         return program;
@@ -44,10 +51,14 @@ public class InstructionParser {
     private int findFirstIndex() {
         char current = fileAsLines.getFirst().charAt(0);
         int index = 0;
-
-        while (current == ' ') {
-            index++;
-            current = fileAsLines.get(index).charAt(0);
+        try {
+            while (current == ' ') {
+                index++;
+                current = fileAsLines.get(index).charAt(0);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("⚠ findFirstIndex: Datei nicht wie erwartet formatiert.");
+            return 0;
         }
         return index;
     }

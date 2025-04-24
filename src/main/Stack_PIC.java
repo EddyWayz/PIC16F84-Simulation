@@ -17,8 +17,13 @@ public class Stack_PIC {
      * @param address that will be put onto the stack
      */
     public void push(int address) {
-        stack[stack_pointer] = address;
-        inc_SP();
+        try {
+            stack[stack_pointer] = address;
+            inc_SP();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("⚠ Stack overflow bei push: index " + stack_pointer + ": " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -26,8 +31,14 @@ public class Stack_PIC {
      * @return the popped element
      */
     public int pop() {
-        dec_SP();
-        return stack[stack_pointer];
+        try {
+            dec_SP();
+            return stack[stack_pointer];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("⚠ Stack underflow bei pop: index " + stack_pointer + ": " + e.getMessage());
+            e.printStackTrace();
+            return -1;
+        }
     }
 
     /**

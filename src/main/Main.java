@@ -8,11 +8,19 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../resources/Main.fxml"));
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("../resources/Main.fxml"));
+        } catch (IOException | NullPointerException e) {
+            System.err.println("⚠ Fehler beim Laden der FXML: " + e.getMessage());
+            return;
+        }
 
         // Hole die Abmessungen des primären Bildschirms
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();

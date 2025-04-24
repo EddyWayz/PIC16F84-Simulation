@@ -32,6 +32,10 @@ public class FileLineParser {
      * @throws IOException
      */
     public ArrayList<String> parseFileToLines() throws IOException {
+        if (!input.exists()) {
+            System.err.println("⚠ Datei nicht gefunden: " + input.getPath());
+            return fileAsLines;
+        }
         if (!fileAsLines.isEmpty()) {
             // Datei wurde bereits eingelesen
             return fileAsLines;
