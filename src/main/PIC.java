@@ -381,7 +381,7 @@ public class PIC {
 
         int value = memory.read_indirect(address, indirect);
         value--;
-        if (value < 0) {
+        if (value == 0) {
             value = 255;
             memory.increment_PC();
             prescaler.TMR.update();
