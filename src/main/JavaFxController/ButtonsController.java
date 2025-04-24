@@ -92,11 +92,11 @@ public class ButtonsController implements Initializable {
             TableLSTController.instance.refreshView();
         }
         if (RAMTabsLSTController.instance != null) {
-            RAMTabsLSTController.instance.updatePIC(MainController.getStaticPic());
+            RAMTabsLSTController.instance.buildUI();
         }
 
         if(RegisterController.instance != null){
-            RegisterController.instance.updatePIC(MainController.getStaticPic());
+            RegisterController.instance.buildUI();
         }
     }
 

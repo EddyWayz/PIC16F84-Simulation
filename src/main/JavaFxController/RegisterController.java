@@ -49,7 +49,7 @@ public class RegisterController implements Initializable {
     /**
      * Updates all labels according to the current PIC's registers.
      */
-    private void buildUI() {
+    public void buildUI() {
         if (pic == null) {
             // Clear or reset to defaults
             W.setText("W: ");

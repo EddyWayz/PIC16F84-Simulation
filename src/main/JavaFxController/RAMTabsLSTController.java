@@ -78,7 +78,7 @@ public class RAMTabsLSTController implements Initializable {
     /**
      * Baut die TableView neu zusammen anhand der aktuellen PIC-Instanz.
      */
-    private void buildUI() {
+    public void buildUI() {
         if (pic == null) {
             RAMTabsLST.getItems().clear();
             return;
