@@ -332,6 +332,17 @@ public class RAM implements Memory {
     }
 
     /**
+     * unsets a bit at a given address, position and bank
+     *
+     * @param address  of a register
+     * @param position of a bit
+     */
+    public void unsetBit_bank(int address, int position, int bank) {
+        RAM[bank].unsetBit(address, position);
+        checkManipulationPC(address);
+    }
+
+    /**
      * gets a value of a bit at a given address and positon
      *
      * @param address  of register

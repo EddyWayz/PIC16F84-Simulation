@@ -6,7 +6,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import main.PIC;
 
-public class IO_PINS_Controller {
+public class PortController {
 
     @FXML
     private GridPane gridPane;
@@ -36,7 +36,7 @@ public class IO_PINS_Controller {
     public void buildUI() {
         gridPane.getChildren().clear();
 
-        int size = pic.PortA.ioPins.length;
+        int size = pic.PortA.pins.length;
 
         // RA header labels (RA7 to RA0)
         for (int i = 0; i < size; i++) {
@@ -67,7 +67,7 @@ public class IO_PINS_Controller {
         );
         gridPane.add(portALabel, 0, 1);
         for (int i = 0; i < size; i++) {
-            boolean value = pic.PortA.ioPins[i].getValue();
+            boolean value = pic.PortA.pins[i].getValue();
             Label label = new Label(value ? "1" : "0");
             label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             label.prefWidthProperty().bind(label.heightProperty());
@@ -80,8 +80,8 @@ public class IO_PINS_Controller {
             );
             final int index = i;
             label.setOnMouseClicked(event -> {
-                pic.PortA.ioPins[index].toggleValue();
-                label.setText(pic.PortA.ioPins[index].getValue() ? "1" : "0");
+                pic.PortA.pins[index].toggleValue();
+                label.setText(pic.PortA.pins[index].getValue() ? "1" : "0");
             });
             gridPane.add(label, i + 1, 1);
         }
@@ -115,7 +115,7 @@ public class IO_PINS_Controller {
         );
         gridPane.add(portBLabel, 0, 3);
         for (int i = 0; i < size; i++) {
-            boolean value = pic.PortB.ioPins[i].getValue();
+            boolean value = pic.PortB.pins[i].getValue();
             Label label = new Label(value ? "1" : "0");
             label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             label.prefWidthProperty().bind(label.heightProperty());
@@ -128,8 +128,8 @@ public class IO_PINS_Controller {
             );
             final int index = i;
             label.setOnMouseClicked(event -> {
-                pic.PortB.ioPins[index].toggleValue();
-                label.setText(pic.PortB.ioPins[index].getValue() ? "1" : "0");
+                pic.PortB.pins[index].toggleValue();
+                label.setText(pic.PortB.pins[index].getValue() ? "1" : "0");
             });
             gridPane.add(label, i + 1, 3);
         }

@@ -1,10 +1,17 @@
 package main;
 
 public class Port {
-    public IO_PIN[] ioPins = new IO_PIN[8];
-    public Port() {
-        for (int i=0; i<ioPins.length;i++) {
-            ioPins[i] = new IO_PIN();
+    public IO_PIN[] pins = new IO_PIN[8];
+    private final String name;
+
+    public Port(String name) {
+        this.name = name;
+        for (int i = 0; i< pins.length; i++) {
+            pins[i] = new IO_PIN();
         }
+    }
+
+    public String getName() {
+        return name;
     }
 }

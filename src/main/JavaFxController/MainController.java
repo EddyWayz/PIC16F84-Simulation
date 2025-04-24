@@ -17,7 +17,7 @@ public class MainController implements Initializable {
     // Öffentliche statische Variable für den PIC
     private static PIC pic;
 
-    public static IO_PINS_Controller ioPinsController;  // Referenz setzen bei initialize()
+    public static PortController ioPinsController;  // Referenz setzen bei initialize()
     public static TableLSTController tableLSTController;
     public static RAMTabsLSTController ramTabsLSTController;
     public static RegisterController registerController;
