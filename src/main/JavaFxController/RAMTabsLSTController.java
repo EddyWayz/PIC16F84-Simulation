@@ -26,9 +26,16 @@ public class RAMTabsLSTController implements Initializable {
     @FXML
     private TableColumn<RAMRow, String> valueB;
 
-    @FXML private TableView<SFRRow> SFRTable;
-    @FXML private TableColumn<SFRRow, String> col1;
-    @FXML private TableColumn<SFRRow, String> col2;
+    @FXML
+    private TableView<SFRRow> SFRTable;
+    @FXML
+    private TableColumn<SFRRow, String> addressSFR;
+    @FXML
+    private TableColumn<SFRRow, String> nameSFR;
+    @FXML
+    private TableColumn<SFRRow, String> valueHexSFR;
+    @FXML
+    private TableColumn<SFRRow, String> valueBinSFR;
 
     private PIC pic;  // eigene Referenz auf den aktuellen PIC
 
@@ -84,6 +91,7 @@ public class RAMTabsLSTController implements Initializable {
     public void buildUI() {
         if (pic == null) {
             RAMTabsLST.getItems().clear();
+            SFRTable.getItems().clear();
             return;
         }
 
@@ -96,6 +104,7 @@ public class RAMTabsLSTController implements Initializable {
 
         RAMTabsLST.setItems(rows);
         RAMTabsLST.refresh();
+        buildSFR();
     }
 
     /**
@@ -142,21 +151,27 @@ public class RAMTabsLSTController implements Initializable {
      * Konfiguriert die Spalten im Test-Tab.
      */
     private void setupSFR() {
-        address.setCellValueFactory(cellData ->
-                new SimpleStringProperty(
-                        String.format("0x%02X", cellData.getValue().getAddress())
-                )
+        // Configure SFR table columns
+        addressSFR.setCellValueFactory(cellData ->
+            new SimpleStringProperty(
+                String.format("0x%02X", cellData.getValue().getAddress())
+            )
         );
-//        name.setCellValueFactory(cellData ->
-//                new SimpleStringProperty(
-//                        String.format("0x%02X", cellData.getValue().getName())
-//                )
-//        );
-        valueB.setCellValueFactory(cellData ->
-                new SimpleStringProperty(
-                        String.format("%8s", Integer.toBinaryString(cellData.getValue().getValue()))
-                                .replace(' ', '0')
-                )
+        nameSFR.setCellValueFactory(cellData ->
+            new SimpleStringProperty(
+                cellData.getValue().getName()
+            )
+        );
+        valueHexSFR.setCellValueFactory(cellData ->
+            new SimpleStringProperty(
+                String.format("0x%02X", cellData.getValue().getValue())
+            )
+        );
+        valueBinSFR.setCellValueFactory(cellData ->
+            new SimpleStringProperty(
+                String.format("%8s", Integer.toBinaryString(cellData.getValue().getValue()))
+                    .replace(' ', '0')
+            )
         );
     }
 

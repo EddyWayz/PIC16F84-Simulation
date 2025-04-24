@@ -44,6 +44,12 @@ public class MainController implements Initializable {
         if (buttonsController != null) {
             buttonsController.updatePIC(pic);
         }
+
+        if(registerController != null){
+            registerController.updatePIC(pic);
+        } else{
+            System.out.println("⚠ RegisterController ist noch nicht initialisiert!");
+        }
     }
 
 

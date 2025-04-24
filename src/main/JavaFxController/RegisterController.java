@@ -67,7 +67,7 @@ public class RegisterController implements Initializable {
         // Example getters on PIC; adapt to your PIC API
         W.setText("W: ");
         WValue.setText(String.format("0x%02X", pic.getW()));
-        RP0.setText("RP0: " + String.format("0x%02X", pic.memory.getRP0()));
+        RP0.setText("RP0: " + pic.memory.getRP0());
         Z.setText("Z: " + pic.memory.get_Z());
         PCL.setText("PCL: ");
         PCLLabel.setText(String.format("0x%02X", pic.memory.getPC()));
