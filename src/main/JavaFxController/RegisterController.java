@@ -1,8 +1,10 @@
-package main;
+package main.JavaFxController;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import main.PIC;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 

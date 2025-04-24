@@ -6,7 +6,7 @@
 <?import javafx.geometry.Insets?>
 
 <GridPane xmlns:fx="http://javafx.com/fxml"
-          fx:controller="main.MainController"
+          fx:controller="main.JavaFxController.MainController"
           alignment="TOP_LEFT"
           hgap="10" vgap="10">
 

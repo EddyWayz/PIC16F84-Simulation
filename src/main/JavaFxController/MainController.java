@@ -1,10 +1,10 @@
-package main;
-
-import main.timers.WatchdogTMR;
+package main.JavaFxController;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
+import main.PIC;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 

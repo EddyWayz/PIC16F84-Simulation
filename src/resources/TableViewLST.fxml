@@ -7,7 +7,7 @@
 
 <?import javafx.scene.control.Button?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="main.TableLSTController"
+      fx:controller="main.JavaFxController.TableLSTController"
       stylesheets="@css/TableLSTViewStyle.css"
       spacing="5">
     <Label text="LST File" />

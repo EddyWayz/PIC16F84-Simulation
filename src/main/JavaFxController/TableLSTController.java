@@ -1,4 +1,5 @@
-package main;
+package main.JavaFxController;
+import main.FileLineParser;
 import main.FileLineParser.DataRow;
 
 import javafx.application.Platform;
@@ -8,12 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.beans.binding.Bindings;
 
 import java.io.File;
 import java.net.URL;
@@ -29,7 +28,7 @@ public class TableLSTController implements Initializable {
     @FXML
     public Button btnFilePicker;
     @FXML
-    TableView<DataRow> tableViewLST;
+    public TableView<DataRow> tableViewLST;
     @FXML
     private TableColumn<DataRow, String> columnBlock0;
     @FXML

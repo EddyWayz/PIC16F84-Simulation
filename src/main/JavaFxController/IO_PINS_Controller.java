@@ -1,9 +1,10 @@
-package main;
+package main.JavaFxController;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import main.PIC;
 
 public class IO_PINS_Controller {
 

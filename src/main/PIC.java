@@ -34,10 +34,10 @@ public class PIC {
     //private int PC;
 
     //prescaler and timers in PS
-    Prescaler prescaler;
+    public Prescaler prescaler;
 
     //
-    IO_PINS IO_Pins = new IO_PINS();
+    public IO_PINS IO_Pins = new IO_PINS();
     public PIC(String path) {
         //INIT of special registers
         W = 0;

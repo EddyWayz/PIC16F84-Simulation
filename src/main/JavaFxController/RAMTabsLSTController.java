@@ -1,4 +1,4 @@
-package main;
+package main.JavaFxController;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.text.Text;
 import javafx.scene.control.TableView;
+import main.PIC;
 
 import java.net.URL;
 import java.util.ResourceBundle;
