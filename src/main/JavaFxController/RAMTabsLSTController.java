@@ -26,9 +26,9 @@ public class RAMTabsLSTController implements Initializable {
     @FXML
     private TableColumn<RAMRow, String> valueB;
 
-    @FXML private TableView<TestRow> testTable;
-    @FXML private TableColumn<TestRow, String> col1;
-    @FXML private TableColumn<TestRow, String> col2;
+    @FXML private TableView<SFRRow> SFRTable;
+    @FXML private TableColumn<SFRRow, String> col1;
+    @FXML private TableColumn<SFRRow, String> col2;
 
     private PIC pic;  // eigene Referenz auf den aktuellen PIC
 
@@ -41,9 +41,10 @@ public class RAMTabsLSTController implements Initializable {
         this.pic = MainController.getStaticPic();
         setupColumns();
         buildUI();
-        setupTestColumns();
-        buildTestData();
+        setupSFR();
+        buildSFR();
         autoResizeColumns(RAMTabsLST);
+        //autoResizeColumns(SFRTable);
     }
 
     /**
@@ -139,42 +140,63 @@ public class RAMTabsLSTController implements Initializable {
     /**
      * Konfiguriert die Spalten im Test-Tab.
      */
-    private void setupTestColumns() {
-        col1.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getCol1()));
-        col2.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getCol2()));
+    private void setupSFR() {
+        address.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        String.format("0x%02X", cellData.getValue().getAddress())
+                )
+        );
+//        name.setCellValueFactory(cellData ->
+//                new SimpleStringProperty(
+//                        String.format("0x%02X", cellData.getValue().getName())
+//                )
+//        );
+        valueB.setCellValueFactory(cellData ->
+                new SimpleStringProperty(
+                        String.format("%8s", Integer.toBinaryString(cellData.getValue().getValue()))
+                                .replace(' ', '0')
+                )
+        );
     }
 
     /**
      * Baut das Test-Tab mit Beispiel-Daten auf.
      */
-    private void buildTestData() {
-        ObservableList<TestRow> testRows = FXCollections.observableArrayList();
-        testRows.add(new TestRow("A", "1"));
-        testRows.add(new TestRow("B", "2"));
-        testRows.add(new TestRow("C", "3"));
-        testTable.setItems(testRows);
-        testTable.refresh();
+    private void buildSFR() {
+        ObservableList<SFRRow> SFRRows = FXCollections.observableArrayList();
+        PIC pic = MainController.getStaticPic();
+        SFRRows.add(new SFRRow(0, "Indirect Adress", 0));
+        SFRRows.add(new SFRRow(1, "TMR0", pic.memory.read_bank(1, 0)));
+        SFRRows.add(new SFRRow(3, "STATUS", pic.memory.read_bank(3, 0)));
+        SFRRows.add(new SFRRow(4, "FSR", pic.memory.read_bank(4, 0)));
+        SFRRows.add(new SFRRow(5, "PORTA", pic.memory.read_bank(5, 0)));
+
+        SFRTable.setItems(SFRRows);
+        SFRTable.refresh();
     }
 
     /**
      * Datenmodell für eine Zeile in der Test-Tabelle.
      */
-    public static class TestRow {
-        private final SimpleStringProperty col1;
-        private final SimpleStringProperty col2;
+    public static class SFRRow {
+        private final SimpleIntegerProperty address;
+        private final SimpleStringProperty name;
+        private final SimpleIntegerProperty value;
 
-        public TestRow(String col1, String col2) {
-            this.col1 = new SimpleStringProperty(col1);
-            this.col2 = new SimpleStringProperty(col2);
+        public SFRRow(int address, String name, int value) {
+            this.address = new SimpleIntegerProperty(address);
+            this.name = new SimpleStringProperty(name);
+            this.value = new SimpleIntegerProperty(value);
         }
 
-        public String getCol1() { return col1.get(); }
-        public SimpleStringProperty col1Property() { return col1; }
+        public int getAddress() { return address.get(); }
+        public SimpleIntegerProperty addressProperty() { return address; }
 
-        public String getCol2() { return col2.get(); }
-        public SimpleStringProperty col2Property() { return col2; }
+        public String getName() { return name.get(); }
+        public SimpleStringProperty nameProperty() { return name; }
+
+        public int getValue() { return value.get(); }
+        public SimpleIntegerProperty valueProperty() { return value; }
     }
 
     /**

@@ -7,26 +7,28 @@
 
 <TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="main.JavaFxController.RAMTabsLSTController" VBox.vgrow="ALWAYS">
     <tabs>
-        <Tab text="RAM" closable="false">
+        <Tab text="GPR" closable="false">
             <content>
                 <VBox spacing="10">
                     <TableView fx:id="RAMTabsLST" VBox.vgrow="ALWAYS">
                         <columns>
                             <TableColumn fx:id="address" text="Address" />
                             <TableColumn fx:id="valueH" text="Value (HEX) " />
-                            <TableColumn fx:id="valueB" text="Value (Binary" />
+                            <TableColumn fx:id="valueB" text="Value (Binary)" />
                         </columns>
                     </TableView>
                 </VBox>
             </content>
         </Tab>
-        <Tab text="Test" closable="false">
+        <Tab text="SFR" closable="false">
             <content>
                 <VBox spacing="10">
-                    <TableView fx:id="testTable" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="SFRTable" VBox.vgrow="ALWAYS">
                         <columns>
-                            <TableColumn fx:id="col1" text="Spalte 1" />
-                            <TableColumn fx:id="col2" text="Spalte 2" />
+                            <TableColumn fx:id="addressSFR" text="Address" />
+                            <TableColumn fx:id="nameSFR" text="Name" />
+                            <TableColumn fx:id="valueHexSFR" text="Value (HEX)" />
+                            <TableColumn fx:id="valueBinSFR" text="Value (Binary)" />
                         </columns>
                     </TableView>
                 </VBox>
