@@ -16,6 +16,8 @@ public class ButtonsController implements Initializable {
     public Button btnRun;
     public Button btnStep;
     public Button btnStop;
+    public Button btnMCLR;
+
     @FXML
     private CheckBox activateWatchdogCheckbox;
     private volatile boolean stopButtonPushed = false;
@@ -83,6 +85,13 @@ public class ButtonsController implements Initializable {
         if (btnStop != null) {
             btnStop.setOnAction(e -> {
                 stopButtonPushed = true;
+            });
+        }
+
+        if(btnMCLR != null) {
+            btnMCLR.setOnAction(e ->{
+                MainController.getStaticPic().MCLR();
+                refreshView();
             });
         }
     }

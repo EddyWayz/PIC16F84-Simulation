@@ -12,6 +12,7 @@
         <Button text="RUN"  fx:id="btnRun" />
         <Button text="STEP" fx:id="btnStep"/>
         <Button text="STOP" fx:id="btnStop" />
+        <Button text="MCLR" fx:id="btnMCLR"/>
         <CheckBox
                 fx:id="activateWatchdogCheckbox"
                 text="Activate watchdog"/>
