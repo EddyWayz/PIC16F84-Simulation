@@ -31,8 +31,8 @@
                GridPane.rowIndex="0" GridPane.columnIndex="4"
                styleClass="cell" />
 
-        <!-- Separator (Row 1) -->
-        <Separator GridPane.rowIndex="1" GridPane.columnSpan="5"
+        <!-- Separator -->
+        <Separator GridPane.rowIndex="1" GridPane.columnSpan="5" styleClass="vertical-separator"
         />
 
 
