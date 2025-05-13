@@ -40,9 +40,9 @@ public class TableLSTController implements Initializable {
     @FXML
     private void onDocsButtonClicked(ActionEvent event) {
         try {
-            URL pdfUrl = getClass().getResource("../../resources/docs/Mathe2-PA-05.pdf");
+            URL pdfUrl = getClass().getResource("../../resources/docs/Dokumentation PIC16F84 Simulator.pdf");
             if (pdfUrl == null) {
-                System.err.println("PDF nicht gefunden: ../../resources/docs/Mathe2-PA-05.pdf");
+                System.err.println("PDF nicht gefunden: ../../resources/docs/Dokumentation PIC16F84 Simulator.pdf");
                 return;
             }
             File pdfFile = new File(pdfUrl.toURI());
