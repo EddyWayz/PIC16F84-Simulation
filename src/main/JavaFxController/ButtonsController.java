@@ -124,6 +124,9 @@ public class ButtonsController implements Initializable {
             if (RegisterController.instance != null) {
                 RegisterController.instance.buildUI();
             }
+            if (PortController.instance != null) {
+                PortController.instance.buildUI();
+            }
         } catch (Exception e) {
             System.err.println("⚠ Fehler beim Aktualisieren der Ansicht: " + e.getMessage());
             e.printStackTrace();

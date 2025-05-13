@@ -7,7 +7,7 @@ import javafx.scene.layout.Priority;
 import main.PIC;
 
 public class PortController {
-
+    public static PortController instance;
     @FXML
     private GridPane gridPane;
 
@@ -16,6 +16,7 @@ public class PortController {
     @FXML
     public void initialize() {
         MainController.ioPinsController = this;
+        instance = this;
         this.pic = MainController.getStaticPic();
         buildUI();
     }
