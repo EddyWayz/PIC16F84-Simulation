@@ -1195,7 +1195,7 @@ public class PIC {
         return (eeif == 1) && (eeie == 1);
     }
 
-    //GETTER METHODS
+    //GETTER & SETTER METHODS
     public int getW() {
         return W;
     }
@@ -1210,6 +1210,14 @@ public class PIC {
 
     public Stack_PIC getStack(){
         return stack;
+    }
+
+    public double getQuarz_frequenzy() {
+        return quarz_frequenzy;
+    }
+
+    public void setQuarz_frequenzy(double value) {
+        quarz_frequenzy = value;
     }
 
     /**

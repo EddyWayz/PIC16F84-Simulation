@@ -11,8 +11,8 @@ public class WatchdogTMR {
     int counter = 0;
     public boolean active = false;
 
-    //just for testing purposes
-    private int WDT_threshold = 50; //18 * (4 / quarz_freqency)
+    //18.000 instruction equals 18ms at 4Mhz
+    private int WDT_threshold =  (int) (18_000 * (4 / pic.getQuarz_frequenzy()));
 
     public WatchdogTMR(PIC pic, Prescaler ps) {
         this.pic = pic;
@@ -23,13 +23,14 @@ public class WatchdogTMR {
      * updates the Watch Dog Timer considering the prescaler
      */
     public void update() {
+        //is wdt active: if not -> skip
         if (!active) {
             return;
         }
 
+        //send impuls to prescaler
         ps.impulsFromWDT();
 
-        //18.000 instruction equals 18ms
         if (counter >= WDT_threshold) {
             counter = 0;
             //reset or wake up depending on if the pic is in sleep mode
