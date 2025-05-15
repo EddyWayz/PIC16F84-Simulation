@@ -7,6 +7,7 @@
 
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:controller="main.JavaFxController.MainController"
+          stylesheets="@css/main_view_styles.css"
           hgap="10" vgap="10">
 
     <!-- Padding als Element definieren, sonst gehts nicht -->
@@ -14,7 +15,6 @@
         <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
     </padding>
 
-    <!-- Definieren der 10 gleich großen Spalten mit horizontalem Wachsen und FillWidth -->
     <columnConstraints>
         <ColumnConstraints percentWidth="10" hgrow="ALWAYS"/>
         <ColumnConstraints percentWidth="10" hgrow="ALWAYS"/>
@@ -28,7 +28,6 @@
         <ColumnConstraints percentWidth="10" hgrow="ALWAYS"/>
     </columnConstraints>
 
-    <!-- Definieren der 10 gleich großen Zeilen -->
     <rowConstraints>
         <RowConstraints percentHeight="10" vgrow="ALWAYS" />
         <RowConstraints percentHeight="10" vgrow="ALWAYS" />
@@ -42,7 +41,6 @@
         <RowConstraints percentHeight="10" vgrow="ALWAYS" />
     </rowConstraints>
 
-    <!-- Bereich: Tabelle LST -->
     <fx:include source="TableViewLST.fxml"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="0"
@@ -52,7 +50,7 @@
                 GridPane.hgrow="ALWAYS"/>
 
     <!-- Bereich: I/O-Pins -->
-    <fx:include fx:id="ioPinsInclude" source="Ports.fxml"
+    <fx:include fx:id="ioPinsInclude" source="PortsView.fxml"
                 GridPane.columnIndex="4"
                 GridPane.rowIndex="0"
                 GridPane.rowSpan="3"
@@ -60,7 +58,6 @@
                 GridPane.vgrow="ALWAYS"
                 GridPane.hgrow="ALWAYS"/>
 
-    <!-- Bereich: STACK -->
     <fx:include source="Stack.fxml"
                 GridPane.columnIndex="4"
                 GridPane.rowIndex="4"
@@ -69,16 +66,14 @@
                 GridPane.vgrow="ALWAYS"
                 GridPane.hgrow="ALWAYS"/>
 
-    <!-- Bereich: RAM/GPR -->
     <fx:include source="RAMTabs.fxml"
                 GridPane.columnIndex="7"
                 GridPane.rowIndex="0"
-                GridPane.rowSpan="8"
+                GridPane.rowSpan="9"
                 GridPane.columnSpan="4"
                 GridPane.vgrow="ALWAYS"
                 GridPane.hgrow="ALWAYS"/>
 
-    <!-- Bereich: Buttons -->
     <fx:include source="Buttons.fxml"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="9"
@@ -87,11 +82,10 @@
                 GridPane.vgrow="ALWAYS"
                 GridPane.hgrow="ALWAYS"/>
 
-    <!-- Bereich: Register -->
     <fx:include source="Register.fxml"
                 GridPane.columnIndex="7"
-                GridPane.rowIndex="8"
-                GridPane.rowSpan="4"
+                GridPane.rowIndex="9"
+                GridPane.rowSpan="1"
                 GridPane.columnSpan="4"
                 GridPane.vgrow="ALWAYS"
                 GridPane.hgrow="ALWAYS"/>

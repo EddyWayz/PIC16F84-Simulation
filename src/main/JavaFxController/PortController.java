@@ -11,15 +11,16 @@ import main.PIC;
 
 public class PortController {
     public static PortController instance;
-
-    @FXML
-    private GridPane gridPane;
-
     private PIC pic;
     private int size;
     private Label[] raHeaders;
     private Label[] portALabels;
     private Label[] portBLabels;
+
+    @FXML
+    public Label colorDescriptionLabel1;
+    @FXML
+    private GridPane gridPane;
 
     @FXML
     public void initialize() {
@@ -49,10 +50,8 @@ public class PortController {
         portALabels = new Label[size];
         portBLabels = new Label[size];
 
-        // Statische UI-Elemente aufbauen
         buildStaticUI();
 
-        // Dynamische Inhalte befüllen
         buildUI();
     }
 
@@ -72,8 +71,10 @@ public class PortController {
             Label lbl = createDataLabel();
             final int idx = i;
             lbl.setOnMouseClicked(event -> {
-                pic.PortA.pins[idx].toggleValue();
-                updateCell(lbl, pic.PortA.pins[idx].getValue(), pic.memory.readBit_bank(5, idx, 1));
+                if(pic.memory.readBit_bank(5, idx, 1) == 1) {
+                    pic.PortA.pins[idx].toggleValue();
+                    updateCell(lbl, pic.PortA.pins[idx].getValue(), pic.memory.readBit_bank(5, idx, 1));
+                }
             });
             portALabels[i] = lbl;
             gridPane.add(lbl, i + 1, 1);
@@ -94,8 +95,10 @@ public class PortController {
             Label lbl = createDataLabel();
             final int idx = i;
             lbl.setOnMouseClicked(event -> {
-                pic.PortB.pins[idx].toggleValue();
-                updateCell(lbl, pic.PortB.pins[idx].getValue(), pic.memory.readBit_bank(6, idx, 1));
+                if(pic.memory.readBit_bank(6, idx, 1) == 1) {
+                    pic.PortB.pins[idx].toggleValue();
+                    updateCell(lbl, pic.PortB.pins[idx].getValue(), pic.memory.readBit_bank(6, idx, 1));
+                }
             });
             portBLabels[i] = lbl;
             gridPane.add(lbl, i + 1, 3);
@@ -144,7 +147,7 @@ public class PortController {
     private void updateCell(Label lbl, boolean value, int tris) {
         lbl.setText(value ? "1" : "0");
         String bg = (tris == 0) ? "green" : "yellow";
-        // Stil erneut setzen, um Hintergrund anzupassen
+
         lbl.setStyle(lbl.getStyle() +
                 "-fx-background-color: " + bg + ";");
     }

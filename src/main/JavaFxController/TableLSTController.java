@@ -36,6 +36,9 @@ public class TableLSTController implements Initializable {
     @FXML
     public Label quarzFrequenz;
     @FXML
+    public Button btnDocs;
+
+    @FXML
     private void onDocsButtonClicked() {
         try {
             URL pdfUrl = getClass().getResource("../../resources/docs/Dokumentation PIC16F84 Simulator.pdf");

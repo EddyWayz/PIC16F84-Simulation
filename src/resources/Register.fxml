@@ -7,47 +7,45 @@
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:controller="main.JavaFxController.RegisterController"
           stylesheets="@css/RegisterView.css"
-          styleClass="grid-pane">
+          styleClass="grid-pane"
+          alignment="BOTTOM_LEFT">
 
-    <children>
+    <Label fx:id="statusLabel" text="STATUS:"
+           GridPane.rowIndex="0" GridPane.columnIndex="0"
+           styleClass="cell my-label"/>
 
-        <Label fx:id="statusLabel" text="STATUS:"
-               GridPane.rowIndex="0" GridPane.columnIndex="0"
-               styleClass="cell" />
+    <Label fx:id="RP0" text="RP0: "
+           GridPane.rowIndex="0" GridPane.columnIndex="1"
+           styleClass="cell my-label"/>
 
-        <Label fx:id="RP0" text="RP0: "
-               GridPane.rowIndex="0" GridPane.columnIndex="1"
-               styleClass="cell" />
+    <Label fx:id="C" text="C: "
+           GridPane.rowIndex="0" GridPane.columnIndex="2"
+           styleClass="cell my-label"/>
 
-        <Label fx:id="C" text="C: "
-               GridPane.rowIndex="0" GridPane.columnIndex="2"
-               styleClass="cell" />
+    <Label fx:id="DC" text="DC: "
+           GridPane.rowIndex="0" GridPane.columnIndex="3"
+           styleClass="cell my-label"/>
 
-        <Label fx:id="DC" text="DC: "
-               GridPane.rowIndex="0" GridPane.columnIndex="3"
-               styleClass="cell" />
+    <Label fx:id="Z" text="Z: "
+           GridPane.rowIndex="0" GridPane.columnIndex="4"
+           styleClass="cell my-label"/>
 
-        <Label fx:id="Z" text="Z: "
-               GridPane.rowIndex="0" GridPane.columnIndex="4"
-               styleClass="cell" />
-
-        <!-- Separator -->
-        <Separator GridPane.rowIndex="1" GridPane.columnSpan="5" styleClass="vertical-separator"
-        />
+    <!-- Separator -->
+    <Separator GridPane.rowIndex="1" GridPane.columnSpan="5" styleClass="vertical-separator my-label"
+    />
 
 
-        <Label fx:id="W" text="W: "
-               GridPane.rowIndex="2" GridPane.columnIndex="0"
-               styleClass="cell" />
+    <Label fx:id="W" text="W: "
+           GridPane.rowIndex="2" GridPane.columnIndex="0"
+           styleClass="cell my-label"/>
 
-        <Label fx:id="WValue" text="Error"
-               GridPane.rowIndex="2" GridPane.columnIndex="1"
-               styleClass="cell" />
-        <Label fx:id="PCL" text="PCL: "
-               GridPane.rowIndex="2" GridPane.columnIndex="2"
-               styleClass="cell" />
-        <Label fx:id="PCLLabel" text="Error"
-               GridPane.rowIndex="2" GridPane.columnIndex="3"
-               styleClass="cell" />
-    </children>
+    <Label fx:id="WValue" text="Error"
+           GridPane.rowIndex="2" GridPane.columnIndex="1"
+           styleClass="cell my-label"/>
+    <Label fx:id="PCL" text="PCL: "
+           GridPane.rowIndex="2" GridPane.columnIndex="2"
+           styleClass="cell my-label"/>
+    <Label fx:id="PCLLabel" text="Error"
+           GridPane.rowIndex="2" GridPane.columnIndex="3"
+           styleClass="cell my-label"/>
 </GridPane>

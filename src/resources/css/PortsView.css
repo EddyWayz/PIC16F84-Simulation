@@ -1,0 +1,11 @@
+.my-label {
+    -fx-font-size: 17px;
+
+    -fx-min-width: 50px;
+
+    -fx-min-height: 20px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 60px;
+
+    -fx-wrap-text: true;
+}

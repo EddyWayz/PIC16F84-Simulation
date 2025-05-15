@@ -6,12 +6,12 @@
 
 <?import javafx.scene.control.CheckBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="main.JavaFxController.ButtonsController"
-      stylesheets="" spacing="10">
+      stylesheets="@css/ButtonsView.css" spacing="10" alignment="BOTTOM_CENTER">
     <HBox spacing="10">
-        <Button text="RUN"  fx:id="btnRun" />
-        <Button text="STEP" fx:id="btnStep"/>
-        <Button text="STOP" fx:id="btnStop" />
-        <Button text="MCLR" fx:id="btnMCLR"/>
+        <Button text="RUN" fx:id="btnRun" styleClass="btn"/>
+        <Button text="STEP" fx:id="btnStep" styleClass="btn"/>
+        <Button text="STOP" fx:id="btnStop" styleClass="btn"/>
+        <Button text="MCLR" fx:id="btnMCLR" styleClass="btn"/>
         <CheckBox
                 fx:id="activateWatchdogCheckbox"
                 text="Activate watchdog"/>

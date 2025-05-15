@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="main.JavaFxController.PortController"
+      stylesheets="@css/PortsView.css" spacing="10">
+    <Label fx:id="colorDescriptionLabel1" text="Gruen: Tris == 0    Gelb: Tris == 1" styleClass="my-label"/>
+    <GridPane fx:id="gridPane" VBox.vgrow="ALWAYS">
+    </GridPane>
+</VBox>

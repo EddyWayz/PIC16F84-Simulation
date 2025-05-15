@@ -59,19 +59,14 @@ public class ButtonsController implements Initializable {
                                 ex.printStackTrace();
                             }
                         }
-
-                        // Optional: Wenn der Stopp durch Benutzer kam, etwas anzeigen
-                        if (stopButtonPushed) {
-                            System.out.println("Ausführung durch Stop-Button gestoppt.");
-                        }
                     }).start();
                 } else {
-                    System.err.println("⚠ TableLSTController oder PIC nicht initialisiert!");
+                    System.err.println("TableLSTController oder PIC nicht initialisiert!");
                 }
             });
         }
         else {
-            System.err.println("⚠ btnRun wurde nicht initialisiert!");
+            System.err.println("btnRun wurde nicht initialisiert!");
         }
 
         if (activateWatchdogCheckbox != null) {
@@ -80,7 +75,7 @@ public class ButtonsController implements Initializable {
             });
         }
         else {
-            System.err.println("⚠ activateWatchdogCheckbox wurde nicht initialisiert!");
+            System.err.println("activateWatchdogCheckbox wurde nicht initialisiert!");
         }
 
         if (btnStep != null) {
@@ -90,7 +85,7 @@ public class ButtonsController implements Initializable {
             });
         }
         else {
-            System.err.println("⚠ btnStep wurde nicht initialisiert!");
+            System.err.println("btnStep wurde nicht initialisiert!");
         }
 
         if (btnStop != null) {
@@ -106,7 +101,7 @@ public class ButtonsController implements Initializable {
             });
         }
         else {
-            System.err.println("⚠ btnMCLR wurde nicht initialisiert!");
+            System.err.println("btnMCLR wurde nicht initialisiert!");
         }
     }
 
@@ -129,7 +124,7 @@ public class ButtonsController implements Initializable {
                 StackController.instance.buildUI();
             }
         } catch (Exception e) {
-            System.err.println("⚠ Fehler beim Aktualisieren der Ansicht: " + e.getMessage());
+            System.err.println("Fehler beim Aktualisieren der Ansicht: " + e.getMessage());
             e.printStackTrace();
         }
     }

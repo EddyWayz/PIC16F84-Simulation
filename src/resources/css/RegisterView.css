@@ -1,17 +1,22 @@
-.vertical-separator {
-    -fx-border-color: transparent transparent transparent green;
-    -fx-border-width: 0 0 0 50;
-}
-
-/* GridPane-Grundeinstellungen */
 .grid-pane {
     -fx-padding: 10;
     -fx-hgap: 5;
     -fx-vgap: 5;
 }
 
-/* Alle Labels gleichermaßen zentriert und mit weißem Hintergrund */
 .label.cell {
     -fx-alignment: center;
     -fx-background-color: white;
 }
+
+.my-label {
+     -fx-font-size: 17px;
+
+     -fx-min-width: 50px;
+
+     -fx-min-height: 20px;
+     -fx-pref-height: 30px;
+     -fx-max-height: 60px;
+
+     -fx-wrap-text: true;
+ }

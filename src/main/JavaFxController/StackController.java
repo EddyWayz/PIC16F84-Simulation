@@ -58,7 +58,7 @@ public class StackController implements Initializable {
     public void buildUI() {
         List<StackRow> temp = new ArrayList<>();
         for (int i = 7; i >= 0; i--) {
-            temp.add(new StackRow(String.format("%04X", pic.getStack().getVal(i))));
+            temp.add(new StackRow(String.format("[%d] %04X", i, pic.getStack().getVal(i))));
         }
         stackTable.setItems(FXCollections.observableArrayList(temp));
     }
