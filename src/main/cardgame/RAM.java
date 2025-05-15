@@ -32,6 +32,8 @@ public class RAM implements Memory {
     }
 
     public void setPC(int value) {
+        int pcl_val = PC & Mask_Lib.LOWER8BIT_MASK;
+        write(Label_Lib.PCL, pcl_val);
         PC = value;
     }
 
@@ -54,8 +56,10 @@ public class RAM implements Memory {
         // puts the third and fourth bit of pclath into the PC
         int pclath = read(Label_Lib.PCLATH);
         pclath = pclath & Mask_Lib.PCLATH_3_4_MASK;
-        pclath = pclath << 8;
-        PC = pclath;
+
+        pclath = pclath << 10;
+        //combine pclath and PC
+        PC = pclath | PC;
     }
 
     /**
