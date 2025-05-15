@@ -5,9 +5,18 @@
 .highlight-row {
     -fx-background-color: lightblue;
 }
+
 .table-view {
     -fx-table-cell-border-color: transparent;
 }
 .table-view .table-row-cell {
     -fx-border-width: 1;
+}
+
+.table-view .table-cell {
+  -fx-alignment: CENTER;
+}
+
+.table-view .column-header .label {
+  -fx-alignment: CENTER;
 }

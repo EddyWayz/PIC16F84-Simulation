@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
 
-<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="main.JavaFxController.RAMTabsLSTController"
+<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="main.JavaFxController.RAMTabsController"
          stylesheets="@css/RamTabsView.css" VBox.vgrow="ALWAYS">
     <Tab text="GPR" closable="false">
         <VBox spacing="10">

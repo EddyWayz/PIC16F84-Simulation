@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.text.Text;
 import javafx.scene.control.TableView;
 import main.PIC;
@@ -14,8 +15,8 @@ import main.PIC;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RAMTabsLSTController implements Initializable {
-    public static RAMTabsLSTController instance;
+public class RAMTabsController implements Initializable {
+    public static RAMTabsController instance;
 
     @FXML
     TableView<RAMRow> RAMTabsLST;
@@ -41,11 +42,33 @@ public class RAMTabsLSTController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        MainController.ramTabsLSTController = this;
+        MainController.ramTabsController = this;
         instance = this;
+
+        RAMTabsLST.setRowFactory(_ -> new TableRow<>() {
+            @Override
+            protected void updateItem(RAMRow item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setStyle("-fx-background-color: white;");
+                }
+            }
+        });
+
+        SFRTable.setRowFactory(_ -> new TableRow<>() {
+            @Override
+            protected void updateItem(SFRRow item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setStyle("-fx-background-color: white;");
+                }
+            }
+        });
+
+
         // Ensure columns exactly fill the table width without extra blank space
-        RAMTabsLST.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        SFRTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        RAMTabsLST.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+        SFRTable .setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         this.pic = MainController.getStaticPic();
         setupColumns();
         buildUI();
@@ -79,7 +102,7 @@ public class RAMTabsLSTController implements Initializable {
         );
         valueB.setCellValueFactory(cellData ->
                 new SimpleStringProperty(
-                        String.format("%8s", Integer.toBinaryString(cellData.getValue().getValue()))
+                        String.format("0b%8s", Integer.toBinaryString(cellData.getValue().getValue()))
                                 .replace(' ', '0')
                 )
         );
@@ -96,7 +119,6 @@ public class RAMTabsLSTController implements Initializable {
         }
 
         ObservableList<RAMRow> rows = FXCollections.observableArrayList();
-        // Beispiel: Adressen von 0x0C bis 0x4F
         for (int addr = 0x0C; addr <= 0x4F; addr++) {
             int value = pic.memory.read(addr);
             rows.add(new RAMRow(addr, value));
@@ -117,7 +139,7 @@ public class RAMTabsLSTController implements Initializable {
         double[] maxWidths = new double[columnCount];
         // Ermitteln der maximalen Breite für Header und Zellen
         for (int i = 0; i < columnCount; i++) {
-            TableColumn<T, ?> column = (TableColumn<T, ?>) table.getColumns().get(i);
+            TableColumn<T, ?> column = table.getColumns().get(i);
             Text header = new Text(column.getText());
             double maxWidth = header.getLayoutBounds().getWidth();
             for (T row : table.getItems()) {
@@ -136,15 +158,15 @@ public class RAMTabsLSTController implements Initializable {
         double tableWidth = table.getWidth();
         double totalFixedWidth = 0;
         for (int i = 0; i < columnCount - 1; i++) {
-            TableColumn<T, ?> column = (TableColumn<T, ?>) table.getColumns().get(i);
+            TableColumn<T, ?> column = table.getColumns().get(i);
             column.prefWidthProperty().unbind();
             column.setPrefWidth(maxWidths[i]);
             totalFixedWidth += maxWidths[i];
         }
         double remainingWidth = tableWidth - totalFixedWidth;
-        TableColumn<T, ?> lastColumn = (TableColumn<T, ?>) table.getColumns().get(columnCount - 1);
+        TableColumn<T, ?> lastColumn = table.getColumns().get(columnCount - 1);
         lastColumn.prefWidthProperty().unbind();
-        lastColumn.setPrefWidth(remainingWidth > maxWidths[columnCount - 1] ? remainingWidth : maxWidths[columnCount - 1]);
+        lastColumn.setPrefWidth(Math.max(remainingWidth, maxWidths[columnCount - 1]));
     }
 
     /**
@@ -169,7 +191,7 @@ public class RAMTabsLSTController implements Initializable {
         );
         valueBinSFR.setCellValueFactory(cellData ->
             new SimpleStringProperty(
-                String.format("%8s", Integer.toBinaryString(cellData.getValue().getValue()))
+                String.format("0b%8s", Integer.toBinaryString(cellData.getValue().getValue()))
                     .replace(' ', '0')
             )
         );
@@ -181,7 +203,7 @@ public class RAMTabsLSTController implements Initializable {
     private void buildSFR() {
         ObservableList<SFRRow> SFRRows = FXCollections.observableArrayList();
         PIC pic = MainController.getStaticPic();
-        SFRRows.add(new SFRRow(0, "Indirect Adress", 0));
+        SFRRows.add(new SFRRow(0, "Indirect Address", 0));
         SFRRows.add(new SFRRow(1, "TMR0", pic.memory.read_bank(1, 0)));
         SFRRows.add(new SFRRow(2, "PCL", pic.memory.read_bank(2, 0)));
         SFRRows.add(new SFRRow(3, "STATUS", pic.memory.read_bank(3, 0)));
@@ -237,15 +259,9 @@ public class RAMTabsLSTController implements Initializable {
         public int getAddress() {
             return address.get();
         }
-        public SimpleIntegerProperty addressProperty() {
-            return address;
-        }
 
         public int getValue() {
             return value.get();
-        }
-        public SimpleIntegerProperty valueProperty() {
-            return value;
         }
     }
 }

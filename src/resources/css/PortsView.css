@@ -9,3 +9,9 @@
 
     -fx-wrap-text: true;
 }
+
+.portTable {
+  -fx-border-color: black;
+  -fx-border-width: 2;           /* Rahmen dicke (in px) */
+  -fx-border-style: solid;
+}

@@ -13,7 +13,6 @@ public class PortController {
     public static PortController instance;
     private PIC pic;
     private int size;
-    private Label[] raHeaders;
     private Label[] portALabels;
     private Label[] portBLabels;
 
@@ -45,8 +44,6 @@ public class PortController {
         }
 
         // Arrays initialisieren
-        raHeaders = new Label[size];
-        //rbHeaders = new Label[size];
         portALabels = new Label[size];
         portBLabels = new Label[size];
 
@@ -56,22 +53,26 @@ public class PortController {
     }
 
     private void buildStaticUI() {
-        // RA-Header
+        // 1) Leere Zelle oben links, damit Rahmen gezeichnet wird
+        Label cornerTop = createHeader("");
+        gridPane.add(cornerTop, 0, 0);
+
+        // RA-Header (Zeile 0, Spalten 1…size)
         for (int i = 0; i < size; i++) {
             Label header = createHeader("RA" + i);
-            raHeaders[i] = header;
             gridPane.add(header, i + 1, 0);
         }
-        // Port A Label
+
+        // Port A Label (Zeile 1, Spalte 0)
         Label pa = createHeader("Port A");
         gridPane.add(pa, 0, 1);
 
-        // Port A Pins
+        // Port A Pins (Zeile 1, Spalten 1…size)
         for (int i = 0; i < size; i++) {
             Label lbl = createDataLabel();
             final int idx = i;
-            lbl.setOnMouseClicked(event -> {
-                if(pic.memory.readBit_bank(5, idx, 1) == 1) {
+            lbl.setOnMouseClicked(evt -> {
+                if (pic.memory.readBit_bank(5, idx, 1) == 1) {
                     pic.PortA.pins[idx].toggleValue();
                     updateCell(lbl, pic.PortA.pins[idx].getValue(), pic.memory.readBit_bank(5, idx, 1));
                 }
@@ -80,22 +81,26 @@ public class PortController {
             gridPane.add(lbl, i + 1, 1);
         }
 
-        // RB-Header
+        // 2) Leere Zelle in der RB-Header-Zeile (Zeile 2, Spalte 0)
+        Label cornerMid = createHeader("");
+        gridPane.add(cornerMid, 0, 2);
+
+        // RB-Header (Zeile 2, Spalten 1…size)
         for (int i = 0; i < size; i++) {
             Label header = createHeader("RB" + i);
             gridPane.add(header, i + 1, 2);
         }
 
-        // Port B Label
+        // Port B Label (Zeile 3, Spalte 0)
         Label pb = createHeader("Port B");
         gridPane.add(pb, 0, 3);
 
-        // Port B Pins
+        // Port B Pins (Zeile 3, Spalten 1…size)
         for (int i = 0; i < size; i++) {
             Label lbl = createDataLabel();
             final int idx = i;
-            lbl.setOnMouseClicked(event -> {
-                if(pic.memory.readBit_bank(6, idx, 1) == 1) {
+            lbl.setOnMouseClicked(evt -> {
+                if (pic.memory.readBit_bank(6, idx, 1) == 1) {
                     pic.PortB.pins[idx].toggleValue();
                     updateCell(lbl, pic.PortB.pins[idx].getValue(), pic.memory.readBit_bank(6, idx, 1));
                 }

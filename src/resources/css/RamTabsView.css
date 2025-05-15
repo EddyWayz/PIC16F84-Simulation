@@ -1,3 +1,11 @@
 .table-cell {
     -fx-font-family: "Arial";
 }
+.table-view {
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .table-cell {
+  -fx-alignment: CENTER;
+}
+

@@ -19,7 +19,7 @@ public class MainController implements Initializable {
 
     public static PortController ioPinsController;
     public static TableLSTController tableLSTController;
-    public static RAMTabsLSTController ramTabsLSTController;
+    public static RAMTabsController ramTabsController;
     public static RegisterController registerController;
     public static ButtonsController buttonsController;
     public static StackController stackController;
@@ -35,10 +35,10 @@ public class MainController implements Initializable {
         } else {
             System.out.println("⚠ IO_PINS_Controller ist noch nicht initialisiert!");
         }
-        if(ramTabsLSTController != null){
-            ramTabsLSTController.updatePIC(pic);
+        if(ramTabsController != null){
+            ramTabsController.updatePIC(pic);
         } else {
-            System.out.println("⚠ RAMTabsLSTController ist noch nicht initialisiert!");
+            System.out.println("⚠ RAMTabsController ist noch nicht initialisiert!");
         }
         if (buttonsController != null) {
             buttonsController.updatePIC(pic);
