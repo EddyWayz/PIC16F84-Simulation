@@ -18,7 +18,7 @@
 
     <TableView fx:id="tableViewLST" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="columnBlock0" text="Breakp" />
+            <TableColumn fx:id="columnBlock0" text="Breakp." />
             <TableColumn fx:id="columnBlock1" text="PC" />
             <TableColumn fx:id="columnBlock2" text="Block 2" />
             <TableColumn fx:id="columnBlock3" text="Lines" />
@@ -28,7 +28,7 @@
         </columns>
     </TableView>
     <HBox spacing="5">
-        <Label fx:id="runtimeCounter"  styleClass="my-label"/>
-        <Label fx:id="quarzFrequenz"  styleClass="my-label"/>
+        <Label fx:id="runtimeCounter"  styleClass="standardLabel"/>
+        <Label fx:id="quarzFrequenz"  styleClass="standardLabel"/>
     </HBox>
 </VBox>

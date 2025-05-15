@@ -22,8 +22,7 @@ public class RegisterController implements Initializable {
     @FXML private Label C;
     @FXML private Label WValue;
     @FXML private Label PCL;
-    @FXML private Label PCLLabel;
-    @FXML private Label cell41;
+    @FXML private Label PCLValue;
 
     private PIC pic;
 
@@ -57,10 +56,9 @@ public class RegisterController implements Initializable {
             RP0.setText("RP0: ");
             Z.setText("Z: ");
             PCL.setText("PCL: ");
-            PCLLabel.setText("");
+            PCLValue.setText("");
             DC.setText("DC: ");
             C.setText("C: ");
-            cell41.setText("");
             return;
         }
 
@@ -70,7 +68,7 @@ public class RegisterController implements Initializable {
         RP0.setText("RP0: " + pic.memory.getRP0());
         Z.setText("Z: " + pic.memory.get_Z());
         PCL.setText("PCL: ");
-        PCLLabel.setText(String.format("0x%02X", pic.memory.getPC()));
+        PCLValue.setText(String.format("0x%02X", pic.memory.getPC()));
         DC.setText("DC: " + pic.memory.get_DC());
         C.setText("C: " + pic.memory.get_C());
     }

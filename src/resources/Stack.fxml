@@ -14,7 +14,7 @@
     </padding>
 
     <TableView fx:id="stackTable">
-        <!-- hier kommt die Policy als fx:constant, um die breite auf 100% zu setzen-->
+        <!-- hier kommt die Policy als fx: constant, um die breite auf 100 % zu setzen-->
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
