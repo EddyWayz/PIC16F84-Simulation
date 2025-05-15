@@ -1187,4 +1187,8 @@ public class PIC {
     public double getRuntimeCounter() {
         return runtimeCounter;
     }
+
+    public Stack_PIC getStack(){
+        return stack;
+    }
 }

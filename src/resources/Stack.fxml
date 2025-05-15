@@ -11,10 +11,14 @@
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
+
     <TableView fx:id="stackTable">
+        <!-- hier kommt die Policy als fx:constant, um die breite auf 100% zu setzen-->
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
         <columns>
-            <TableColumn fx:id="columnValue" text="Wert"/>
+            <TableColumn fx:id="columnValue" text="STACK"/>
         </columns>
     </TableView>
 </VBox>
-

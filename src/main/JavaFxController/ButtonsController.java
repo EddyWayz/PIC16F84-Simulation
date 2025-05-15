@@ -98,9 +98,6 @@ public class ButtonsController implements Initializable {
                 stopButtonPushed = true;
             });
         }
-        else {
-            System.err.println("⚠ btnStop wurde nicht initialisiert!");
-        }
 
         if(btnMCLR != null) {
             btnMCLR.setOnAction(e ->{
@@ -126,6 +123,10 @@ public class ButtonsController implements Initializable {
             }
             if (PortController.instance != null) {
                 PortController.instance.buildUI();
+            }
+
+            if (StackController.instance != null) {
+                StackController.instance.buildUI();
             }
         } catch (Exception e) {
             System.err.println("⚠ Fehler beim Aktualisieren der Ansicht: " + e.getMessage());

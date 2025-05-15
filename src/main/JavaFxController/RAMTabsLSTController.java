@@ -216,13 +216,10 @@ public class RAMTabsLSTController implements Initializable {
         }
 
         public int getAddress() { return address.get(); }
-        public SimpleIntegerProperty addressProperty() { return address; }
 
         public String getName() { return name.get(); }
-        public SimpleStringProperty nameProperty() { return name; }
 
         public int getValue() { return value.get(); }
-        public SimpleIntegerProperty valueProperty() { return value; }
     }
 
     /**
