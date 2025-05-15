@@ -23,7 +23,7 @@
         <RowConstraints percentHeight="34"/>
     </rowConstraints>
 
-    <Label fx:id="statusLabel" text="STATUS:"
+    <Label text="STATUS:"
            GridPane.rowIndex="0" GridPane.columnIndex="0"
            styleClass="standardLabel"/>
 

@@ -29,7 +29,7 @@ public class MainController implements Initializable {
 
     /**
      * Updates the static PIC instance with a new path and notifies all controllers.
-     *
+     * <p>
      * This method creates a new PIC instance using the provided path and updates
      * all associated controllers with the new PIC instance. If a controller is not
      * initialized, a warning message is printed to the console.

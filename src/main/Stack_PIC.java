@@ -50,7 +50,7 @@ public class Stack_PIC {
     }
 
     /**
-     * method to drecrement the stack pointer
+     * method to decrement the stack pointer
      */
     private void dec_SP() {
         stack_pointer--;

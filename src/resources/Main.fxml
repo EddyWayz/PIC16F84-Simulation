@@ -44,7 +44,7 @@
     </rowConstraints>
 
 
-    <!-- Verschiede "Felder", die einzelnen views-->
+    <!-- Place the different views in their grid positions -->
     <fx:include source="TableViewLST.fxml"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="0"

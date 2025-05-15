@@ -14,7 +14,6 @@ import java.util.ResourceBundle;
 public class RegisterController implements Initializable {
     public static RegisterController instance;
 
-    @FXML private Label statusLabel;
     @FXML private Label W;
     @FXML private Label RP0;
     @FXML private Label Z;
@@ -62,7 +61,7 @@ public class RegisterController implements Initializable {
             return;
         }
 
-        // Example getters on PIC; adapt to your PIC API
+        // Update values of each label
         W.setText("W: ");
         WValue.setText(String.format("0x%02X", pic.getW()));
         RP0.setText("RP0: " + pic.memory.getRP0());
