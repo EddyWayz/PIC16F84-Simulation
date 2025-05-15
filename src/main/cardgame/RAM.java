@@ -44,7 +44,7 @@ public class RAM implements Memory {
     public void setPC(int value) {
         PC = value;
         int pcl_val = PC & Mask_Lib.LOWER8BIT_MASK;
-        write(Label_Lib.PCL, pcl_val);
+        writeBothBanks(Label_Lib.PCL, pcl_val);
     }
 
     /**
