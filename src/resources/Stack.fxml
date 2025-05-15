@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Stack.fxml -->
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 
-<VBox xmlns:fx="http://javafx.com/fxml"
-      spacing="5">
-    <Label text="STACK" />
-    <ListView fx:id="stackList" />
+<VBox xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="main.JavaFxController.StackController"
+      spacing="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <TableView fx:id="stackTable">
+        <columns>
+            <TableColumn fx:id="columnValue" text="Wert"/>
+        </columns>
+    </TableView>
 </VBox>
+

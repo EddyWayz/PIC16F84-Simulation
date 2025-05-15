@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="main.JavaFxController.TableLSTController"
       stylesheets="@css/TableLSTViewStyle.css"
@@ -14,6 +15,7 @@
         <Button text="Dokumentation" fx:id="btnDocs" onAction="#onDocsButtonClicked"/>
         <Button text="File.." fx:id="btnFilePicker"/>
     </HBox>
+
     <TableView fx:id="tableViewLST" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="columnBlock0" text="Breakp" />
@@ -25,4 +27,5 @@
             <TableColumn fx:id="columnBlock6" text="Comments" />
         </columns>
     </TableView>
+    <Label fx:id="runtimeCounter" text="00,00"/>
 </VBox>

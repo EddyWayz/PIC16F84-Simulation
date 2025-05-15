@@ -22,6 +22,7 @@ public class MainController implements Initializable {
     public static RAMTabsLSTController ramTabsLSTController;
     public static RegisterController registerController;
     public static ButtonsController buttonsController;
+    public static StackController stackController;
     public static PIC getStaticPic() {
         return pic;
     }
@@ -34,20 +35,17 @@ public class MainController implements Initializable {
         } else {
             System.out.println("⚠ IO_PINS_Controller ist noch nicht initialisiert!");
         }
-
         if(ramTabsLSTController != null){
             ramTabsLSTController.updatePIC(pic);
         } else {
             System.out.println("⚠ RAMTabsLSTController ist noch nicht initialisiert!");
         }
-
         if (buttonsController != null) {
             buttonsController.updatePIC(pic);
         }
         else {
             System.err.println("⚠ ButtonsController ist noch nicht initialisiert!");
         }
-
         if(registerController != null){
             registerController.updatePIC(pic);
         } else{
@@ -57,6 +55,11 @@ public class MainController implements Initializable {
             tableLSTController.reloadTable(newPath);
         } else{
             System.out.println("⚠ TableLSTController ist noch nicht initialisiert!");
+        }
+        if(stackController != null) {
+            //stackController.reloadTable(newPath);
+        } else {
+            System.out.println("⚠ StackLSTController ist noch nicht initialisiert!");
         }
     }
 
@@ -79,7 +82,7 @@ public class MainController implements Initializable {
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Weitere Initialisierungen, falls nötig
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }

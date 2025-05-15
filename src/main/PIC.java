@@ -1174,4 +1174,7 @@ public class PIC {
         return sleep;
     }
 
+    public double getRuntimeCounter() {
+        return runtimeCounter;
+    }
 }

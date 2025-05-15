@@ -192,6 +192,7 @@ public class RAMTabsLSTController implements Initializable {
         SFRRows.add(new SFRRow(9, "EEADR", pic.memory.read_bank(9, 0)));
         SFRRows.add(new SFRRow(10, "PCLATCH", pic.memory.read_bank(10, 0)));
         SFRRows.add(new SFRRow(11, "INTCON", pic.memory.read_bank(11, 0)));
+        SFRRows.add(new SFRRow(1, "OPTION", pic.memory.read_bank(1, 1)));
         SFRRows.add(new SFRRow(5, "TRISA", pic.memory.read_bank(5, 1)));
         SFRRows.add(new SFRRow(6, "TRISB", pic.memory.read_bank(6, 1)));
         SFRRows.add(new SFRRow(8, "EECON1", pic.memory.read_bank(8, 1)));

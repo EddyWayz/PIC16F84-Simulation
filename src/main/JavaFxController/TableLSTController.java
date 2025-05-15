@@ -1,5 +1,6 @@
 package main.JavaFxController;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import main.FileLineParser;
 import main.FileLineParser.DataRow;
 
@@ -20,10 +21,6 @@ import java.awt.Desktop;
 import java.io.File;
 import java.net.URL;
 
-import java.awt.*;
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.io.IOException;
@@ -35,6 +32,8 @@ public class TableLSTController implements Initializable {
 
     @FXML
     public Button btnFilePicker;
+    @FXML
+    public Label runtimeCounter;
     @FXML
     private Button btnDocs;
     @FXML
@@ -72,7 +71,6 @@ public class TableLSTController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         MainController.tableLSTController = this;
         instance = this;
-        //tableViewLST.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         // Konfiguration der Spalten: Hier weisen wir die zugehörigen Property Accessoren zu.
         columnBlock0.setCellValueFactory(cellData -> cellData.getValue().block0Property());
@@ -86,6 +84,7 @@ public class TableLSTController implements Initializable {
         // FilePicker-Button konfigurieren und Tabelle laden.
         filePickerButtonPushed();
 
+        runtimeCounter.setText(String.format("%05.2f µs", MainController.getStaticPic().getRuntimeCounter()));
         // Standardpfad laden (je nach Betriebssystem)
         String defaultPath;
         String osName = System.getProperty("os.name").toLowerCase();
@@ -157,6 +156,7 @@ public class TableLSTController implements Initializable {
 
     public void refreshView() {
         tableViewLST.refresh();
+        runtimeCounter.setText(String.format("%05.2f µs", MainController.getStaticPic().getRuntimeCounter()));
     }
 
     /**
@@ -261,6 +261,6 @@ public class TableLSTController implements Initializable {
         double remainingWidth = tableWidth - totalFixedWidth;
         TableColumn<DataRow, ?> column7 = table.getColumns().get(6);
         column7.prefWidthProperty().unbind();
-        column7.setPrefWidth(remainingWidth > maxWidths[6] ? remainingWidth : maxWidths[6]);
+        column7.setPrefWidth(Math.max(remainingWidth, maxWidths[6]));
     }
 }

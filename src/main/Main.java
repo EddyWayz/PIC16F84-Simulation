@@ -18,7 +18,8 @@ public class Main extends Application {
         try {
             root = FXMLLoader.load(getClass().getResource("../resources/Main.fxml"));
         } catch (Exception e) {
-            System.err.println("⚠ Fehler beim Laden der FXML: " + e.getMessage());
+            System.err.println("⚠ Fehler beim Laden der FXML: ");
+            e.printStackTrace();
             return;
         }
 
