@@ -113,6 +113,9 @@ public class PIC {
         //update ports
         updatePort(PortA);
         updatePort(PortB);
+
+        //increment runtime counter
+        increment_RuntimeCounter();
     }
 
     /**
@@ -966,7 +969,14 @@ public class PIC {
     }
 
 
-    //GENERAL METHODS FOR PC
+    //GENERAL METHODS FOR PIC
+
+    /**
+     * increments the runtime counter depending on the quarz frequency
+     */
+    private void increment_RuntimeCounter() {
+        runtimeCounter += 4 / quarz_frequenzy;
+    }
 
 
     //METHODS FOR MEMORY MANIPULATION
