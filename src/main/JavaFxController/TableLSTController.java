@@ -35,7 +35,7 @@ public class TableLSTController implements Initializable {
     @FXML
     public Label runtimeCounter;
     @FXML
-    private Button btnDocs;
+    public Label quarzFrequenz;
     @FXML
     private void onDocsButtonClicked(ActionEvent event) {
         try {
@@ -84,7 +84,9 @@ public class TableLSTController implements Initializable {
         // FilePicker-Button konfigurieren und Tabelle laden.
         filePickerButtonPushed();
 
-        runtimeCounter.setText(String.format("%05.2f µs", MainController.getStaticPic().getRuntimeCounter()));
+        SetRuntimeText();
+        SetQuarzFrequenzText();
+
         // Standardpfad laden (je nach Betriebssystem)
         String defaultPath;
         String osName = System.getProperty("os.name").toLowerCase();
@@ -154,9 +156,18 @@ public class TableLSTController implements Initializable {
         });
     }
 
+    private void SetRuntimeText() {
+        runtimeCounter.setText(String.format("%05.2f µs", MainController.getStaticPic().getRuntimeCounter()));
+    }
+
+    private void SetQuarzFrequenzText() {
+        quarzFrequenz.setText(String.format("%04.2f MHz", MainController.getStaticPic().getQuarz_frequenzy()));
+    }
+
     public void refreshView() {
         tableViewLST.refresh();
-        runtimeCounter.setText(String.format("%05.2f µs", MainController.getStaticPic().getRuntimeCounter()));
+        SetRuntimeText();
+        SetQuarzFrequenzText();
     }
 
     /**

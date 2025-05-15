@@ -27,5 +27,8 @@
             <TableColumn fx:id="columnBlock6" text="Comments" />
         </columns>
     </TableView>
-    <Label fx:id="runtimeCounter" text="00,00"/>
+    <HBox spacing="5">
+        <Label fx:id="runtimeCounter" text="00,00"/>
+        <Label fx:id="quarzFrequenz" text="00,00"/>
+    </HBox>
 </VBox>
