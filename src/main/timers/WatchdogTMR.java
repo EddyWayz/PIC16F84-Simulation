@@ -11,12 +11,14 @@ public class WatchdogTMR {
     int counter = 0;
     public boolean active = false;
 
-    //18.000 instruction equals 18ms at 4Mhz
-    private int WDT_threshold =  (int) (18_000 * (4 / pic.getQuarz_frequenzy()));
+
+    private int WDT_threshold;
 
     public WatchdogTMR(PIC pic, Prescaler ps) {
         this.pic = pic;
         this.ps = ps;
+        //18.000 instruction equals 18ms at 4Mhz
+        WDT_threshold = (int) (18_000 * (4 / pic.getQuarz_frequenzy()));
     }
 
     /**
