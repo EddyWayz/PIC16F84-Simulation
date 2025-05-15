@@ -28,7 +28,7 @@ public class ButtonsController implements Initializable {
         this.pic = MainController.getStaticPic();
 
         if (btnRun != null) {
-            btnRun.setOnAction(e -> {
+            btnRun.setOnAction(_ -> {
                 if (TableLSTController.instance != null && MainController.getStaticPic() != null) {
                     stopButtonPushed = false; // sicherstellen, dass beim Start zurückgesetzt wird
 
@@ -70,7 +70,7 @@ public class ButtonsController implements Initializable {
         }
 
         if (activateWatchdogCheckbox != null) {
-            activateWatchdogCheckbox.setOnAction(e -> {
+            activateWatchdogCheckbox.setOnAction(_ -> {
                 pic.prescaler.WDT.active = activateWatchdogCheckbox.isSelected();
             });
         }
@@ -79,7 +79,7 @@ public class ButtonsController implements Initializable {
         }
 
         if (btnStep != null) {
-            btnStep.setOnAction(e -> {
+            btnStep.setOnAction(_ -> {
                 MainController.getStaticPic().step();
                 refreshView();
             });
@@ -89,13 +89,13 @@ public class ButtonsController implements Initializable {
         }
 
         if (btnStop != null) {
-            btnStop.setOnAction(e -> {
+            btnStop.setOnAction(_ -> {
                 stopButtonPushed = true;
             });
         }
 
         if(btnMCLR != null) {
-            btnMCLR.setOnAction(e ->{
+            btnMCLR.setOnAction(_ ->{
                 MainController.getStaticPic().MCLR();
                 refreshView();
             });
