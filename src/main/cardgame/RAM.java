@@ -7,6 +7,11 @@ import main.libraries.Label_Lib;
 import main.libraries.Mask_Lib;
 
 
+/**
+ * The RAM class simulates a Random Access Memory (RAM) module with two separate banks.
+ * It provides methods to read, write, and manipulate bits within the memory.
+ * The class also handles the program counter (PC).
+ */
 public class RAM implements Memory {
     // separate banks
     Bank bank0;
@@ -32,7 +37,8 @@ public class RAM implements Memory {
     }
 
     /**
-     * sets the PC and writes it into the PCL file
+     * Sets the PC and writes it into the PCL file
+     *
      * @param value new value of PC
      */
     public void setPC(int value) {
@@ -42,7 +48,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * increments the programm counter and writes the lower 8 Bit into the PCL register
+     * Increments the programm counter and writes the lower 8 Bit into the PCL register
      */
     public void increment_PC() {
         PC++;
@@ -54,7 +60,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * puts the 3rd and 4th bit of the pclath register at the 12th and 11th bit of the PC
+     * Puts the 3rd and 4th bit of the pclath register at the 12th and 11th bit of the PC
      */
     public void pclath_3n4_ontoPC() {
         // puts the third and fourth bit of pclath into the PC
@@ -80,7 +86,7 @@ public class RAM implements Memory {
 
 
     /**
-     * checks if two added integers would have a carry to the upper nibble and (un)sets the digit carry flag corresponding to the result
+     * Checks if two added integers would have a carry to the upper nibble and (un)sets the digit carry flag corresponding to the result
      *
      * @param valA first value
      * @param valB second value
@@ -97,7 +103,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * checks if the carry flag has to be (un)set
+     * Checks if the carry flag has to be (un)set
      *
      * @param result that will be checked
      */
@@ -110,7 +116,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * checks if the zero flag has to be (un)set
+     * Checks if the zero flag has to be (un)set
      *
      * @param result that will be checked
      */
@@ -197,7 +203,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * returns the value of register at a given address
+     * Returns the value of register at a given address
      *
      * @param address of register
      * @return value of the register
@@ -208,7 +214,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * returns the value of a register at a given address and bank
+     * Returns the value of a register at a given address and bank
      *
      * @param address of register
      * @param bank    for reading
@@ -219,7 +225,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * reads a register at a given indirect address
+     * Reads a register at a given indirect address
      *
      * @param address of the register
      * @return the
@@ -234,7 +240,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * returns the value of a bit of a register at given address
+     * Returns the value of a bit of a register at given address
      *
      * @param address  of register
      * @param position of bit
@@ -246,7 +252,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * returns the value of a bit of a register at a given address and bank
+     * Returns the value of a bit of a register at a given address and bank
      *
      * @param address  of register
      * @param position of bit
@@ -258,7 +264,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * writes a whole register at a given address
+     * Writes a whole register at a given address
      *
      * @param address of register
      * @param value   that will be written at the address
@@ -280,7 +286,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * writes a value into an indirect register
+     * Writes a value into an indirect register
      *
      * @param address of a register
      * @param value   that will be saved in the register
@@ -297,7 +303,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * sets a bit at a given address and positon
+     * Sets a bit at a given address and positon
      *
      * @param address  of register
      * @param position of bit
@@ -313,7 +319,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * sets a bit at a given address, position and bank
+     * Sets a bit at a given address, position and bank
      *
      * @param address  of register
      * @param position of bit
@@ -325,7 +331,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * unsets a bit at a given address and position
+     * Unsets a bit at a given address and position
      *
      * @param address  of a register
      * @param position of a bit
@@ -341,7 +347,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * unsets a bit at a given address, position and bank
+     * Unsets a bit at a given address, position and bank
      *
      * @param address  of a register
      * @param position of a bit
@@ -352,7 +358,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * gets a value of a bit at a given address and positon
+     * Gets a value of a bit at a given address and positon
      *
      * @param address  of register
      * @param position of bit
@@ -364,7 +370,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * returns the value of the rp0 bit and checks if it is the same in both banks
+     * Returns the value of the rp0 bit and checks if it is the same in both banks
      *
      * @return value of rp0 bit
      */
@@ -379,7 +385,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * checks if a specific register has to be mirrored
+     * Checks if a specific register has to be mirrored
      *
      * @param address that will be checked
      * @return true if the register has to be mirrored
