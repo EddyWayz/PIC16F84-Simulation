@@ -824,11 +824,9 @@ public class PIC {
      */
     private void instr_GOTO() {
         int k11 = instruction & Mask_Lib.GOTO_CALL_MASK;
-        memory.pclath_3n4_ontoPC();
 
-        int pc = memory.getPC();
-        pc = pc | k11;
-        memory.setPC(pc);
+        memory.setPC(k11);
+        memory.pclath_3n4_ontoPC();
 
         prescaler.TMR.update();
 
