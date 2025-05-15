@@ -167,6 +167,23 @@ public class PIC {
                 break;
         }
 
+        //4 BIT INSTRUCTIONS
+        int maskedInstr_4bit = instruction & 0x3C00;
+        switch(maskedInstr_4bit) {
+            case Instr_Lib.BCF:
+                instr_BCF();
+                break;
+            case Instr_Lib.BSF:
+                instr_BSF();
+                break;
+            case Instr_Lib.BTFSC:
+                instr_BTFSC();
+                break;
+            case Instr_Lib.BTFSS:
+                instr_BTFSS();
+                break;
+        }
+
         //6 BIT INSTRUCTIONS (Table order without instructions above)
         int maskedInstr_6bit = instruction & 0x3F00;
         switch (maskedInstr_6bit) {
@@ -211,18 +228,6 @@ public class PIC {
                 break;
             case Instr_Lib.XORWF:
                 instr_XORWF();
-                break;
-            case Instr_Lib.BCF:
-                instr_BCF();
-                break;
-            case Instr_Lib.BSF:
-                instr_BSF();
-                break;
-            case Instr_Lib.BTFSC:
-                instr_BTFSC();
-                break;
-            case Instr_Lib.BTFSS:
-                instr_BTFSS();
                 break;
             case Instr_Lib.ADDLW:
                 instr_ADDLW();
@@ -386,6 +391,8 @@ public class PIC {
         value--;
         if (value == 0) {
             value = 255;
+            //2 cycle if skip
+            increment_RuntimeCounter();
             memory.increment_PC();
             prescaler.TMR.update();
         }
@@ -430,6 +437,8 @@ public class PIC {
         value++;
         if (value > 255) {
             value = 0;
+            //2 cycles if skip
+            increment_RuntimeCounter();
             memory.increment_PC();
             prescaler.TMR.update();
         }
@@ -647,12 +656,12 @@ public class PIC {
     private void instr_BCF() {
         computeAddress(instruction);
 
-        int pos = instruction & Mask_Lib.LOWER8BIT_MASK;
+        int pos = getPos();
         int value = memory.read_indirect(address, indirect);
 
         value = BitOperator.unsetBit(value, pos);
 
-        writeInMemoryDestinationBit_indirect(address, value, indirect);
+        memory.write_indirect(address, value);
         System.out.println("BCF");
     }
 
@@ -664,12 +673,12 @@ public class PIC {
     private void instr_BSF() {
         computeAddress(instruction);
 
-        int pos = instruction & Mask_Lib.LOWER8BIT_MASK;
+        int pos = getPos();
         int value = memory.read_indirect(address, indirect);
 
         value = BitOperator.setBit(value, pos);
 
-        writeInMemoryDestinationBit_indirect(address, value, indirect);
+        memory.write_indirect(address, value);
         System.out.println("BSF");
     }
 
@@ -682,13 +691,14 @@ public class PIC {
      */
     private void instr_BTFSC() {
         computeAddress(instruction);
-        int pos = instruction & Mask_Lib.LOWER8BIT_MASK;
+        int pos = getPos();
         int value = memory.read_indirect(address, indirect);
 
         int bit = BitOperator.getBit(value, pos);
         //skip if clear
         if (bit == 0) {
             prescaler.TMR.update();
+            increment_RuntimeCounter();
             memory.increment_PC();
         }
 
@@ -704,12 +714,14 @@ public class PIC {
      */
     private void instr_BTFSS() {
         computeAddress(instruction);
-        int pos = instruction & Mask_Lib.LOWER8BIT_MASK;
+
+        int pos = getPos();
         int value = memory.read_indirect(address, indirect);
 
         int bit = BitOperator.getBit(value, pos);
         //skip if set
         if (bit == 1) {
+            increment_RuntimeCounter();
             memory.increment_PC();
             prescaler.TMR.update();
         }
@@ -774,6 +786,7 @@ public class PIC {
 
         // 2 cycle instruction
         prescaler.TMR.update();
+        increment_RuntimeCounter();
 
         System.out.println("CALL");
     }
@@ -818,6 +831,9 @@ public class PIC {
         memory.setPC(pc);
 
         prescaler.TMR.update();
+
+        //increment runtime counter
+        increment_RuntimeCounter();
         System.out.println("GOTO");
     }
 
@@ -861,6 +877,9 @@ public class PIC {
     private void instr_RETFIE() {
         memory.setPC(stack.pop());
         memory.setBit(Label_Lib.INTCON, INTCON_lib.GIE);
+
+        //2 cycle instruction
+        increment_RuntimeCounter();
         prescaler.TMR.update();
         System.out.println("RETFIE");
     }
@@ -1065,13 +1084,14 @@ public class PIC {
      * Master Clear for the PIC
      */
     public void MCLR() {
-        //TODO: Button in der GUI Eddy
         //if MCLR Button pressed
         reset();
         if (sleep) {
             memory.unsetBit(Label_Lib.STATUS, STATUS_lib.powerdown);
             memory.setBit(Label_Lib.STATUS, STATUS_lib.timeout);
+            sleep = false;
         }
+
     }
 
     /**
@@ -1190,5 +1210,13 @@ public class PIC {
 
     public Stack_PIC getStack(){
         return stack;
+    }
+
+    /**
+     * returns the bit of a bit oriented instruction
+     * @return position of bit
+     */
+    private int getPos() {
+        return (instruction & Mask_Lib.BIT_POS_MASK) >> 7;
     }
 }

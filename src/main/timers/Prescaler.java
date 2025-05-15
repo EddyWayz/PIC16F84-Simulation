@@ -82,6 +82,7 @@ public class Prescaler {
                 WDT.increment();
             }
         } else {
+
             WDT.increment();
         }
     }
