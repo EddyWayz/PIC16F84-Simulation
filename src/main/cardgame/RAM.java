@@ -31,10 +31,14 @@ public class RAM implements Memory {
         return PC;
     }
 
+    /**
+     * sets the PC and writes it into the PCL file
+     * @param value new value of PC
+     */
     public void setPC(int value) {
+        PC = value;
         int pcl_val = PC & Mask_Lib.LOWER8BIT_MASK;
         write(Label_Lib.PCL, pcl_val);
-        PC = value;
     }
 
     /**
@@ -57,9 +61,10 @@ public class RAM implements Memory {
         int pclath = read(Label_Lib.PCLATH);
         pclath = pclath & Mask_Lib.PCLATH_3_4_MASK;
 
-        pclath = pclath << 10;
+        pclath = pclath << 11;
         //combine pclath and PC
         PC = pclath | PC;
+        setPC(PC);
     }
 
     /**
