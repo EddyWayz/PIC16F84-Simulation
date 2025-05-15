@@ -63,13 +63,26 @@ public class StackController implements Initializable {
         stackTable.setItems(FXCollections.observableArrayList(temp));
     }
 
+    /**
+     * Updates the PIC instance used by the StackController and rebuilds the UI to reflect the new PIC state.
+     *
+     * @param newPic The new PIC instance to be used.
+     */
     public void updatePIC(PIC newPic) {
         this.pic = newPic;
         buildUI();
     }
 
+    /**
+     * Represents a row in the stack table with a single value property that is a string.
+     */
     public static class StackRow {
         private final SimpleStringProperty value;
+        /**
+         * Constructs a StackRow with the specified value.
+         *
+         * @param value The string value to be stored in this StackRow.
+         */
         public StackRow(String value) {
             this.value = new SimpleStringProperty(value);
         }

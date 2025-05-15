@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.util.Objects;
 
 public class Main extends Application {
 
@@ -16,7 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("../resources/Main.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../resources/Main.fxml")));
         } catch (Exception e) {
             System.err.println("⚠ Fehler beim Laden der FXML: ");
             e.printStackTrace();
@@ -31,7 +31,7 @@ public class Main extends Application {
         primaryStage.setTitle("PIC16F84-Simulation");
         primaryStage.setScene(scene);
 
-        // Setze die Fensterposition und -größe so, dass sie 100% des Bildschirms einnimmt
+        // Setze die Fensterposition und -größe so, dass sie 100 % des Bildschirms einnimmt
         primaryStage.setX(screenBounds.getMinX());
         primaryStage.setY(screenBounds.getMinY());
         primaryStage.setWidth(screenBounds.getWidth());

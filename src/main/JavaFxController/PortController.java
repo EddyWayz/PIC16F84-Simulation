@@ -57,7 +57,7 @@ public class PortController {
         Label cornerTop = createHeader("");
         gridPane.add(cornerTop, 0, 0);
 
-        // RA-Header (Zeile 0, Spalten 1…size)
+        // RA-Header (Zeile 0, Spalten 1 … size)
         for (int i = 0; i < size; i++) {
             Label header = createHeader("RA" + i);
             gridPane.add(header, i + 1, 0);
@@ -67,11 +67,11 @@ public class PortController {
         Label pa = createHeader("Port A");
         gridPane.add(pa, 0, 1);
 
-        // Port A Pins (Zeile 1, Spalten 1…size)
+        // Port A Pins (Zeile 1, Spalten 1 … size)
         for (int i = 0; i < size; i++) {
             Label lbl = createDataLabel();
             final int idx = i;
-            lbl.setOnMouseClicked(evt -> {
+            lbl.setOnMouseClicked(_ -> {
                 if (pic.memory.readBit_bank(5, idx, 1) == 1) {
                     pic.PortA.pins[idx].toggleValue();
                     updateCell(lbl, pic.PortA.pins[idx].getValue(), pic.memory.readBit_bank(5, idx, 1));
@@ -95,11 +95,11 @@ public class PortController {
         Label pb = createHeader("Port B");
         gridPane.add(pb, 0, 3);
 
-        // Port B Pins (Zeile 3, Spalten 1…size)
+        // Port B Pins (Zeile 3, Spalten 1 … size)
         for (int i = 0; i < size; i++) {
             Label lbl = createDataLabel();
             final int idx = i;
-            lbl.setOnMouseClicked(evt -> {
+            lbl.setOnMouseClicked(_ -> {
                 if (pic.memory.readBit_bank(6, idx, 1) == 1) {
                     pic.PortB.pins[idx].toggleValue();
                     updateCell(lbl, pic.PortB.pins[idx].getValue(), pic.memory.readBit_bank(6, idx, 1));

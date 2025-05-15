@@ -262,9 +262,6 @@ public class TableLSTController implements Initializable {
             }
             maxWidths[i] = maxWidth + 20; // Puffer hinzufügen
         }
-        // Gesamtsumme der berechneten Breiten
-        double totalWidth = 0;
-        for (double w : maxWidths) totalWidth += w;
         // Set fixed widths for all columns except the 7th, and let the 7th fill remaining space
         double tableWidth = table.getWidth();
         double totalFixedWidth = 0;
