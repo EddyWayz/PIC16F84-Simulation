@@ -12,8 +12,8 @@
       stylesheets="@css/TableLSTViewStyle.css"
       spacing="5">
     <HBox spacing="5">
-        <Button text="Dokumentation" fx:id="btnDocs" onAction="#onDocsButtonClicked"/>
         <Button text="File.." fx:id="btnFilePicker"/>
+        <Button text="Dokumentation" fx:id="btnDocs" onAction="#onDocsButtonClicked"/>
     </HBox>
 
     <TableView fx:id="tableViewLST" VBox.vgrow="ALWAYS">

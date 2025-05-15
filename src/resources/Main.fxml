@@ -73,7 +73,7 @@
     <fx:include source="RAMTabs.fxml"
                 GridPane.columnIndex="7"
                 GridPane.rowIndex="0"
-                GridPane.rowSpan="4"
+                GridPane.rowSpan="8"
                 GridPane.columnSpan="4"
                 GridPane.vgrow="ALWAYS"
                 GridPane.hgrow="ALWAYS"/>
@@ -90,7 +90,7 @@
     <!-- Bereich: Register -->
     <fx:include source="Register.fxml"
                 GridPane.columnIndex="7"
-                GridPane.rowIndex="4"
+                GridPane.rowIndex="8"
                 GridPane.rowSpan="4"
                 GridPane.columnSpan="4"
                 GridPane.vgrow="ALWAYS"

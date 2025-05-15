@@ -32,12 +32,15 @@ public class StackController implements Initializable {
 
         columnValue.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
 
-        // Zellen-Wert binden
         // Factory einmal setzen – noch bevor du Items hinzufügst:
-        stackTable.setRowFactory(tv -> new TableRow<StackRow>() {
+        stackTable.setRowFactory(_ -> new TableRow<>() {
             @Override
             protected void updateItem(StackRow item, boolean empty) {
                 super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setStyle("-fx-background-color: white;");
+                    getStyleClass().remove("highlight-row");
+                }
                 getStyleClass().removeAll("highlight-row");
                 if (!empty) {
                     int pointer = pic.getStack().getStack_pointer();

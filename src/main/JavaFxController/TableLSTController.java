@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.event.ActionEvent;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -37,7 +36,7 @@ public class TableLSTController implements Initializable {
     @FXML
     public Label quarzFrequenz;
     @FXML
-    private void onDocsButtonClicked(ActionEvent event) {
+    private void onDocsButtonClicked() {
         try {
             URL pdfUrl = getClass().getResource("../../resources/docs/Dokumentation PIC16F84 Simulator.pdf");
             if (pdfUrl == null) {
@@ -97,18 +96,23 @@ public class TableLSTController implements Initializable {
         } else {
             defaultPath = "";
         }
-        if (defaultPath == null || defaultPath.isEmpty()) {
+        if (defaultPath.isEmpty()) {
             System.err.println("⚠ Standardpfad ist leer, Datei wird nicht geladen.");
         } else {
             reloadTable(defaultPath);
         }
 
         // Anpassen der RowFactory: Hervorheben der Zeile anhand des Programmzählers (PC).
-        tableViewLST.setRowFactory(tv -> new TableRow<DataRow>() {
+        tableViewLST.setRowFactory(_ -> new TableRow<>() {
             @Override
             protected void updateItem(DataRow item, boolean empty) {
                 super.updateItem(item, empty);
                 getStyleClass().remove("highlight-row");
+
+                if (empty || item == null) {
+                    setStyle("-fx-background-color: white;");
+                    getStyleClass().remove("highlight-row");
+                }
                 if (!empty && item != null) {
                     // Beispiel: Abruf des aktuellen Programmzählers aus einer anderen Klasse
                     String currentPC = MainController.getStaticPic().memory.convertPCLTo4BitsString();
@@ -120,8 +124,8 @@ public class TableLSTController implements Initializable {
         });
 
         // In der Spalte "Breakp" (block0) setzen wir eine CellFactory ein, die beim Klicken einen roten Kreis toggelt.
-        columnBlock0.setCellFactory(col -> {
-            TableCell<DataRow, String> cell = new TableCell<DataRow, String>() {
+        columnBlock0.setCellFactory(_ -> {
+            TableCell<DataRow, String> cell = new TableCell<>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -142,7 +146,7 @@ public class TableLSTController implements Initializable {
             };
 
             // Beim Klicken toggeln wir den Breakpoint-Zustand und fordern die Aktualisierung der gesamten TableView an.
-            cell.setOnMouseClicked(event -> {
+            cell.setOnMouseClicked(_ -> {
                 if (!cell.isEmpty()) {
                     DataRow dataRow = cell.getTableRow().getItem();
                     if (dataRow != null) {
@@ -205,7 +209,7 @@ public class TableLSTController implements Initializable {
      */
     private void filePickerButtonPushed() {
         if (btnFilePicker != null) {
-            btnFilePicker.setOnAction(e -> {
+            btnFilePicker.setOnAction(_ -> {
                 FileChooser fileChooser = new FileChooser();
                 String osName = System.getProperty("os.name").toLowerCase();
                 File initialDir;
