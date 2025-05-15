@@ -74,4 +74,7 @@ public class Stack_PIC {
         }
     }
 
+    public int getStack_pointer() {
+        return stack_pointer;
+    }
 }

@@ -6,6 +6,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml"
+      stylesheets="@css/StackView.css"
       fx:controller="main.JavaFxController.StackController"
       spacing="10">
     <padding>

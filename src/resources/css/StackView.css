@@ -1,0 +1,7 @@
+.table-cell {
+    -fx-font-family: "Arial";
+}
+
+.highlight-row {
+    -fx-background-color: lightblue;
+}

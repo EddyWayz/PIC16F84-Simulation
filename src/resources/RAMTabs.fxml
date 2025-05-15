@@ -5,35 +5,29 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
 
-<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="main.JavaFxController.RAMTabsLSTController" VBox.vgrow="ALWAYS">
-    <tabs>
-        <Tab text="GPR" closable="false">
-            <content>
-                <VBox spacing="10">
-                    <TableView fx:id="RAMTabsLST" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn fx:id="address" text="Address" />
-                            <TableColumn fx:id="valueH" text="Value (HEX) " />
-                            <TableColumn fx:id="valueB" text="Value (Binary)" />
-                        </columns>
-                    </TableView>
-                </VBox>
-            </content>
-        </Tab>
-        <Tab text="SFR" closable="false">
-            <content>
-                <VBox spacing="10">
-                    <TableView fx:id="SFRTable" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn fx:id="addressSFR" text="Address" />
-                            <TableColumn fx:id="nameSFR" text="Name" />
-                            <TableColumn fx:id="valueHexSFR" text="Value (HEX)" />
-                            <TableColumn fx:id="valueBinSFR" text="Value (Binary)" />
-                        </columns>
-                    </TableView>
-                </VBox>
-            </content>
-        </Tab>
-        <!-- Weitere Tabs hier hinzufügen -->
-    </tabs>
+<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="main.JavaFxController.RAMTabsLSTController"
+         stylesheets="@css/RamTabsView.css" VBox.vgrow="ALWAYS">
+    <Tab text="GPR" closable="false">
+        <VBox spacing="10">
+            <TableView fx:id="RAMTabsLST" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="address" text="Address"/>
+                    <TableColumn fx:id="valueH" text="Value (HEX) "/>
+                    <TableColumn fx:id="valueB" text="Value (Binary)"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </Tab>
+    <Tab text="SFR" closable="false">
+        <VBox spacing="10">
+            <TableView fx:id="SFRTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="addressSFR" text="Address"/>
+                    <TableColumn fx:id="nameSFR" text="Name"/>
+                    <TableColumn fx:id="valueHexSFR" text="Value (HEX)"/>
+                    <TableColumn fx:id="valueBinSFR" text="Value (Binary)"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </Tab>
 </TabPane>

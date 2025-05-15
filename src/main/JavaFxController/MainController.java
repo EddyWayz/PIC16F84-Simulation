@@ -57,7 +57,7 @@ public class MainController implements Initializable {
             System.out.println("⚠ TableLSTController ist noch nicht initialisiert!");
         }
         if(stackController != null) {
-            //stackController.reloadTable(newPath);
+            stackController.updatePIC(pic);
         } else {
             System.out.println("⚠ StackLSTController ist noch nicht initialisiert!");
         }
