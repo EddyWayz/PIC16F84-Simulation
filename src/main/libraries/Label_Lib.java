@@ -4,8 +4,8 @@ package main.libraries;
  * class as a library for commonly used register addresses can be imported
  */
 public class Label_Lib {
-    public static final int TMR0 = 0;
-    public static final int OPTION = TMR0;
+    public static final int TMR0 = 1;
+    public static final int OPTION = 1;
     public static final int PCL = 2;
     public static final int STATUS = 3;
     public static final int FSR = 4;

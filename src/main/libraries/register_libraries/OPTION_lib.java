@@ -10,4 +10,10 @@ public class OPTION_lib {
 
     //prescaler assignment bit
     public static final int PSA = 3;
+
+    //TMR0 selection Edge bit
+    public static final int TOSE = 4;
+    //TMR0 Counter selection Bit
+    public static final int TOCS = 5;
+
 }

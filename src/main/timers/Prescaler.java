@@ -40,6 +40,7 @@ public class Prescaler {
         int psa_updated = pic.memory.readBit_bank(Label_Lib.OPTION, OPTION_lib.PSA, 1);
         if(psa_updated != PSA) {
             PSA = psa_updated;
+            psCounter = 0;
             //prescaler changed to timer?
            if(PSA == PSA_TMR) {
                rate_TMR = rates[PSA][getPSA_Rate()];

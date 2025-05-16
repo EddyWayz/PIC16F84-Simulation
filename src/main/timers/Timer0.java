@@ -3,6 +3,7 @@ package main.timers;
 import main.PIC;
 import main.libraries.Label_Lib;
 import main.libraries.register_libraries.INTCON_lib;
+import main.libraries.register_libraries.OPTION_lib;
 
 public class Timer0 {
     PIC pic;
@@ -18,9 +19,9 @@ public class Timer0 {
      */
     public void update() {
         //Timer0 Counter Selection Bit
-        int TOCS = pic.memory.readBit_bank(Label_Lib.OPTION, 5, 1);
+        int TOCS = pic.memory.readBit_bank(Label_Lib.OPTION, OPTION_lib.TOCS, 1);
         //Timer0 Selection Edge Bit
-        int TOSE = pic.memory.readBit_bank(Label_Lib.OPTION, 5, 1);
+        int TOSE = pic.memory.readBit_bank(Label_Lib.OPTION, OPTION_lib.TOSE, 1);
 
         //TMR0 is only active when the PIC is awake
         if(!pic.getSleep()) {
@@ -36,11 +37,6 @@ public class Timer0 {
                 //Timer Mode
                 ps.impulsFromTMR();
             }
-
-            int value = pic.memory.read_bank(Label_Lib.TMR0,0);
-            if(value == 0) {
-                pic.memory.setBit(Label_Lib.INTCON, INTCON_lib.T0IF);
-            }
         }
 
     }
@@ -51,6 +47,11 @@ public class Timer0 {
     public void increment() {
         int value = pic.memory.read_bank(Label_Lib.TMR0,0);
         value++;
+        //int value = pic.memory.read_bank(Label_Lib.TMR0,0);
+        if(value >= 255) {
+            value = 0;
+            pic.memory.setBit_bank(Label_Lib.INTCON, INTCON_lib.T0IF, 0);
+        }
         pic.memory.write_bank(Label_Lib.TMR0, value, 0);
     }
 }
