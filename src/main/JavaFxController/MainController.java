@@ -2,16 +2,18 @@ package main.JavaFxController;
 
 import javafx.fxml.Initializable;
 import main.PIC;
-
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainController implements Initializable {
+    private static final Logger LOGGER = Logger.getLogger(MainController.class.getName());
 
     // Öffentliche statische Variable für den PIC
     private static PIC pic;
 
-    public static PortController ioPinsController;
+    public static PortController portController;
     public static TableLSTController tableLSTController;
     public static RAMTabsController ramTabsController;
     public static RegisterController registerController;
@@ -38,10 +40,10 @@ public class MainController implements Initializable {
      */
     public static void updatePIC(String newPath) {
         pic = new PIC(newPath);
-        System.out.println("Neuer PIC geladen: " + newPath);
+        LOGGER.log(Level.INFO, "Neuer PIC geladen: {0}", newPath);
 
-        if (ioPinsController != null) {
-            ioPinsController.updatePIC(pic);
+        if (portController != null) {
+            portController.updatePIC(pic);
         } else {
             System.out.println("IO_PINS_Controller ist noch nicht initialisiert!");
         }

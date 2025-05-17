@@ -24,19 +24,17 @@ public class PIC {
 
     private boolean sleep = false;
 
-    //runtime and quarzfrequency
+    //runtime and quarzfrequenz
     private double runtimeCounter; //in µs
-    private double quarz_frequenzy = 4; //in MHz
+    private final double quarz_frequenzy = 4; //in MHz
 
     //memory for data and program
     public RAM memory;
     private final ArrayList<Integer> program;
-    boolean watchDogIsActive = false;
     Stack_PIC stack;
 
     //special registers
     private int W;
-    //private int PC;
 
     //prescaler and timers in PS
     public Prescaler prescaler;
@@ -95,7 +93,7 @@ public class PIC {
     }
 
     /**
-     * simunlates one line of assembly code
+     * Simulates one line of assembly code
      */
     public void step() {
         if (!sleep) {
@@ -119,10 +117,10 @@ public class PIC {
     }
 
     /**
-     * fetches the next instruction from the program at index of the program counter
+     * Fetches the next instruction from the program at index of the program counter
      * increments the PC
      *
-     * @return the current instrcution that will be executed
+     * @return the current instruction that will be executed
      */
     private int fetch() {
         //get next instruction
@@ -267,6 +265,7 @@ public class PIC {
 
     /**
      * Add W and f
+     * <p>
      * Add the contents of the W register with the contents of register f.
      * If d is 0 the result is stored back in the W register
      * If d is 1 the result is stored back in register f
@@ -294,6 +293,7 @@ public class PIC {
 
     /**
      * AND W with f
+     * <p>
      * AND the W register with contents of register 'f'.
      * If 'd' is 0 the result is stored in the W register.
      * If 'd' is 1 the result is stored back in register 'f'.
@@ -312,6 +312,7 @@ public class PIC {
 
     /**
      * Clear f
+     * <p>
      * The contents of register ’f’ are cleared
      * and the Z bit is set.
      * Status affected: Z
@@ -326,6 +327,7 @@ public class PIC {
 
     /**
      * Clear W
+     * <p>
      * W register is cleared. Zero bit (Z) is set.
      * Status affected: Z
      */
@@ -337,6 +339,7 @@ public class PIC {
 
     /**
      * Complement f
+     * <p>
      * The contents of register ’f’ are complemented. If ’d’ is 0 the result is stored in W.
      * If ’d’ is 1 the result is stored back in
      * register ’f’.
@@ -355,6 +358,7 @@ public class PIC {
 
     /**
      * Decrement f
+     * <p>
      * Decrement contents of register ’f’. If ’d’ is 0 the
      * result is stored in the W register. If ’d’ is
      * 1 the result is stored back in register ’f’.
@@ -376,6 +380,7 @@ public class PIC {
 
     /**
      * Decrement f, Skip if 0
+     * <p>
      * The contents of register ’f’ are decremented. If ’d’ is 0 the result is placed in the
      * W register. If ’d’ is 1 the result is placed
      * back in register ’f’.
@@ -404,6 +409,7 @@ public class PIC {
 
     /**
      * Increment f
+     * <p>
      * The contents of register ’f’ are incremented.
      * If ’d’ is 0 the result is placed in the W register.
      * If ’d’ is 1 the result is placed back in register ’f’.
@@ -424,6 +430,7 @@ public class PIC {
 
     /**
      * Increment f, Skip if 0
+     * <p>
      * The contents of register ’f’ are incremented. If ’d’ is 0 the result is placed in
      * the W register. If ’d’ is 1 the result is placed back in register ’f’.
      * If the result is not 0, the next instruction is executed.
@@ -449,6 +456,7 @@ public class PIC {
 
     /**
      * Inclusive OR W with f
+     * <p>
      * Inclusive OR the W register with contents of register ’f’.
      * If ’d’ is 0 the result is placed in the W register. If ’d’ is 1 the result is placed
      * back in register ’f’.
@@ -466,6 +474,7 @@ public class PIC {
 
     /**
      * Move f
+     * <p>
      * The contents of register f is moved to a destination dependant upon the status of d.
      * If d = 0, destination is W register. If d = 1, the destination is file register f itself.
      * d = 1 is useful to test a file register since status flag Z is affected.
@@ -483,6 +492,7 @@ public class PIC {
 
     /**
      * Move W to f
+     * <p>
      * Move data from W register to register
      * Status affected: None
      */
@@ -495,6 +505,7 @@ public class PIC {
 
     /**
      * No Operation
+     * <p>
      * No operation.
      * Status affected: None
      */
@@ -504,6 +515,7 @@ public class PIC {
 
     /**
      * Rotate Left f through Carry
+     * <p>
      * The contents of register ’f’ are rotated one bit to the left through the Carry Flag.
      * If ’d’ is 0 the result is placed in the W register. If ’d’ is 1 the result is stored
      * back in register ’f’.
@@ -536,6 +548,7 @@ public class PIC {
 
     /**
      * Rotate Right f through Carry
+     * <p>
      * The contents of register ’f’ are rotated one bit to the right through the Carry Flag.
      * If ’d’ is 0 the result is placed in the W register.
      * If ’d’ is 1 the result is placed back in register ’f’.
@@ -568,6 +581,7 @@ public class PIC {
 
     /**
      * Subtract W from f
+     * <p>
      * Subtract (2’s complement method) contents of W register from register 'f'.
      * If 'd' is 0 the result is stored in the W register. If 'd' is 1 the
      * result is stored back in register 'f'.
@@ -606,6 +620,7 @@ public class PIC {
 
     /**
      * Swap Nibbles in f
+     * <p>
      * The upper and lower nibbles of contents of register 'f' are exchanged.
      * If 'd' is 0 the result is placed in W register.
      * If 'd' is 1 the result is placed in register 'f'.
@@ -632,6 +647,7 @@ public class PIC {
 
     /**
      * Exclusive OR W with f
+     * <p>
      * The contents of the W register are XOR’ed with the eight bit literal 'k'.
      * The result is placed in the W register.
      * Status affected: Z
@@ -650,6 +666,7 @@ public class PIC {
 
     /**
      * Bit Clear f
+     * <p>
      * Bit ’b’ in register ’f’ is cleared
      * Status affected: None
      */
@@ -667,6 +684,7 @@ public class PIC {
 
     /**
      * Bit Set f
+     * <p>
      * Bit ’b’ in register ’f’ is set.
      * Status affected: None
      */
@@ -684,6 +702,7 @@ public class PIC {
 
     /**
      * Bit Test f, Skip if Clear
+     * <p>
      * If bit ’b’ in register ’f’ is ’1’ then the next instruction is executed.
      * If bit ’b’, in register ’f’, is ’0’ then the next
      * instruction is discarded, and a NOP is executed instead, making this a 2TCY instruction.
@@ -767,6 +786,7 @@ public class PIC {
 
     /**
      * Call Subroutine
+     * <p>
      * Call Subroutine. First, return address
      * (PC+1) is pushed onto the stack. The
      * eleven bit immediate address is loaded
@@ -852,8 +872,9 @@ public class PIC {
 
     /**
      * Move literal to W
+     * <p>
      * The eight bit literal ’k’ is loaded into W
-     * register. The don’t cares will assemble
+     * register. They don’t care will assemble
      * as 0’s.
      * Status affected: None
      */
@@ -864,6 +885,7 @@ public class PIC {
 
     /**
      * Return from interrupt
+     * <p>
      * Return from Interrupt. Stack is POPed
      * and Top of Stack (TOS) is loaded in the
      * PC. Interrupts are enabled by setting
@@ -884,6 +906,7 @@ public class PIC {
 
     /**
      * Return with literal in W
+     * <p>
      * The W register is loaded with the eight
      * bit literal ’k’. The program counter is
      * loaded from the top of the stack (the
@@ -901,6 +924,7 @@ public class PIC {
 
     /**
      * Return from Subroutine
+     * <p>
      * Return from subroutine. The stack is
      * POPed and the top of the stack (TOS)
      * is loaded into the program counter. This
@@ -915,6 +939,7 @@ public class PIC {
 
     /**
      * Go into standby mode
+     * <p>
      * The power-down status bit, PD is
      * cleared. Time-out status bit, TO is
      * set. Watchdog Timer and its prescaler are cleared.
@@ -942,6 +967,7 @@ public class PIC {
 
     /**
      * Subtract W from literal
+     * <p>
      * The contents of W register is subtracted (2’s complement method) from the eight bit literal 'k'.
      * The result is placed in the W register.
      * Status affected: C, DC, Z
@@ -1172,7 +1198,7 @@ public class PIC {
     }
 
     /**
-     * checks if the PortB interrupt and the corresponding flag is set
+     * Checks if the PortB interrupt and the corresponding flag is set
      *
      * @return true if both are set
      */
@@ -1183,7 +1209,7 @@ public class PIC {
     }
 
     /**
-     * checks if the EEPROM interrupt and the corresponding flag is set
+     * Checks if the EEPROM interrupt and the corresponding flag is set
      *
      * @return true if both are set
      */
@@ -1214,12 +1240,8 @@ public class PIC {
         return quarz_frequenzy;
     }
 
-    public void setQuarz_frequenzy(double value) {
-        quarz_frequenzy = value;
-    }
-
     /**
-     * returns the bit of a bit oriented instruction
+     * Returns the bit of a bit of oriented instruction
      * @return position of bit
      */
     private int getPos() {

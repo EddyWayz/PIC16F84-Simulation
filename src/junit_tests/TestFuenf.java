@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class Test5 {
+public class TestFuenf {
     private PIC pic;
     // Adressen aus dem Listing
     private static final int WERT1 = 0x0C;

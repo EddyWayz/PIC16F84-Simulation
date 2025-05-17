@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class Test2 {
+public class TestZwei {
     private PIC pic;
 
     // Adressen im Listing

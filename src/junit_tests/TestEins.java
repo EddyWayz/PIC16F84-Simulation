@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class Test1 {
+public class TestEins {
     PIC pic;
 
     @Before
@@ -56,10 +56,10 @@ public class Test1 {
         checkFlags(0,0,0);
     }
 
-    private void checkFlags(int carry, int digitcarry, int zeroflag) {
+    private void checkFlags(int carry, int digitCarry, int zeroFlag) {
         Assert.assertEquals(carry, pic.memory.get_C());
-        Assert.assertEquals(digitcarry, pic.memory.get_DC());
-        Assert.assertEquals(zeroflag, pic.memory.get_Z());
+        Assert.assertEquals(digitCarry, pic.memory.get_DC());
+        Assert.assertEquals(zeroFlag, pic.memory.get_Z());
     }
 
 

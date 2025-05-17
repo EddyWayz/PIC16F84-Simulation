@@ -4,11 +4,17 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 
+<?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml"
-      stylesheets="@css/StackView.css"
       fx:controller="main.JavaFxController.StackController"
       spacing="10">
+
+    <stylesheets>
+        <URL value="@css/Default.css"/>
+        <URL value="@css/StackView.css"/>
+    </stylesheets>
+
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>

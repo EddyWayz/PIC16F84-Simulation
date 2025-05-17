@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class Test3 {
+public class TestDrei {
     private PIC pic;
     // Die Adressen, wie im Listing: wert1 = 0x0C, wert2 = 0x0D
     private static final int WERT1 = 0x0C;
@@ -43,7 +43,7 @@ public class Test3 {
         pic.step();
         Assert.assertEquals(0x14, pic.getW());
 
-        // 0003 addwf wert1,w  (d=0 → nur W verändert)
+        // 0003 addwf wert1,w (d=0 → nur W verändert)
         pic.step();
         Assert.assertEquals(0x25, pic.getW());
         checkFlags(0, 0, 0);

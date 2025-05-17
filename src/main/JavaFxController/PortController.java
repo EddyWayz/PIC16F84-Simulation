@@ -23,7 +23,7 @@ public class PortController {
 
     @FXML
     public void initialize() {
-        MainController.ioPinsController = this;
+        MainController.portController = this;
         instance = this;
         this.pic = MainController.getStaticPic();
         this.size = pic.PortA.pins.length;

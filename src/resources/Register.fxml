@@ -2,14 +2,20 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
-
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import java.net.URL?>
+
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:controller="main.JavaFxController.RegisterController"
-          stylesheets="@css/RegisterView.css"
           styleClass="grid-pane"
           alignment="BOTTOM_LEFT">
+
+    <stylesheets>
+        <URL value="@css/Default.css"/>
+        <URL value="@css/RegisterView.css"/>
+    </stylesheets>
+
     <columnConstraints>
         <ColumnConstraints percentWidth="20"/>
         <ColumnConstraints percentWidth="20"/>

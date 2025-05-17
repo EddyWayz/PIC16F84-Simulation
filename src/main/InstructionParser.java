@@ -1,16 +1,17 @@
 package main;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * class to parse the file as line to the hex instructions
  */
 public class InstructionParser {
+    private static final Logger LOGGER = Logger.getLogger(InstructionParser.class.getName());
     //list the instructions will be saved to
     ArrayList<Integer> program = new ArrayList<>();
-    File input;
     ArrayList<String> fileAsLines;
 
     public InstructionParser(String path) {
@@ -19,11 +20,10 @@ public class InstructionParser {
         try {
             fileAsLines = flParser.parseFileToLines();
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error while parsing file");
+            LOGGER.log(Level.SEVERE, "Error beim Einlesen: " + path, e);
         }
         if (fileAsLines == null || fileAsLines.isEmpty()) {
-            System.err.println("⚠ Keine Zeilen eingelesen oder Datei leer: " + path);
+            LOGGER.log(Level.WARNING, "Keine Zeilen eingelesen oder Datei leer: {0}", path);
         }
     }
 
@@ -38,46 +38,46 @@ public class InstructionParser {
                     program.add(instruction);
                 }
             } catch (NumberFormatException e) {
-                System.err.println("⚠ Ungültige Instruktion in Zeile " + i + ": " + fileAsLines.get(i));
+                LOGGER.log(Level.WARNING, String.format("Ungueltige Instruktion in Zeile %d: %s", i, fileAsLines.get(i)), e);
             }
         }
         return program;
     }
 
     /**
-     * finds the first index of an LST file with a instruction
+     * finds the first index of an LST file with an instruction
      * @return index
      */
     private int findFirstIndex() {
         char current = fileAsLines.getFirst().charAt(0);
         int index = 0;
-        try {
-            while (current == ' ') {
-                index++;
-                current = fileAsLines.get(index).charAt(0);
-            }
-        } catch (IndexOutOfBoundsException e) {
-            System.err.println("⚠ findFirstIndex: Datei nicht wie erwartet formatiert.");
-            return 0;
+        while (current == ' ') {
+            index++;
+            current = fileAsLines.get(index).charAt(0);
         }
         return index;
     }
 
     /**
-     * parses a instruction out of given string (line of LST file)
-     * @param line
+     * parses an instruction out of given string (line of LST file)
+     * @param line string containing the instruction
      * @return instruction as integer
      */
     private int getInstruction(String line) {
-        String instruction = "";
         if (line.charAt(0) != ' ') {
+            StringBuilder instruction = new StringBuilder();
             for (int i = 5; i <= 8; i++) {
-                instruction += line.charAt(i);
+                instruction.append(line.charAt(i));
+            }
+            try {
+                return Integer.parseInt(instruction.toString(), 16);
+            } catch (NumberFormatException e) {
+                LOGGER.log(Level.WARNING, "Fehler beim Parsen der Instruktion: " + instruction, e);
+                return -1;
             }
         } else {
-            instruction = "-1";
+            return -1;
         }
-        return Integer.parseInt(instruction, 16);
     }
 
 

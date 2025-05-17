@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class Test4 {
+public class TestVier {
     private PIC pic;
     private static final int WERT1 = 0x0C;
     private static final int WERT2 = 0x0D;

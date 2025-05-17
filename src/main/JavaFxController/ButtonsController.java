@@ -7,11 +7,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Button;
 import main.*;
-
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ButtonsController implements Initializable {
+    private static final Logger LOGGER = Logger.getLogger(ButtonsController.class.getName());
+
     private PIC pic;
     public Button btnRun;
     public Button btnStep;
@@ -50,23 +53,25 @@ public class ButtonsController implements Initializable {
                             }
                             if (currentRow != null && currentRow.getBreakpointActive()) {
                                 breakpointErreicht = true;
-                                System.out.println("Breakpoint erreicht an PC: " + currentPC);
+                                LOGGER.log(Level.INFO, "Breakpoint erreicht an PC:" + currentPC);
                             }
 
                             try {
                                 Thread.sleep(100);
-                            } catch (InterruptedException ex) {
-                                ex.printStackTrace();
+                            } catch (InterruptedException e) {
+                                LOGGER.log(Level.SEVERE, "Thread unterbrochen beim Sleep", e);
+                                Thread.currentThread().interrupt();
                             }
                         }
                     }).start();
                 } else {
-                    System.err.println("TableLSTController oder PIC nicht initialisiert!");
+                    LOGGER.log(Level.SEVERE, "TableLSTController oder PIC wurde nicht initialisiert!");
                 }
             });
         }
         else {
-            System.err.println("btnRun wurde nicht initialisiert!");
+            LOGGER.log(Level.WARNING, "btnRun wurde nicht initialisiert!");
+            return;
         }
 
         if (activateWatchdogCheckbox != null) {
@@ -75,7 +80,7 @@ public class ButtonsController implements Initializable {
             });
         }
         else {
-            System.err.println("activateWatchdogCheckbox wurde nicht initialisiert!");
+            LOGGER.log(Level.WARNING, "activateWatchdogCheckbox wurde nicht initialisiert!");
         }
 
         if (btnStep != null) {
@@ -85,13 +90,15 @@ public class ButtonsController implements Initializable {
             });
         }
         else {
-            System.err.println("btnStep wurde nicht initialisiert!");
+            LOGGER.log(Level.WARNING, "btnStep wurde nicht initialisiert.");
         }
 
         if (btnStop != null) {
             btnStop.setOnAction(_ -> {
                 stopButtonPushed = true;
             });
+        } else {
+            LOGGER.log(Level.WARNING, "btnStop wurde nicht initialisiert!");
         }
 
         if(btnMCLR != null) {
@@ -101,7 +108,7 @@ public class ButtonsController implements Initializable {
             });
         }
         else {
-            System.err.println("btnMCLR wurde nicht initialisiert!");
+            LOGGER.log(Level.WARNING, "btnMCLR wurde nicht initialisiert!");
         }
     }
 
@@ -124,8 +131,7 @@ public class ButtonsController implements Initializable {
                 StackController.instance.buildUI();
             }
         } catch (Exception e) {
-            System.err.println("Fehler beim Aktualisieren der Ansicht: " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Fehler beim Aktualisieren der Ansicht. refreshView Funktion fehlgeschlagen.", e);
         }
     }
 

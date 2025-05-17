@@ -1,10 +1,13 @@
 package main;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  * class to reassemble the hidden stack of the PIC
  */
 public class Stack_PIC {
-    private int[] stack;
+    private static final Logger LOGGER = Logger.getLogger(Stack_PIC.class.getName());
+    private final int[] stack;
     private int stack_pointer;
 
     public Stack_PIC() {
@@ -21,8 +24,7 @@ public class Stack_PIC {
             stack[stack_pointer] = address;
             inc_SP();
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("⚠ Stack overflow bei push: index " + stack_pointer + ": " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, String.format("Stack overflow bei Push Funktion: index %d", stack_pointer), e);
         }
     }
 
@@ -35,8 +37,7 @@ public class Stack_PIC {
             dec_SP();
             return stack[stack_pointer];
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("⚠ Stack underflow bei pop: index " + stack_pointer + ": " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, String.format("Stack underflow bei Pop Funktion: index %d", stack_pointer), e);
             return -1;
         }
     }
@@ -68,8 +69,8 @@ public class Stack_PIC {
         try {
             return stack[index];
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("⚠ Ungültiger Stack-Index bei getVal: " + index + ": " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE,
+                    String.format("Ungueltiger Stack-Index bei getVal Funktion: %d", index), e);
             return -1;
         }
     }

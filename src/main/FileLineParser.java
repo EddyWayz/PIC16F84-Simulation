@@ -1,8 +1,6 @@
 package main;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.BooleanProperty;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -13,8 +11,8 @@ import java.util.ArrayList;
  * die eine Zeile (bzw. Blöcke einer Zeile) der LST-Datei modelliert.
  */
 public class FileLineParser {
-    private ArrayList<String> fileAsLines = new ArrayList<>();
-    private File input;
+    private final ArrayList<String> fileAsLines = new ArrayList<>();
+    private final File input;
 
     /**
      * Konstruktor: Erstellt einen Parser für die angegebene Datei.
@@ -29,7 +27,7 @@ public class FileLineParser {
      * Wird die Methode erneut aufgerufen, wird der bereits eingelesene Inhalt zurückgegeben.
      *
      * @return ArrayList mit den Zeilen der Datei
-     * @throws IOException
+     * @throws IOException wenn das Einlesen fehlschlägt
      */
     public ArrayList<String> parseFileToLines() throws IOException {
         if (!input.exists()) {
@@ -47,21 +45,6 @@ public class FileLineParser {
             }
         }
         return fileAsLines;
-    }
-
-    /**
-     * Gibt den Inhalt der Datei zeilenweise auf der Konsole aus.
-     */
-    public void printFile() {
-        try {
-            ArrayList<String> lines = parseFileToLines();
-            for (String line : lines) {
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            System.err.println("⚠ Fehler beim Ausgeben der Datei: " + e.getMessage());
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -122,38 +105,13 @@ public class FileLineParser {
         }
 
         // Getter, Setter und Property-Methoden für block0
-        public String getBlock0() { return block0.get(); }
-        public void setBlock0(String value) { block0.set(value); }
         public SimpleStringProperty block0Property() { return block0; }
-
-        // Getter, Setter und Property-Methoden für block1
         public String getBlock1() { return block1.get(); }
-        public void setBlock1(String value) { block1.set(value); }
         public SimpleStringProperty block1Property() { return block1; }
-
-        // Getter, Setter und Property-Methoden für block2
-        public String getBlock2() { return block2.get(); }
-        public void setBlock2(String value) { block2.set(value); }
         public SimpleStringProperty block2Property() { return block2; }
-
-        // Getter, Setter und Property-Methoden für block3
-        public String getBlock3() { return block3.get(); }
-        public void setBlock3(String value) { block3.set(value); }
         public SimpleStringProperty block3Property() { return block3; }
-
-        // Getter, Setter und Property-Methoden für block4
-        public String getBlock4() { return block4.get(); }
-        public void setBlock4(String value) { block4.set(value); }
         public SimpleStringProperty block4Property() { return block4; }
-
-        // Getter, Setter und Property-Methoden für block5
-        public String getBlock5() { return block5.get(); }
-        public void setBlock5(String value) { block5.set(value); }
         public SimpleStringProperty block5Property() { return block5; }
-
-        // Getter, Setter und Property-Methoden für block6
-        public String getBlock6() { return block6.get(); }
-        public void setBlock6(String value) { block6.set(value); }
         public SimpleStringProperty block6Property() { return block6; }
 
         // Methoden zum Verwalten der Breakpoint-Property

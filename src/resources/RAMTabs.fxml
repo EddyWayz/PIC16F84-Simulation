@@ -6,8 +6,15 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
 
+<?import java.net.URL?>
 <TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="main.JavaFxController.RAMTabsController"
          stylesheets="@css/RamTabsView.css" VBox.vgrow="ALWAYS">
+
+    <stylesheets>
+        <URL value="@css/Default.css"/>
+        <URL value="@css/RamTabsView.css"/>
+    </stylesheets>
+
     <Tab text="GPR" closable="false">
         <VBox spacing="10">
             <TableView fx:id="RAMTabsLST" VBox.vgrow="ALWAYS">

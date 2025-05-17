@@ -4,13 +4,19 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import java.net.URL?>
+
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="main.JavaFxController.TableLSTController"
-      stylesheets="@css/TableLSTViewStyle.css"
       spacing="5">
+
+    <stylesheets>
+        <URL value="@css/Default.css"/>
+        <URL value="@css/TableLSTViewStyle.css"/>
+    </stylesheets>
+
     <HBox spacing="5">
         <Button text="File.." fx:id="btnFilePicker"/>
         <Button text="Dokumentation" fx:id="btnDocs" onAction="#onDocsButtonClicked"/>

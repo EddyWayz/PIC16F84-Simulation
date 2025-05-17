@@ -1,6 +1,10 @@
 package main;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Port {
+    private static final Logger LOGGER = Logger.getLogger(Port.class.getName());
     public IO_PIN[] pins = new IO_PIN[8];
     private final String name;
 
@@ -11,8 +15,7 @@ public class Port {
                 pins[i] = new IO_PIN();
             }
         } catch (Exception e) {
-            System.err.println("⚠ Fehler beim Initialisieren der IO_PINs: " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Fehler beim Initialisieren und Füllen der IO_PINs", e);
         }
     }
 

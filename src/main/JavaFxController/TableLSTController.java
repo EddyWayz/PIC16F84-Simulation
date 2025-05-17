@@ -23,8 +23,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TableLSTController implements Initializable {
+    private static final Logger LOGGER = Logger.getLogger(TableLSTController.class.getName());
 
     // Statische Referenz, um von anderen Klassen (z.B. MainController) darauf zugreifen zu können.
     public static TableLSTController instance;
@@ -43,13 +46,13 @@ public class TableLSTController implements Initializable {
         try {
             URL pdfUrl = getClass().getResource("../../resources/docs/Dokumentation PIC16F84 Simulator.pdf");
             if (pdfUrl == null) {
-                System.err.println("PDF nicht gefunden: ../../resources/docs/Dokumentation PIC16F84 Simulator.pdf");
+                LOGGER.log(Level.WARNING, "PDF nicht gefunden: Dokumentation PIC16F84 Simulator.pdf");
                 return;
             }
             File pdfFile = new File(pdfUrl.toURI());
             Desktop.getDesktop().open(pdfFile);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Fehler beim Oeffnen der PDF-Dokumentation", e);
         }
     }
     @FXML
@@ -100,7 +103,7 @@ public class TableLSTController implements Initializable {
             defaultPath = "";
         }
         if (defaultPath.isEmpty()) {
-            System.err.println("⚠ Standardpfad ist leer, Datei wird nicht geladen.");
+            LOGGER.log(Level.WARNING, "Standardpfad ist leer.");
         } else {
             reloadTable(defaultPath);
         }
@@ -178,13 +181,13 @@ public class TableLSTController implements Initializable {
     }
 
     /**
-     * Liest die Datei ein und füllt die Tabelle.
+     * Liest die Datei ein und fuellt die Tabelle.
      *
      * @param path Pfad zur LST-Datei
      */
     void reloadTable(String path) {
         if (path == null || path.isEmpty()) {
-            System.err.println("⚠ Kein Pfad angegeben, Tabelle wird nicht geladen.");
+            LOGGER.log(Level.WARNING,"Kein Pfad angegeben, Tabelle wird nicht geladen.");
             return;
         }
         FileLineParser flParser = new FileLineParser(path);
@@ -196,11 +199,10 @@ public class TableLSTController implements Initializable {
                 dataRows.add(row);
             }
         } catch (IOException e) {
-            System.err.println("⚠ Fehler beim Einlesen der LST-Datei '" + path + "': " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Fehler beim Einlesen der LST-Datei: " + path, e);
         }
         if (dataRows.isEmpty()) {
-            System.err.println("⚠ Keine Datenzeilen gefunden für Datei: " + path);
+            LOGGER.log(Level.WARNING, "Keine Datenzeilen gefunden.", path);
         }
         ObservableList<DataRow> data = FXCollections.observableArrayList(dataRows);
         tableViewLST.setItems(data);
@@ -211,7 +213,10 @@ public class TableLSTController implements Initializable {
      * Konfiguriert den File-Picker-Button, sodass ein neues LST-File ausgewählt werden kann.
      */
     private void filePickerButtonPushed() {
-        if (btnFilePicker != null) {
+        if (btnFilePicker == null) {
+            LOGGER.log(Level.WARNING, "btnFilePicker wurde nicht gefunden!");
+            return;
+        }
             btnFilePicker.setOnAction(_ -> {
                 FileChooser fileChooser = new FileChooser();
                 String osName = System.getProperty("os.name").toLowerCase();
@@ -226,21 +231,18 @@ public class TableLSTController implements Initializable {
                 if (initialDir.exists() && initialDir.isDirectory()) {
                     fileChooser.setInitialDirectory(initialDir);
                 } else {
-                    System.out.println("Das angegebene Verzeichnis existiert nicht oder ist kein Ordner.");
+                    LOGGER.log(Level.INFO, "Angegebenes Verzeichnis existiert nicht oder ist kein Ordner.");
                 }
                 File selectedFile = fileChooser.showOpenDialog(btnFilePicker.getScene().getWindow());
                 if (selectedFile != null) {
-                    System.out.println("Ausgewählte Datei: " + selectedFile.getAbsolutePath());
+                    LOGGER.log(Level.INFO, "Ausgewählte Datei: {0}", selectedFile.getAbsolutePath());
                     // Neuinitialisieren des PIC mit der ausgewählten Datei
                     MainController.updatePIC(selectedFile.getAbsolutePath());
                 }
                 else {
-                    System.out.println("⚠ Keine Datei ausgewählt.");
+                    LOGGER.log(Level.WARNING, "Keine Datei ausgewählt.");
                 }
             });
-        } else {
-            System.out.println("btnFilePicker wurde nicht gefunden!");
-        }
     }
     private void autoResizeColumns(TableView<DataRow> table) {
         int columnCount = table.getColumns().size();
