@@ -63,7 +63,7 @@ public class Prescaler {
 
             System.out.println("psCounter: " + psCounter);
             psCounter++;
-            if (psCounter >= currentRate) {
+            if (psCounter == currentRate) {
                 TMR.increment();
                 this.clear();
             }
@@ -80,7 +80,7 @@ public class Prescaler {
         //if ps is not assigned to the wdt increment wdt with every impuls from it
         if (PSA == PSA_WDT) {
             psCounter++;
-            if (psCounter >= currentRate) {
+            if (psCounter == currentRate) {
                 WDT.increment();
                 this.clear();
             }
