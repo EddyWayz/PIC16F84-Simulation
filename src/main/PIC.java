@@ -96,21 +96,22 @@ public class PIC {
      * Simulates one line of assembly code
      */
     public void step() {
+        //update timers and prescaler
+        prescaler.update();
+
+        //update ports
+        updatePort(PortA);
+        updatePort(PortB);
+
         if (!sleep) {
             instruction = fetch();
             //PC increment
             memory.increment_PC();
             decode_n_execute();
         }
-        //update timers and prescaler
-        prescaler.update();
 
         //checks for interrupts and possible wake-ups
         checkForInterrupts();
-
-        //update ports
-        updatePort(PortA);
-        updatePort(PortB);
 
         //increment runtime counter
         increment_RuntimeCounter();
@@ -732,6 +733,8 @@ public class PIC {
      * Status affected: None
      */
     private void instr_BTFSS() {
+        System.out.println("BTFSS");
+
         computeAddress(instruction);
 
         int pos = getPos();
@@ -745,7 +748,7 @@ public class PIC {
             prescaler.update();
         }
 
-        System.out.println("BTFSS");
+
     }
 
     //LITERAL AND CONTROL OPERATIONS

@@ -36,7 +36,7 @@ public class WatchdogTMR {
         if (counter >= WDT_threshold) {
             counter = 0;
             //reset or wake up depending on if the pic is in sleep mode
-            System.out.println("Reset from WDT");
+            ps.clear();
             if (pic.getSleep()) {
                 pic.wakeUp_WDT();
             } else {
