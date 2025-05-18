@@ -399,7 +399,7 @@ public class PIC {
             //2 cycle if skip
             increment_RuntimeCounter();
             memory.increment_PC();
-            prescaler.TMR.update();
+            prescaler.update();
         }
         memory.check_n_manipulate_Z(value);
         writeInMemoryDestinationBit_indirect(address, value, indirect);
@@ -447,7 +447,7 @@ public class PIC {
             //2 cycles if skip
             increment_RuntimeCounter();
             memory.increment_PC();
-            prescaler.TMR.update();
+            prescaler.update();
         }
 
         writeInMemoryDestinationBit_indirect(address, value, indirect);
@@ -716,7 +716,7 @@ public class PIC {
         int bit = BitOperator.getBit(value, pos);
         //skip if clear
         if (bit == 0) {
-            prescaler.TMR.update();
+            prescaler.update();
             increment_RuntimeCounter();
             memory.increment_PC();
         }
@@ -742,7 +742,7 @@ public class PIC {
         if (bit == 1) {
             increment_RuntimeCounter();
             memory.increment_PC();
-            prescaler.TMR.update();
+            prescaler.update();
         }
 
         System.out.println("BTFSS");
@@ -805,7 +805,7 @@ public class PIC {
         memory.setPC(pc);
 
         // 2 cycle instruction
-        prescaler.TMR.update();
+        prescaler.update();
         increment_RuntimeCounter();
 
         System.out.println("CALL");
@@ -848,7 +848,7 @@ public class PIC {
         memory.setPC(k11);
         memory.pclath_3n4_ontoPC();
 
-        prescaler.TMR.update();
+        prescaler.update();
 
         //increment runtime counter
         increment_RuntimeCounter();
@@ -900,7 +900,7 @@ public class PIC {
 
         //2 cycle instruction
         increment_RuntimeCounter();
-        prescaler.TMR.update();
+        prescaler.update();
         System.out.println("RETFIE");
     }
 
@@ -918,7 +918,8 @@ public class PIC {
         int k = instruction & Mask_Lib.LITERAL_MASK;
         writeInW(k);
         memory.setPC(stack.pop());
-        prescaler.TMR.update();
+        increment_RuntimeCounter();
+        prescaler.update();
         System.out.println("RETLW");
     }
 
@@ -933,7 +934,8 @@ public class PIC {
      */
     private void instr_RETURN() {
         memory.setPC(stack.pop());
-        prescaler.TMR.update();
+        increment_RuntimeCounter();
+        prescaler.update();
         System.out.println("RETURN");
     }
 

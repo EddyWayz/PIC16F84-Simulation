@@ -19,7 +19,6 @@ public class Prescaler {
 
     //rates for TMR0 and WDT
     private int[][] rates = {{2, 4, 8, 16, 32, 64, 128, 256}, {1, 2, 4, 8, 16, 32, 64, 128}};
-    private int precaler_rate = 0;
     private int rate_TMR = 1;
     private int rate_WDT = 1;
 
@@ -28,8 +27,13 @@ public class Prescaler {
         TMR = new Timer0(pic, this);
         WDT = new WatchdogTMR(pic, this);
 
+
         psCounter = 0;
         PSA = 1;
+
+
+        rate_WDT = rates[PSA][getPSA_Rate()];
+        rate_TMR = 1;
 
     }
 
@@ -38,17 +42,17 @@ public class Prescaler {
      */
     public void update() {
         int psa_updated = pic.memory.readBit_bank(Label_Lib.OPTION, OPTION_lib.PSA, 1);
-        if(psa_updated != PSA) {
+        if (psa_updated != PSA) {
             PSA = psa_updated;
-            psCounter = 0;
+            this.clear();
             //prescaler changed to timer?
-           if(PSA == PSA_TMR) {
-               rate_TMR = rates[PSA][getPSA_Rate()];
-               rate_WDT = 1;
-           } else {
-               rate_WDT = rates[PSA][getPSA_Rate()];
-               rate_TMR = 1;
-           }
+            if (PSA == PSA_TMR) {
+                rate_TMR = rates[PSA][getPSA_Rate()];
+                rate_WDT = 1;
+            } else {
+                rate_WDT = rates[PSA][getPSA_Rate()];
+                rate_TMR = 1;
+            }
         }
         WDT.update();
         TMR.update();
@@ -61,15 +65,17 @@ public class Prescaler {
      * --> wil increment it depending on prescaler rates
      */
     public void impulsFromTMR() {
-        if(PSA == PSA_TMR) {
+        //if ps is not assigned to the timer increment it with ervery impuls
+        //if it is assigned: increment ps, if ps is higher than the ps rate for the timer
+        //corresponding to the ps0 - ps2 bits increment timer
+        if (PSA == PSA_TMR) {
             psCounter++;
-            if(psCounter >= rate_TMR) {
+            if (psCounter >= rate_TMR) {
                 TMR.increment();
             }
         } else {
             TMR.increment();
         }
-
     }
 
     /**
@@ -77,13 +83,13 @@ public class Prescaler {
      * --> wil increment it depending on prescaler rates
      */
     public void impulsFromWDT() {
-        if(PSA == PSA_WDT) {
+        //if ps is not assigned to the wdt increment wdt with every impuls from it
+        if (PSA == PSA_WDT) {
             psCounter++;
-            if(psCounter >= rate_WDT) {
+            if (psCounter >= rate_WDT) {
                 WDT.increment();
             }
         } else {
-
             WDT.increment();
         }
     }
@@ -92,7 +98,7 @@ public class Prescaler {
      * clears the current counter of the prescaler for the WDT
      */
     public void clearPS_WDT() {
-        if(PSA == PSA_WDT) {
+        if (PSA == PSA_WDT) {
             psCounter = 0;
         }
     }
@@ -106,6 +112,7 @@ public class Prescaler {
 
     /**
      * calculates the current rate for the prescaler
+     *
      * @return the current rate that is selected
      */
     private int getPSA_Rate() {
@@ -116,12 +123,11 @@ public class Prescaler {
         //shifting Prescaler bits
         ps1 = ps1 << 1;
         ps2 = ps2 << 2;
-
         //combine all three bits
-        return (ps0 | ps1 | ps2);
+        int psa_rate = ps0 | ps1 | ps2;
+        System.out.println(psa_rate);
+        return psa_rate;
     }
-
-
 
 
 }
