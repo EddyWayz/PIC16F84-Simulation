@@ -48,8 +48,9 @@ public class Timer0 {
         int value = pic.memory.read_bank(Label_Lib.TMR0,0);
         value++;
         //int value = pic.memory.read_bank(Label_Lib.TMR0,0);
-        if(value >= 255) {
+        if(value >= 256) {
             value = 0;
+            pic.memory.set_Z();
             pic.memory.setBit_bank(Label_Lib.INTCON, INTCON_lib.T0IF, 0);
         }
         pic.memory.write_bank(Label_Lib.TMR0, value, 0);
