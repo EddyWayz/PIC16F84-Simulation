@@ -6,6 +6,7 @@ import main.libraries.register_libraries.EECON1_lib;
 import main.libraries.register_libraries.INTCON_lib;
 import main.libraries.register_libraries.STATUS_lib;
 import main.timers.Prescaler;
+import main.timers.PrescalerCounter;
 import main.tools.BitOperator;
 import main.libraries.Instr_Lib;
 import main.libraries.Label_Lib;
@@ -37,6 +38,7 @@ public class PIC {
     private int W;
 
     //prescaler and timers in PS
+    private PrescalerCounter psCounter;
     public Prescaler prescaler;
 
     //Port A and B
@@ -50,18 +52,20 @@ public class PIC {
         //INIT of stack
         stack = new Stack_PIC();
 
+        //instance of prescaler
+        psCounter = new PrescalerCounter();
+
         //new instance of RAM
-        memory = new RAM();
+        memory = new RAM(psCounter);
         memory.powerOn_reset();
+
+        //init of prescaler with pic instance and instance of psCounter
+        prescaler = new Prescaler(this, psCounter);
 
 
         //Parse file to get the program
         InstructionParser instrParser = new InstructionParser(path);
         program = instrParser.parseLinesToInstructions();
-
-
-        //instance of prescaler
-        prescaler = new Prescaler(this);
 
         //instance of ports
         PortA  = new Port("PortA");
@@ -69,46 +73,26 @@ public class PIC {
 
     }
 
-    /**
-     * updates a port of the pic depending on the corresponding TRIS register
-     * @param port that will be updated
-     */
-    private void updatePort(Port port) {
-        int address = port.getName().equals("PortA") ? 5 : 6;
 
-        for(int index = 0; index < 8; index++) {
-            int tris = memory.readBit_bank(address, index, 1);
-            if(tris == 0) {
-                boolean value = memory.readBit_bank(address, index, 0) == 1;
-                port.pins[index].setInput(value);
-            } else {
-                boolean value = port.pins[index].getValue();
-                if(value) {
-                    memory.setBit_bank(address, index, 0);
-                } else {
-                    memory.unsetBit_bank(address, index, 0);
-                }
-            }
-        }
-    }
 
     /**
      * Simulates one line of assembly code
      */
     public void step() {
-        //update timers and prescaler
-        prescaler.update();
-
-        //update ports
-        updatePort(PortA);
-        updatePort(PortB);
-
+        //execute instruction if pic isn't sleeping
         if (!sleep) {
             instruction = fetch();
             //PC increment
             memory.increment_PC();
             decode_n_execute();
         }
+
+        //update ports
+        updatePort(PortA);
+        updatePort(PortB);
+
+        //update timers and prescaler
+        prescaler.update();
 
         //checks for interrupts and possible wake-ups
         checkForInterrupts();
@@ -718,8 +702,8 @@ public class PIC {
         //skip if clear
         if (bit == 0) {
             prescaler.update();
-            increment_RuntimeCounter();
             memory.increment_PC();
+            increment_RuntimeCounter();
         }
 
         System.out.println("BTFSC");
@@ -733,8 +717,6 @@ public class PIC {
      * Status affected: None
      */
     private void instr_BTFSS() {
-        System.out.println("BTFSS");
-
         computeAddress(instruction);
 
         int pos = getPos();
@@ -743,12 +725,13 @@ public class PIC {
         int bit = BitOperator.getBit(value, pos);
         //skip if set
         if (bit == 1) {
+            System.out.println("+++ Skip from BTFSS+++++++++++++++++");
+            prescaler.update();
             increment_RuntimeCounter();
             memory.increment_PC();
-            prescaler.update();
         }
 
-
+        System.out.println("BTFSS");
     }
 
     //LITERAL AND CONTROL OPERATIONS
@@ -1030,7 +1013,7 @@ public class PIC {
     //METHODS FOR MEMORY MANIPULATION
 
     /**
-     * overloaded method: writes in the memory depending on the destination bit with an indirect address possible
+     * writes in the memory depending on the destination bit with an indirect address possible
      *
      * @param address of the register that will be written into
      * @param value   that will be stored
@@ -1068,6 +1051,29 @@ public class PIC {
         indirect = (address == 0);
         if (address == 0) {
             address = memory.read(Label_Lib.FSR);
+        }
+    }
+
+    /**
+     * updates a port of the pic depending on the corresponding TRIS register
+     * @param port that will be updated
+     */
+    private void updatePort(Port port) {
+        int address = port.getName().equals("PortA") ? 5 : 6;
+
+        for(int index = 0; index < 8; index++) {
+            int tris = memory.readBit_bank(address, index, 1);
+            if(tris == 0) {
+                boolean value = memory.readBit_bank(address, index, 0) == 1;
+                port.pins[index].setInput(value);
+            } else {
+                boolean value = port.pins[index].getValue();
+                if(value) {
+                    memory.setBit_bank(address, index, 0);
+                } else {
+                    memory.unsetBit_bank(address, index, 0);
+                }
+            }
         }
     }
 

@@ -10,7 +10,7 @@ public class Prescaler {
     public WatchdogTMR WDT;
 
     //Prescaler Counter
-    private int psCounter;
+    private PrescalerCounter psCounter;
     //PreScaler Assignment bit
     private int PSA;
 
@@ -21,17 +21,18 @@ public class Prescaler {
     private final int[][] rates = {{2, 4, 8, 16, 32, 64, 128, 256}, {1, 2, 4, 8, 16, 32, 64, 128}};
     private int currentRate = 0;
 
-    public Prescaler(PIC pic) {
+    public Prescaler(PIC pic, PrescalerCounter psCounter) {
         this.pic = pic;
         TMR = new Timer0(pic, this);
         WDT = new WatchdogTMR(pic, this);
 
         //init of the counter and the assignment to wdt
-        psCounter = 0;
         PSA = 1;
+        this.psCounter = psCounter;
 
         //set the rate of the prescaler
         currentRate = rates[PSA][getPSA_Rate()];
+
     }
 
     /**
@@ -42,7 +43,7 @@ public class Prescaler {
         if (psa_updated != PSA) {
             PSA = psa_updated;
             //clear value of ps
-            this.clear();
+            psCounter.clear();
             //change rate corresponding to psa bit
             currentRate = rates[PSA][getPSA_Rate()];
         }
@@ -60,12 +61,10 @@ public class Prescaler {
         //if it is assigned: increment ps, if ps is higher than the ps rate for the timer
         //corresponding to the ps0 - ps2 bits increment timer
         if (PSA == PSA_TMR) {
-
-            System.out.println("psCounter: " + psCounter);
-            psCounter++;
-            if (psCounter == currentRate) {
+            psCounter.increment();
+            if (psCounter.getCounter() == currentRate) {
                 TMR.increment();
-                this.clear();
+                psCounter.clear();
             }
         } else {
             TMR.increment();
@@ -79,10 +78,10 @@ public class Prescaler {
     public void impulsFromWDT() {
         //if ps is not assigned to the wdt increment wdt with every impuls from it
         if (PSA == PSA_WDT) {
-            psCounter++;
-            if (psCounter == currentRate) {
+            psCounter.increment();
+            if (psCounter.getCounter() == currentRate) {
                 WDT.increment();
-                this.clear();
+                psCounter.clear();
             }
         } else {
             WDT.increment();
@@ -94,7 +93,7 @@ public class Prescaler {
      */
     public void clearPS_WDT() {
         if (PSA == PSA_WDT) {
-            psCounter = 0;
+            psCounter.clear();
         }
     }
 
@@ -102,7 +101,7 @@ public class Prescaler {
      * clears the prescaler value
      */
     public void clear() {
-        psCounter = 0;
+        psCounter.clear();
     }
 
     /**

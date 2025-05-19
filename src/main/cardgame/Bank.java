@@ -1,10 +1,11 @@
 package main.cardgame;
 
 import main.tools.BitOperator;
+import main.libraries.Mask_Lib;
 
 public class Bank implements Memory {
     int[] memory;
-    int UPPERZEROS_MASK = 0b11111111;
+
 
     public Bank() {
         memory = new int[128];
@@ -22,7 +23,7 @@ public class Bank implements Memory {
 
     @Override
     public void write(int address, int value) {
-        value = value & UPPERZEROS_MASK;
+        value = value & Mask_Lib.LOWER8BIT_MASK;
         memory[address] = value;
     }
 

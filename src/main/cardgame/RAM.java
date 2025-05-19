@@ -1,7 +1,10 @@
 package main.cardgame;
 
+import main.PIC;
 import main.exceptions.MirroringErrorException;
 import main.libraries.register_libraries.STATUS_lib;
+import main.timers.Prescaler;
+import main.timers.PrescalerCounter;
 import main.tools.BitOperator;
 import main.libraries.Label_Lib;
 import main.libraries.Mask_Lib;
@@ -19,9 +22,11 @@ public class RAM implements Memory {
     // array of both banks
     Bank[] RAM;
 
+    PrescalerCounter psCounter;
+
     private int PC;
 
-    public RAM() {
+    public RAM(PrescalerCounter psCounter) {
         //create memory
         RAM = new Bank[2];
         bank0 = new Bank();
@@ -29,7 +34,13 @@ public class RAM implements Memory {
         RAM[0] = bank0;
         RAM[1] = bank1;
 
+        this.psCounter = psCounter;
+
         PC = 0;
+    }
+
+    public Bank[] getRAM() {
+        return RAM;
     }
 
     public int getPC() {
@@ -271,18 +282,23 @@ public class RAM implements Memory {
      */
     @Override
     public void write(int address, int value) {
-
         if (hasToMirrored(address)) {
             writeBothBanks(address, value);
         } else {
             RAM[getRP0()].write(address, value);
         }
-        checkManipulationPC(address);
+        checkManipulationPC_TMR(address);
     }
 
+    /**
+     * method to write a value on a specific bank
+     * @param address of register
+     * @param value that will be written
+     * @param bank of the ram
+     */
     public void write_bank(int address, int value, int bank) {
         RAM[bank].write(address, value);
-        checkManipulationPC(address);
+        checkManipulationPC_TMR(address);
     }
 
     /**
@@ -299,7 +315,7 @@ public class RAM implements Memory {
         } else {
             RAM[bank].write(address, value);
         }
-        checkManipulationPC(address);
+        checkManipulationPC_TMR(address);
     }
 
     /**
@@ -315,7 +331,7 @@ public class RAM implements Memory {
         } else {
             RAM[getRP0()].setBit(address, position);
         }
-        checkManipulationPC(address);
+        checkManipulationPC_TMR(address);
     }
 
     /**
@@ -327,7 +343,7 @@ public class RAM implements Memory {
      */
     public void setBit_bank(int address, int position, int bank) {
         RAM[bank].setBit(address, position);
-        checkManipulationPC(address);
+        checkManipulationPC_TMR(address);
     }
 
     /**
@@ -343,7 +359,7 @@ public class RAM implements Memory {
         } else {
             RAM[getRP0()].unsetBit(address, position);
         }
-        checkManipulationPC(address);
+        checkManipulationPC_TMR(address);
     }
 
     /**
@@ -354,7 +370,7 @@ public class RAM implements Memory {
      */
     public void unsetBit_bank(int address, int position, int bank) {
         RAM[bank].unsetBit(address, position);
-        checkManipulationPC(address);
+        checkManipulationPC_TMR(address);
     }
 
     /**
@@ -400,7 +416,7 @@ public class RAM implements Memory {
         }
     }
 
-    private void checkManipulationPC(int address) {
+    private void checkManipulationPC_TMR(int address) {
         if (address == Label_Lib.PCL) {
             int pc = read(address);
             int pclath = read(Label_Lib.PCLATH);
@@ -408,6 +424,11 @@ public class RAM implements Memory {
             pclath = pclath << 8;
             pc = pc | pclath;
             setPC(pc);
+        }
+
+        if(address == Label_Lib.TMR0) {
+            psCounter.clear();
+            System.out.println("MARKER========================" + PC);
         }
     }
 
