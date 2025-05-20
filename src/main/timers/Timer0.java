@@ -48,11 +48,11 @@ public class Timer0 {
         int value = pic.memory.read_bank(Label_Lib.TMR0,0);
         value++;
         //int value = pic.memory.read_bank(Label_Lib.TMR0,0);
-        if(value >= 255) {
+        if(value >= 256) {
             value = 0;
             //not setting zeroflag, will be set from movf instruction
             System.out.println("### Overflow of timer ####################################");
-            pic.memory.set_Z();
+
             pic.memory.setBit_bank(Label_Lib.INTCON, INTCON_lib.T0IF, 0);
         }
         //direct access to bank to skip the checking of writing timer file
