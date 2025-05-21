@@ -784,11 +784,10 @@ public class PIC {
     private void instr_CALL() {
         int k11 = instruction & Mask_Lib.GOTO_CALL_MASK;
         stack.push(memory.getPC());
-        memory.pclath_3n4_ontoPC();
 
-        int pc = memory.getPC();
-        pc = pc | k11;
-        memory.setPC(pc);
+        //new 11 bit value as PC and PCLATH as upper bits
+        memory.setPC(k11);
+        memory.pclath_3n4_ontoPC();
 
         // 2 cycle instruction
         prescaler.update();
