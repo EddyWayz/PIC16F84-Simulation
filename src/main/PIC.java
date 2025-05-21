@@ -725,7 +725,7 @@ public class PIC {
         int bit = BitOperator.getBit(value, pos);
         //skip if set
         if (bit == 1) {
-            System.out.println("+++ Skip from BTFSS+++++++++++++++++");
+            System.out.println("+++ Skip from BTFSS +++++++++++++++++");
             prescaler.update();
             increment_RuntimeCounter();
             memory.increment_PC();

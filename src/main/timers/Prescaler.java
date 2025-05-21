@@ -40,12 +40,14 @@ public class Prescaler {
      */
     public void update() {
         int psa_updated = pic.memory.readBit_bank(Label_Lib.OPTION, OPTION_lib.PSA, 1);
-        if (psa_updated != PSA) {
+        //change ps setting either if the assignment switches or the ps0-ps2 bits in the option register
+        if (psa_updated != PSA || (currentRate != rates[PSA][getPSA_Rate()])) {
             PSA = psa_updated;
             //clear value of ps
             psCounter.clear();
             //change rate corresponding to psa bit
             currentRate = rates[PSA][getPSA_Rate()];
+            System.out.println("----------------------" + currentRate);
         }
         WDT.update();
         TMR.update();
