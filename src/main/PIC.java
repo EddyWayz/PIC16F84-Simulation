@@ -73,8 +73,6 @@ public class PIC {
 
     }
 
-
-
     /**
      * Simulates one line of assembly code
      */
@@ -1174,8 +1172,10 @@ public class PIC {
 
         int GIE = memory.readBit(Label_Lib.INTCON, INTCON_lib.GIE);
         if (tmr0_int || rb0_int || rbChange_int || eeprom_int) {
+            if(getSleep()) {
+                wakeUp_Interrupt();
+            }
 
-            wakeUp_Interrupt();
             if (GIE == 1) {
                 System.out.println(tmr0_int ? "!!! Timer interrupt !!!!!!!!!!!!!!!!!!!!!" : "");
                 //interrupt CPU

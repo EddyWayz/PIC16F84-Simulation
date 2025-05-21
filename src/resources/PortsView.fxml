@@ -13,7 +13,7 @@
         <URL value="@css/PortsView.css"/>
     </stylesheets>
 
-    <Label fx:id="colorDescriptionLabel1" text="Green: Tris == 0    Yellow: Tris == 1" styleClass="standardLabel"/>
+    <Label fx:id="colorDescriptionLabel1" text="Green: Output    Yellow: Input" styleClass="standardLabel"/>
     <GridPane fx:id="gridPane" styleClass="portTable" VBox.vgrow="ALWAYS">
     </GridPane>
 </VBox>
