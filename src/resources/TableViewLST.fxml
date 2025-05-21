@@ -14,7 +14,7 @@
 
     <stylesheets>
         <URL value="@css/Default.css"/>
-        <URL value="@css/TableLSTViewStyle.css"/>
+        <URL value="@css/TableLSTView.css"/>
     </stylesheets>
 
     <HBox spacing="5">

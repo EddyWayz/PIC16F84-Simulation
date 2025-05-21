@@ -22,4 +22,12 @@ public class Port {
     public String getName() {
         return name;
     }
+    @Override
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(IO_PIN pin : pins){
+            stringBuilder.append(pin.getValue() ? 1 : 0);
+        }
+        return stringBuilder.toString();
+    }
 }

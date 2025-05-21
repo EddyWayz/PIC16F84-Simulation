@@ -62,8 +62,9 @@ public class ButtonsController implements Initializable {
                                 LOGGER.log(Level.INFO, "Breakpoint erreicht an PC:" + currentPC);
                             }
                             double stepsPerSec = speedSlider.getValue();
-                            // Wie lange schlafen, um auf stepsPerSec Schritte pro Sekunde zu kommen:
-                            long delay = (long)(1000.0 / stepsPerSec);
+
+                            long delay = (long)(1000.0 / stepsPerSec); // delay in ms
+
                             try {
                                 Thread.sleep(delay);
                             } catch (InterruptedException e) {
@@ -76,8 +77,7 @@ public class ButtonsController implements Initializable {
                     LOGGER.log(Level.SEVERE, "TableLSTController oder PIC wurde nicht initialisiert!");
                 }
             });
-        }
-        else {
+        } else {
             LOGGER.log(Level.WARNING, "btnRun wurde nicht initialisiert!");
             return;
         }
