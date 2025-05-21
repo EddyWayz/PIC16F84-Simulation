@@ -3,3 +3,26 @@
   -fx-border-width: 2;           /* Rahmen dicke (in px) */
   -fx-border-style: solid;
 }
+
+.port-header {
+  -fx-alignment: center;
+  -fx-font-weight: bold;
+  -fx-border-color: black;
+}
+
+/* Daten-Zellen (Pin-Werte) */
+.port-cell {
+  -fx-alignment: center;
+  -fx-border-color: black;
+  -fx-font-size: 14px;
+}
+
+/* Hintergrund für Output-Pins (TRIS==0) */
+.port-output {
+  -fx-background-color: green;
+}
+
+/* Hintergrund für Input-Pins (TRIS==1) */
+.port-input {
+  -fx-background-color: yellow;
+}
