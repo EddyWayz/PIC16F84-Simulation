@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import main.*;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,11 +17,16 @@ public class ButtonsController implements Initializable {
     private static final Logger LOGGER = Logger.getLogger(ButtonsController.class.getName());
 
     private PIC pic;
+    @FXML
     public Button btnRun;
+    @FXML
     public Button btnStep;
+    @FXML
     public Button btnStop;
+    @FXML
     public Button btnMCLR;
-
+    @FXML
+    private Slider speedSlider;
     @FXML
     private CheckBox activateWatchdogCheckbox;
     private volatile boolean stopButtonPushed = false;
@@ -55,9 +61,11 @@ public class ButtonsController implements Initializable {
                                 breakpointErreicht = true;
                                 LOGGER.log(Level.INFO, "Breakpoint erreicht an PC:" + currentPC);
                             }
-
+                            double stepsPerSec = speedSlider.getValue();
+                            // Wie lange schlafen, um auf stepsPerSec Schritte pro Sekunde zu kommen:
+                            long delay = (long)(1000.0 / stepsPerSec);
                             try {
-                                Thread.sleep(100);
+                                Thread.sleep(delay);
                             } catch (InterruptedException e) {
                                 LOGGER.log(Level.SEVERE, "Thread unterbrochen beim Sleep", e);
                                 Thread.currentThread().interrupt();

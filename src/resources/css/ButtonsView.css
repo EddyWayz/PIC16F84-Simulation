@@ -3,3 +3,36 @@
      -fx-pref-width: 120px;
 }
 
+/* ButtonsView.css */
+
+/* 1. Grund-Slider: Breite und Ränder */
+.slider {
+  -fx-pref-width: 400px;       /* Slider wird 400px breit */
+  -fx-padding: 0.2em 0.5em;     /* Innenabstand oben/unten und links/rechts */
+}
+
+/* 2. Achse (Axis) mit Tick-Marks und Labels */
+.slider .axis {
+  -fx-tick-label-gap: 3px;      /* geringerer Abstand zwischen Label und Tick */
+}
+
+/* 3. Tick-Labels: kleinere Schrift, mehr Zeilenhöhe */
+.slider .axis .tick-label {
+  -fx-font-size: 18px;           /* kleinerer Font, damit mehr Platz bleibt */
+  -fx-line-spacing: 0.0em;       /* keine zusätzliche Zeilenhöhe */
+}
+
+/* 4. Track und Thumb (optional Feintuning) */
+.slider .track {
+  -fx-background-color: #ddd;   /* helle Leiste */
+  -fx-padding: 0.1em 0;
+  -fx-background-insets: 0;
+}
+
+.slider .thumb {
+  -fx-background-color: #888;   /* dunklerer Schiebeknopf */
+  -fx-background-radius: 4px;
+  -fx-pref-width: 12px;
+  -fx-pref-height: 20px;
+}
+

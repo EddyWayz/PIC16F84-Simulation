@@ -7,6 +7,8 @@
 <?import javafx.geometry.Insets?>
 <?import java.net.URL?>
 
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Label?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="main.JavaFxController.ButtonsController"
       spacing="10" alignment="BOTTOM_CENTER">
 
@@ -14,7 +16,13 @@
         <URL value="@css/Default.css"/>
         <URL value="@css/ButtonsView.css"/>
     </stylesheets>
-
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Speed:" styleClass="standardLabel"/>
+        <Slider fx:id="speedSlider"
+                min="1" max="40" value="5"
+                showTickLabels="true"
+                majorTickUnit="5" blockIncrement="1"/>
+    </HBox>
     <HBox spacing="10">
         <Button text="RUN" fx:id="btnRun" styleClass="btn"/>
         <Button text="STEP" fx:id="btnStep" styleClass="btn"/>
