@@ -1062,7 +1062,7 @@ public class PIC {
             int tris = memory.readBit_bank(address, index, 1);
             if(tris == 0) {
                 boolean value = memory.readBit_bank(address, index, 0) == 1;
-                port.pins[index].setInput(value);
+                port.pins[index].setValue(value);
             } else {
                 boolean value = port.pins[index].getValue();
                 if(value) {
