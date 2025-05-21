@@ -21,15 +21,13 @@ public class PortController {
 
     @FXML
     public void initialize() {
-        // register this controller instance for global access
         MainController.portController = this;
         instance = this;
 
-        // obtain reference to the PIC model and determine number of pins
         this.pic  = MainController.getStaticPic();
         this.size = pic.PortA.pins.length;
 
-        // set up columns (one for row headers + one per pin)
+        // set up columns size + 1
         for (int col = 0; col <= size; col++) {
             ColumnConstraints cc = new ColumnConstraints();
             cc.setPercentWidth(100.0 / (size + 1));
@@ -68,7 +66,7 @@ public class PortController {
         for (int bit = 0; bit < size; bit++) {
             final int idx = bit;
             Label cell = createLabel("", "port-cell");
-            cell.setOnMouseClicked(e -> {
+            cell.setOnMouseClicked(_ -> {
                 if (pic.memory.readBit_bank(5, idx, 1) == 1) {
                     pic.PortA.pins[idx].toggleValue();
                     updateCell(cell,

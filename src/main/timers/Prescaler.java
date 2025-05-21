@@ -57,7 +57,7 @@ public class Prescaler {
      * --> wil increment it depending on prescaler rates
      */
     public void impulsFromTMR() {
-        //if ps is not assigned to the timer increment it with ervery impuls
+        //if ps is not assigned to the timer increment it with every impuls
         //if it is assigned: increment ps, if ps is higher than the ps rate for the timer
         //corresponding to the ps0 - ps2 bits increment timer
         if (PSA == PSA_TMR) {

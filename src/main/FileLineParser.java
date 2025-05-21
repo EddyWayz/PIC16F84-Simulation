@@ -1,7 +1,6 @@
 package main;
 
 import javafx.beans.property.SimpleStringProperty;
-
 import java.io.*;
 import java.util.ArrayList;
 
@@ -47,6 +46,49 @@ public class FileLineParser {
         return fileAsLines;
     }
 
+
+    /**
+     * Die DataRow-Klasse modelliert eine einzelne Zeile der LST-Datei.
+     * Mit Breakpoint Funktion.
+     *
+     */
+    public static class DataRow {
+        private final SimpleStringProperty block0;
+        private final SimpleStringProperty block1;
+        private final SimpleStringProperty block2;
+        private final SimpleStringProperty block3;
+        private final SimpleStringProperty block4;
+        private final SimpleStringProperty block5;
+        private final SimpleStringProperty block6;
+
+        //Fuer den Breakpoint Zustand
+        private boolean breakpointActive = false;
+
+        public DataRow(String block0, String block1, String block2, String block3, String block4, String block5, String block6) {
+            this.block0 = new SimpleStringProperty(block0);
+            this.block1 = new SimpleStringProperty(block1);
+            this.block2 = new SimpleStringProperty(block2);
+            this.block3 = new SimpleStringProperty(block3);
+            this.block4 = new SimpleStringProperty(block4);
+            this.block5 = new SimpleStringProperty(block5);
+            this.block6 = new SimpleStringProperty(block6);
+        }
+
+        // Getter, Setter und Property-Methoden für block0
+        public SimpleStringProperty block0Property() { return block0; }
+        public String getBlock1() { return block1.get(); }
+        public SimpleStringProperty block1Property() { return block1; }
+        public SimpleStringProperty block2Property() { return block2; }
+        public SimpleStringProperty block3Property() { return block3; }
+        public SimpleStringProperty block4Property() { return block4; }
+        public SimpleStringProperty block5Property() { return block5; }
+        public SimpleStringProperty block6Property() { return block6; }
+
+        // Methoden zum Verwalten der Breakpoint-Property
+        public boolean getBreakpointActive() { return breakpointActive; }
+        public void toggleBreakpointActive() { breakpointActive = !breakpointActive;}
+    }
+
     /**
      * Diese Methode parst eine übergebene Zeile in die jeweiligen Blöcke und gibt ein DataRow-Objekt zurück.
      * Somit hast du von überall Zugriff auf alle Blöcke über die entsprechenden Getter-Methoden.
@@ -75,47 +117,5 @@ public class FileLineParser {
             }
         }
         return new DataRow(block0, block1, block2, block3, block4, block5, block6);
-    }
-
-    /**
-     * Die DataRow-Klasse modelliert eine einzelne Zeile der LST-Datei.
-     * Sie beinhaltet String-Properties für die einzelnen Blöcke sowie eine BooleanProperty,
-     * die z.B. für einen Breakpoint-Zustand genutzt werden kann.
-     */
-    public static class DataRow {
-        private final SimpleStringProperty block0;
-        private final SimpleStringProperty block1;
-        private final SimpleStringProperty block2;
-        private final SimpleStringProperty block3;
-        private final SimpleStringProperty block4;
-        private final SimpleStringProperty block5;
-        private final SimpleStringProperty block6;
-
-        // Optionale Property für den Breakpoint-Zustand
-        private boolean breakpointActive = false;
-
-        public DataRow(String block0, String block1, String block2, String block3, String block4, String block5, String block6) {
-            this.block0 = new SimpleStringProperty(block0);
-            this.block1 = new SimpleStringProperty(block1);
-            this.block2 = new SimpleStringProperty(block2);
-            this.block3 = new SimpleStringProperty(block3);
-            this.block4 = new SimpleStringProperty(block4);
-            this.block5 = new SimpleStringProperty(block5);
-            this.block6 = new SimpleStringProperty(block6);
-        }
-
-        // Getter, Setter und Property-Methoden für block0
-        public SimpleStringProperty block0Property() { return block0; }
-        public String getBlock1() { return block1.get(); }
-        public SimpleStringProperty block1Property() { return block1; }
-        public SimpleStringProperty block2Property() { return block2; }
-        public SimpleStringProperty block3Property() { return block3; }
-        public SimpleStringProperty block4Property() { return block4; }
-        public SimpleStringProperty block5Property() { return block5; }
-        public SimpleStringProperty block6Property() { return block6; }
-
-        // Methoden zum Verwalten der Breakpoint-Property
-        public boolean getBreakpointActive() { return breakpointActive; }
-        public void toggleBreakpointActive() { breakpointActive = !breakpointActive;}
     }
 }

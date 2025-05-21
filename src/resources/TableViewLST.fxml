@@ -19,7 +19,7 @@
 
     <HBox spacing="5">
         <Button text="File.." fx:id="btnFilePicker"/>
-        <Button text="Dokumentation" fx:id="btnDocs" onAction="#onDocsButtonClicked"/>
+        <Button text="Dokumentation" fx:id="btnDocs"/>
     </HBox>
 
     <TableView fx:id="tableViewLST" VBox.vgrow="ALWAYS">
@@ -30,7 +30,7 @@
             <TableColumn fx:id="columnBlock3" text="Lines" />
             <TableColumn fx:id="columnBlock4" text="Block 4" />
             <TableColumn fx:id="columnBlock5" text="Block 5" />
-            <TableColumn fx:id="columnBlock6" text="Comments" />
+            <TableColumn fx:id="columnBlock6" text="Comments" styleClass="comment-column"/>
         </columns>
     </TableView>
     <HBox spacing="5">

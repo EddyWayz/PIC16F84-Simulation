@@ -13,3 +13,8 @@
 .highlight-row {
     -fx-background-color: lightblue;
 }
+
+/* Styling  für die Comments-Spalte */
+.table-view .table-cell.comment-column {
+  -fx-alignment: CENTER-LEFT;
+}

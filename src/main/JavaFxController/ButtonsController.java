@@ -14,9 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ButtonsController implements Initializable {
-    private static final Logger LOGGER = Logger.getLogger(ButtonsController.class.getName());
-
-    private PIC pic;
     @FXML
     public Button btnRun;
     @FXML
@@ -29,6 +26,9 @@ public class ButtonsController implements Initializable {
     private Slider speedSlider;
     @FXML
     private CheckBox activateWatchdogCheckbox;
+
+    private static final Logger LOGGER = Logger.getLogger(ButtonsController.class.getName());
+    private PIC pic;
     private volatile boolean stopButtonPushed = false;
 
     @Override
@@ -39,7 +39,7 @@ public class ButtonsController implements Initializable {
         if (btnRun != null) {
             btnRun.setOnAction(_ -> {
                 if (TableLSTController.instance != null && MainController.getStaticPic() != null) {
-                    stopButtonPushed = false; // sicherstellen, dass beim Start zurückgesetzt wird
+                    stopButtonPushed = false;
 
                     new Thread(() -> {
                         boolean breakpointErreicht = false;
