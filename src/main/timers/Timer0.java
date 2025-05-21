@@ -5,6 +5,8 @@ import main.libraries.Label_Lib;
 import main.libraries.register_libraries.INTCON_lib;
 import main.libraries.register_libraries.OPTION_lib;
 
+import java.lang.classfile.Label;
+
 public class Timer0 {
     PIC pic;
     Prescaler ps;
@@ -53,7 +55,8 @@ public class Timer0 {
             //not setting zeroflag, will be set from movf instruction
             System.out.println("### Overflow of timer ####################################");
 
-            pic.memory.setBit_bank(Label_Lib.INTCON, INTCON_lib.T0IF, 0);
+            pic.memory.setBitBothBanks(Label_Lib.INTCON, INTCON_lib.T0IF);
+            System.out.println(Integer.toHexString(pic.memory.read(Label_Lib.INTCON)) + "\n\n");
         }
         //direct access to bank to skip the checking of writing timer file
         //so clearing of prescaler is not executed

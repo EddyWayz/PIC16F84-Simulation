@@ -449,7 +449,7 @@ public class RAM implements Memory {
      * @param address  of register
      * @param position of the set bit
      */
-    private void setBitBothBanks(int address, int position) {
+    public void setBitBothBanks(int address, int position) {
         RAM[0].setBit(address, position);
         RAM[1].setBit(address, position);
     }
