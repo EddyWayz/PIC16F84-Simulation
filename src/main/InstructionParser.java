@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import main.libraries.Instr_Lib;
+
 /**
  * class to parse the file as line to the hex instructions
  */
@@ -33,6 +35,7 @@ public class InstructionParser {
         for (int i = findFirstIndex(); i < fileAsLines.size(); i++) {
             try {
                 currentLine = fileAsLines.get(i);
+                //insertNOPS(currentLine, i);
                 int instruction = getInstruction(currentLine);
                 if (instruction != -1 && program.size() < 1024) {
                     program.add(instruction);
@@ -44,8 +47,32 @@ public class InstructionParser {
         return program;
     }
 
+    @SuppressWarnings("unsued")
+    private void insertNOPS(String line, int i) {
+        int index = line.indexOf("org") + 1;
+
+        if (index != -1) {
+            index++;
+            String amountString = "";
+            while (Character.digit(line.charAt(index), 16) != -1) {
+                amountString += line.charAt(index);
+                index++;
+            }
+
+            System.out.println("Amount of inserted NOPs: " + amountString);
+
+            int amount = Integer.parseInt(amountString, 16) - i - 1;
+
+            for (int x = 0; x < amount; x++) {
+                program.add(Instr_Lib.NOP);
+            }
+        }
+
+    }
+
     /**
      * finds the first index of an LST file with an instruction
+     *
      * @return index
      */
     private int findFirstIndex() {
@@ -60,6 +87,7 @@ public class InstructionParser {
 
     /**
      * parses an instruction out of given string (line of LST file)
+     *
      * @param line string containing the instruction
      * @return instruction as integer
      */

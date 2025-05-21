@@ -115,6 +115,9 @@ public class PIC {
      * decodes and executes the next instruction
      */
     private void decode_n_execute() {
+
+
+
         //fetch special instruction with 14 bit code
         switch (instruction) {
             case Instr_Lib.NOP:
@@ -131,6 +134,17 @@ public class PIC {
                 break;
             case Instr_Lib.SLEEP:
                 instr_SLEEP();
+                break;
+        }
+
+        //11 BIT INSTRUCTIONS / CALL
+        int maskedInstr_11bit = instruction & 0x03800;
+        switch (maskedInstr_11bit) {
+            case Instr_Lib.GOTO:
+                instr_GOTO();
+                break;
+            case Instr_Lib.CALL:
+                instr_CALL();
                 break;
         }
 
@@ -216,13 +230,9 @@ public class PIC {
             case Instr_Lib.ANDLW:
                 instr_ANDLW();
                 break;
-            case Instr_Lib.CALL:
-                instr_CALL();
-                break;
+            //CALL see above
             //CLRWDT see above
-            case Instr_Lib.GOTO:
-                instr_GOTO();
-                break;
+            //GOTO see above
             case Instr_Lib.IORLW:
                 instr_IORLW();
                 break;
@@ -784,8 +794,8 @@ public class PIC {
         stack.push(memory.getPC());
 
         //new 11 bit value as PC and PCLATH as upper bits
-        memory.setPC(k11);
-        memory.pclath_3n4_ontoPC();
+
+        memory.pclath_3n4_ontoPC(k11);
 
         // 2 cycle instruction
         prescaler.update();
@@ -828,8 +838,7 @@ public class PIC {
     private void instr_GOTO() {
         int k11 = instruction & Mask_Lib.GOTO_CALL_MASK;
 
-        memory.setPC(k11);
-        memory.pclath_3n4_ontoPC();
+        memory.pclath_3n4_ontoPC(k11);
 
         prescaler.update();
 
@@ -1060,6 +1069,7 @@ public class PIC {
 
         for(int index = 0; index < 8; index++) {
             int tris = memory.readBit_bank(address, index, 1);
+            //is this port declared an output so write value from ram into port
             if(tris == 0) {
                 boolean value = memory.readBit_bank(address, index, 0) == 1;
                 port.pins[index].setValue(value);
