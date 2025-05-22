@@ -5,11 +5,13 @@ import main.libraries.Label_Lib;
 import main.libraries.register_libraries.INTCON_lib;
 import main.libraries.register_libraries.OPTION_lib;
 
-import java.lang.classfile.Label;
+
 
 public class Timer0 {
     PIC pic;
     Prescaler ps;
+
+
 
     public Timer0(PIC pic, Prescaler ps) {
         this.pic = pic;
@@ -28,6 +30,7 @@ public class Timer0 {
         //TMR0 is only active when the PIC is awake
         if(!pic.getSleep()) {
             if(TOCS == 1) {
+                //on RA4 bit
                 if(TOSE == 0) {
                     //rising edge
                     //TODO: Eddy connection to IO Pins

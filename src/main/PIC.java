@@ -4,6 +4,7 @@ import main.cardgame.RAM;
 
 import main.libraries.register_libraries.EECON1_lib;
 import main.libraries.register_libraries.INTCON_lib;
+import main.libraries.register_libraries.OPTION_lib;
 import main.libraries.register_libraries.STATUS_lib;
 import main.timers.Prescaler;
 import main.timers.PrescalerCounter;
@@ -45,6 +46,8 @@ public class PIC {
     public Port PortA;
     public Port PortB;
 
+    private int RB0_old;
+
     public PIC(String path) {
         //INIT of special registers
         W = 0;
@@ -71,6 +74,7 @@ public class PIC {
         PortA  = new Port("PortA");
         PortB  = new Port("PortB");
 
+        RB0_old = memory.readBit_bank(Label_Lib.PORTB, 0, 0);
     }
 
     /**
@@ -1225,9 +1229,22 @@ public class PIC {
      * @return true if both are set
      */
     private boolean check_RB_Interrupt() {
-        int rbif = memory.readBit(Label_Lib.INTCON, INTCON_lib.RBIF);
-        int rbie = memory.readBit(Label_Lib.INTCON, INTCON_lib.RBIE);
-        return (rbif == 1) && (rbie == 1);
+        int RB0_new = memory.readBit_bank(Label_Lib.PORTB, 0, 0);
+        if(RB0_old != RB0_new) {
+            //rising edge and rising edge selected
+            if(RB0_new == 1 && memory.readBit_bank(Label_Lib.OPTION, OPTION_lib.INTEDG, 1) == 1) {
+                memory.setBit(Label_Lib.INTCON, INTCON_lib.INTF);
+            }  else if(RB0_new == 0 && memory.readBit_bank(Label_Lib.OPTION, OPTION_lib.INTEDG, 1) == 0) {
+                //falling edge and falling edge selected
+                memory.setBit(Label_Lib.INTCON, INTCON_lib.INTF);
+            }
+            RB0_old = memory.readBit_bank(Label_Lib.PORTB, 0, 0);
+        }
+
+        int RBIF = memory.readBit(Label_Lib.INTCON, INTCON_lib.RBIF);
+        int RBIE = memory.readBit(Label_Lib.INTCON, INTCON_lib.RBIE);
+        //is there an interrupt and is it enabled?
+        return (RBIF == 1) && (RBIE == 1);
     }
 
     /**
@@ -1261,6 +1278,8 @@ public class PIC {
     public double getQuarz_frequenzy() {
         return quarz_frequenzy;
     }
+
+
 
     /**
      * Returns the bit of a bit of oriented instruction
