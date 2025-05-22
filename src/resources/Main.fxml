@@ -53,7 +53,7 @@
     <fx:include source="TableViewLST.fxml"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="0"
-                GridPane.rowSpan="9"
+                GridPane.rowSpan="6"
                 GridPane.columnSpan="4"
                 GridPane.vgrow="ALWAYS"
                 GridPane.hgrow="ALWAYS"/>
@@ -84,8 +84,8 @@
 
     <fx:include source="Buttons.fxml"
                 GridPane.columnIndex="0"
-                GridPane.rowIndex="9"
-                GridPane.rowSpan="1"
+                GridPane.rowIndex="7"
+                GridPane.rowSpan="3"
                 GridPane.columnSpan="3"
                 GridPane.vgrow="ALWAYS"
                 GridPane.hgrow="ALWAYS"/>

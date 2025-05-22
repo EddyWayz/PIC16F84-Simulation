@@ -162,9 +162,7 @@ public class PortController {
      */
     private void updateCell(Label lbl, boolean value, int tris) {
         lbl.setText(value ? "1" : "0");
-        // remove any existing port-input/port-output classes
         lbl.getStyleClass().removeAll("port-input", "port-output");
-        // add the correct class for input or output
         lbl.getStyleClass().add(tris == 0 ? "port-output" : "port-input");
     }
 }

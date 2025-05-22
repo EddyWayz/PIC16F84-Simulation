@@ -30,6 +30,7 @@
                 showTickLabels="true"
                 majorTickUnit="5" blockIncrement="1"/>
     </HBox>
+
     <HBox spacing="10">
         <Button text="RUN" fx:id="btnRun" styleClass="btn"/>
         <Button text="STEP" fx:id="btnStep" styleClass="btn"/>

@@ -116,8 +116,6 @@ public class PIC {
      */
     private void decode_n_execute() {
 
-
-
         //fetch special instruction with 14 bit code
         switch (instruction) {
             case Instr_Lib.NOP:
