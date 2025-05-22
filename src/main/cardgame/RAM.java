@@ -1,9 +1,7 @@
 package main.cardgame;
 
-import main.PIC;
 import main.exceptions.MirroringErrorException;
 import main.libraries.register_libraries.STATUS_lib;
-import main.timers.Prescaler;
 import main.timers.PrescalerCounter;
 import main.tools.BitOperator;
 import main.libraries.Label_Lib;
@@ -67,21 +65,46 @@ public class RAM implements Memory {
             PC = 0;
         }
         int pcl_val = PC & Mask_Lib.LOWER8BIT_MASK;
-        write(Label_Lib.PCL, pcl_val);
+        writeBothBanks(Label_Lib.PCL, pcl_val);
     }
 
     /**
      * Puts the 3rd and 4th bit of the pclath register at the 12th and 11th bit of the PC
      */
-    public void pclath_3n4_ontoPC() {
+    public void pclath_3n4_ontoPC(int k11_newPC) {
         // puts the third and fourth bit of pclath into the PC
         int pclath = read(Label_Lib.PCLATH);
-        pclath = pclath & Mask_Lib.PCLATH_3_4_MASK;
+        pclath = pclath & Mask_Lib.PCLATH_4_3_MASK;
 
+        //shift pclath by 11 bits to the left
         pclath = pclath << 11;
         //combine pclath and PC
-        PC = pclath | PC;
-        setPC(PC);
+        setPC(pclath | k11_newPC);
+    }
+
+    /**
+     * checks if the PCL register or TMR register are manipulated if so do special things see code below
+     * @param address of current instruction that is affected
+     */
+    private void checkManipulationPC_TMR(int address) {
+        if (address == Label_Lib.PCL) {
+            System.out.println("PC WRITTEN at " + Integer.toHexString(PC) + "======================== ");
+            int pc = read(address);
+            int pclath = read(Label_Lib.PCLATH);
+            //get the lowest 5 bits of pclath
+            pclath = pclath & 0b1_1111;
+            //shift them 8 to the left
+            pclath = pclath << 8;
+            //combine with pc
+            pc = pc | pclath;
+            setPC(pc);
+        }
+
+        //is the timer register manipulated --> clear value of the prescaler
+        if(address == Label_Lib.TMR0) {
+            psCounter.clear();
+
+        }
     }
 
     /**
@@ -239,7 +262,7 @@ public class RAM implements Memory {
      * Reads a register at a given indirect address
      *
      * @param address of the register
-     * @return the
+     * @return value of the file
      */
     public int read_indirect(int address, boolean indirect) {
         if (indirect) {
@@ -416,21 +439,7 @@ public class RAM implements Memory {
         }
     }
 
-    private void checkManipulationPC_TMR(int address) {
-        if (address == Label_Lib.PCL) {
-            int pc = read(address);
-            int pclath = read(Label_Lib.PCLATH);
-            pclath = pclath & 0b1_1111;
-            pclath = pclath << 8;
-            pc = pc | pclath;
-            setPC(pc);
-        }
 
-        if(address == Label_Lib.TMR0) {
-            psCounter.clear();
-            System.out.println("MARKER========================" + PC);
-        }
-    }
 
     /**
      * writes a value on both banks
@@ -465,6 +474,10 @@ public class RAM implements Memory {
         RAM[1].unsetBit(address, position);
     }
 
+    /**
+     * method to turn the PCL into an 4 digit hex-number as a string
+     * @return hex string
+     */
     public String convertPCLTo4BitsString() {
         return String.format("%04X", RAM[0].read(Label_Lib.PCL));
     }

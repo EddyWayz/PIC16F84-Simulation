@@ -56,7 +56,6 @@ public class Timer0 {
             System.out.println("### Overflow of timer ####################################");
 
             pic.memory.setBitBothBanks(Label_Lib.INTCON, INTCON_lib.T0IF);
-            System.out.println(Integer.toBinaryString(pic.memory.read(Label_Lib.INTCON)) + "\n\n");
         }
         //direct access to bank to skip the checking of writing timer file
         //so clearing of prescaler is not executed
