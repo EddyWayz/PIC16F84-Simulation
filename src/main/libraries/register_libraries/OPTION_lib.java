@@ -16,4 +16,7 @@ public class OPTION_lib {
     //TMR0 Counter selection Bit
     public static final int TOCS = 5;
 
+    //Interrupt Edge Select bit for RB0
+    public static final int INTEDG = 6;
+
 }

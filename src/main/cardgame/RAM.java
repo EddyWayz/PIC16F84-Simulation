@@ -113,7 +113,7 @@ public class RAM implements Memory {
     public void powerOn_reset() {
         RAM[0].write(Label_Lib.PCL, 0);
         writeBothBanks(Label_Lib.STATUS, 0b0001_1000);
-        writeBothBanks(Label_Lib.OPTION, 0b1111_1111);
+        write_bank(Label_Lib.OPTION, 0b1111_1111, 1);
         RAM[1].write(Label_Lib.TRISA, 0b0001_1111);
         RAM[1].write(Label_Lib.TRISB, 0b1111_1111);
     }
