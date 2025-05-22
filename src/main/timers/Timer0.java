@@ -11,11 +11,13 @@ public class Timer0 {
     PIC pic;
     Prescaler ps;
 
+    private int RA4_old;
 
 
     public Timer0(PIC pic, Prescaler ps) {
         this.pic = pic;
         this.ps = ps;
+        RA4_old = pic.memory.readBit_bank(Label_Lib.PORTA, 4, 1);
     }
 
     /**
@@ -30,14 +32,22 @@ public class Timer0 {
         //TMR0 is only active when the PIC is awake
         if(!pic.getSleep()) {
             if(TOCS == 1) {
-                //on RA4 bit
-                if(TOSE == 0) {
-                    //rising edge
-                    //TODO: Eddy connection to IO Pins
-                } else {
-                    //falling edge
-                    //TODO: Eddy connection to IO Pins
+                int RA4_new = pic.memory.readBit_bank(Label_Lib.PORTA, 4, 0);
+                //edge detection
+                if(RA4_new != RA4_old) {
+                    if(TOSE == 0 && RA4_new == 1) {
+                        //rising edge
+                        ps.impulsFromTMR();
+                    } else if(TOSE == 1 && RA4_new == 0) {
+                        //falling edge
+                        ps.impulsFromTMR();
+                        System.out.println("### Falling edge of RA4 #########################");
+                    }
+
+                    //save new value of RA4 bit
+                    RA4_old = RA4_new;
                 }
+
             } else {
                 //Timer Mode
                 ps.impulsFromTMR();

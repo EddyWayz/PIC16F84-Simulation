@@ -390,7 +390,6 @@ public class PIC {
         int value = memory.read_indirect(address, indirect);
         value--;
         if (value == 0) {
-            value = 255;
             //2 cycle if skip
             increment_RuntimeCounter();
             memory.increment_PC();
@@ -1096,6 +1095,7 @@ public class PIC {
         wakeUp();
         memory.unsetBit(Label_Lib.STATUS, STATUS_lib.powerdown);
         memory.unsetBit(Label_Lib.STATUS, STATUS_lib.timeout);
+        System.out.println("### WAKE UP FROM WDT #################");
     }
 
     /**
