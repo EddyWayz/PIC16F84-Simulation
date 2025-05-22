@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ButtonsController implements Initializable {
+
     @FXML
     public Button btnRun;
     @FXML
@@ -22,6 +23,8 @@ public class ButtonsController implements Initializable {
     public Button btnStop;
     @FXML
     public Button btnMCLR;
+    @FXML
+    public Slider quarzSlider;
     @FXML
     private Slider speedSlider;
     @FXML
@@ -35,7 +38,6 @@ public class ButtonsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         MainController.buttonsController = this;
         this.pic = MainController.getStaticPic();
-
         if (btnRun != null) {
             btnRun.setOnAction(_ -> {
                 if (TableLSTController.instance != null && MainController.getStaticPic() != null) {
@@ -118,6 +120,14 @@ public class ButtonsController implements Initializable {
         else {
             LOGGER.log(Level.WARNING, "btnMCLR wurde nicht initialisiert!");
         }
+
+        quarzSlider.valueProperty().addListener((_, _, newV) -> {
+            // Neuer Wert in PiC setzen
+            pic.setQuarz_frequenzy(newV.doubleValue());
+            if (TableLSTController.instance != null) {
+                Platform.runLater(TableLSTController.instance::updateQuarzLabel);
+            }
+        });
     }
 
     private void refreshView() {

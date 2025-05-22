@@ -23,6 +23,13 @@
                 showTickLabels="true"
                 majorTickUnit="5" blockIncrement="1"/>
     </HBox>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Quarz Frequency (MHz):" styleClass="standardLabel"/>
+        <Slider fx:id="quarzSlider"
+                min="1" max="40" value="4"
+                showTickLabels="true"
+                majorTickUnit="5" blockIncrement="1"/>
+    </HBox>
     <HBox spacing="10">
         <Button text="RUN" fx:id="btnRun" styleClass="btn"/>
         <Button text="STEP" fx:id="btnStep" styleClass="btn"/>

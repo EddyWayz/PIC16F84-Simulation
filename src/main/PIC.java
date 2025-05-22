@@ -27,7 +27,7 @@ public class PIC {
 
     //runtime and quarzfrequenz
     private double runtimeCounter; //in µs
-    private final double quarz_frequenzy = 4; //in MHz
+    private double quarz_frequenzy = 4; //in MHz
 
     //memory for data and program
     public RAM memory;
@@ -1258,5 +1258,9 @@ public class PIC {
      */
     private int getPos() {
         return (instruction & Mask_Lib.BIT_POS_MASK) >> 7;
+    }
+
+    public void setQuarz_frequenzy(double quarz_frequenzy) {
+        this.quarz_frequenzy = quarz_frequenzy;
     }
 }
