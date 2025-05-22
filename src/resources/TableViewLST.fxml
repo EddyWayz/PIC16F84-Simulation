@@ -26,10 +26,10 @@
         <columns>
             <TableColumn fx:id="columnBlock0" text="Breakp." />
             <TableColumn fx:id="columnBlock1" text="PC" />
-            <TableColumn fx:id="columnBlock2" text="Block 2" />
+            <TableColumn fx:id="columnBlock2" text="HEX Code" />
             <TableColumn fx:id="columnBlock3" text="Lines" />
-            <TableColumn fx:id="columnBlock4" text="Block 4" />
-            <TableColumn fx:id="columnBlock5" text="Block 5" />
+            <TableColumn fx:id="columnBlock4" text="Labels" />
+            <TableColumn fx:id="columnBlock5" text="Mnemonic" />
             <TableColumn fx:id="columnBlock6" text="Comments" styleClass="comment-column"/>
         </columns>
     </TableView>

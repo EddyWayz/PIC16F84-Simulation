@@ -266,7 +266,7 @@ public class TableLSTController implements Initializable {
     }
 
     /**
-     * Aktualisiert Ansicht und Werte, z.B. nach Änderungen.
+     * Aktualisiert Ansicht und Werte, z.B. nach Aenderungen.
      */
     public void refreshView() {
         tableViewLST.refresh();

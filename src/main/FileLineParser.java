@@ -74,7 +74,7 @@ public class FileLineParser {
             this.block6 = new SimpleStringProperty(block6);
         }
 
-        // Getter, Setter und Property-Methoden für block0
+        // Getter, Setter und Property-Methoden
         public SimpleStringProperty block0Property() { return block0; }
         public String getBlock1() { return block1.get(); }
         public SimpleStringProperty block1Property() { return block1; }

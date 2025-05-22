@@ -49,7 +49,6 @@
            GridPane.rowIndex="0" GridPane.columnIndex="4"
            styleClass="standardLabel"/>
 
-    <!-- Separator -->
     <Separator GridPane.rowIndex="1" GridPane.columnSpan="5" styleClass="verticalSeparator standardLabel"
     />
 
