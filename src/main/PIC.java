@@ -1,7 +1,6 @@
 package main;
 
 import main.cardgame.RAM;
-
 import main.libraries.register_libraries.EECON1_lib;
 import main.libraries.register_libraries.INTCON_lib;
 import main.libraries.register_libraries.OPTION_lib;
@@ -12,10 +11,7 @@ import main.tools.BitOperator;
 import main.libraries.Instr_Lib;
 import main.libraries.Label_Lib;
 import main.libraries.Mask_Lib;
-
-
 import java.util.ArrayList;
-
 
 public class PIC {
     // special vars for computing instructions

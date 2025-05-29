@@ -16,12 +16,12 @@
   -fx-font-size: 14px;
 }
 
-/* Hintergrund für Output-Pins (TRIS==0) */
+/* Hintergrund für Output (TRIS==0) */
 .port-output {
   -fx-background-color: green;
 }
 
-/* Hintergrund für Input-Pins (TRIS==1) */
+/* Hintergrund für Input (TRIS==1) */
 .port-input {
   -fx-background-color: yellow;
 }

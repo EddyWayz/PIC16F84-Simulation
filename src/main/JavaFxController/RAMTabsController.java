@@ -11,7 +11,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.text.Text;
 import javafx.scene.control.TableView;
 import main.PIC;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 

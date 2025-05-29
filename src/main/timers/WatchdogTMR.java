@@ -18,9 +18,9 @@ public class WatchdogTMR {
         this.pic = pic;
         this.ps = ps;
         //18.000 instruction equals 18ms at 4Mhz
-        //WDT_threshold = (int) (18_000 * (4 / pic.getQuarz_frequenzy()));
+        WDT_threshold = (int) (18_000 * (4 / pic.getQuarz_frequenzy()));
         //TODO: value changed for testing
-        WDT_threshold = 10;
+        // WDT_threshold = 10;
     }
 
     /**

@@ -7,7 +7,6 @@ import main.tools.BitOperator;
 import main.libraries.Label_Lib;
 import main.libraries.Mask_Lib;
 
-
 /**
  * The RAM class simulates a Random Access Memory (RAM) module with two separate banks.
  * It provides methods to read, write, and manipulate bits within the memory.
@@ -83,7 +82,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * checks if the PCL register or TMR register are manipulated if so do special things see code below
+     * Checks if the PCL register or TMR register are manipulated if so do special things see code below
      * @param address of current instruction that is affected
      */
     private void checkManipulationPC_TMR(int address) {
@@ -217,7 +216,6 @@ public class RAM implements Memory {
         return getBit(Label_Lib.STATUS, STATUS_lib.carry);
     }
 
-
     /**
      * SETS the digit carry in status register
      */
@@ -314,7 +312,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * method to write a value on a specific bank
+     * Method to write a value on a specific bank
      * @param address of register
      * @param value that will be written
      * @param bank of the ram
@@ -439,10 +437,8 @@ public class RAM implements Memory {
         }
     }
 
-
-
     /**
-     * writes a value on both banks
+     * Writes a value on both banks
      *
      * @param address of register
      * @param value   that will be written
@@ -453,7 +449,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * sets a bit on both banks
+     * Sets a bit on both banks
      *
      * @param address  of register
      * @param position of the set bit
@@ -464,7 +460,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * unsets a bit on both banks
+     * Unsets a bit on both banks
      *
      * @param address  of register
      * @param position of the unset bit
@@ -475,7 +471,7 @@ public class RAM implements Memory {
     }
 
     /**
-     * method to turn the PCL into an 4 digit hex-number as a string
+     * Method to turn the PCL into an 4 digit hex-number as a string
      * @return hex string
      */
     public String convertPCLTo4BitsString() {

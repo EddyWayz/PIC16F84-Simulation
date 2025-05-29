@@ -17,7 +17,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import main.FileLineParser;
 import main.FileLineParser.DataRow;
-
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -184,7 +183,7 @@ public class TableLSTController implements Initializable {
     }
 
     /**
-     * Hebt die Zeile hervor, die dem aktuellen Programmzaehler entspricht.
+     * Hebt die Zeile hervor, die dem aktuellen Programmzaehler.
      */
     private void highlightCurrentPCRow() {
         tableViewLST.setRowFactory(_ -> new TableRow<>() {
