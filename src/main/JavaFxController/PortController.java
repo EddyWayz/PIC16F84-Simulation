@@ -98,9 +98,9 @@ public class PortController {
             cell.setOnMouseClicked(_ -> {
                 // toggle only if pin is configured as input
                 if (pic.memory.readBit_bank(6, idx, 1) == 1) {
-                    pic.PortB.pins[idx].toggleValue();
+                    pic.memory.PortB.pins[idx].toggleValue();
                     updateCell(cell,
-                            pic.PortB.pins[idx].getValue(),
+                            pic.memory.PortB.pins[idx].getValue(),
                             pic.memory.readBit_bank(6, idx, 1));
                 }
             });
@@ -126,10 +126,10 @@ public class PortController {
 
         for (int i = 0; i < size; i++) {
             updateCell(portALabels[i],
-                    pic.PortA.pins[i].getValue(),
+                    pic.memory.PortA.pins[i].getValue(),
                     pic.memory.readBit_bank(5, i, 1));
             updateCell(portBLabels[i],
-                    pic.PortB.pins[i].getValue(),
+                    pic.memory.PortB.pins[i].getValue(),
                     pic.memory.readBit_bank(6, i, 1));
         }
 

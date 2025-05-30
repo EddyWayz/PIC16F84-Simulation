@@ -12,6 +12,7 @@ import main.libraries.Instr_Lib;
 import main.libraries.Label_Lib;
 import main.libraries.Mask_Lib;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PIC {
     // special vars for computing instructions
@@ -38,9 +39,8 @@ public class PIC {
     private PrescalerCounter psCounter;
     public Prescaler prescaler;
 
-    //Port A and B
-    public Port PortA;
-    public Port PortB;
+
+
 
     private int RB0_old;
 
@@ -66,9 +66,9 @@ public class PIC {
         InstructionParser instrParser = new InstructionParser(path);
         program = instrParser.parseLinesToInstructions();
 
-        //instance of ports
-        PortA  = new Port("PortA");
-        PortB  = new Port("PortB");
+
+
+
 
         RB0_old = memory.readBit_bank(Label_Lib.PORTB, 0, 0);
     }
@@ -86,8 +86,8 @@ public class PIC {
         }
 
         //update ports
-        updatePort(PortA);
-        updatePort(PortB);
+        updatePort(memory.PortA);
+        updatePort(memory.PortB);
 
         //update timers and prescaler
         prescaler.update();
@@ -1070,13 +1070,6 @@ public class PIC {
             if(tris == 0) {
                 boolean value = memory.readBit_bank(address, index, 0) == 1;
                 port.pins[index].setValue(value);
-            } else {
-                boolean value = port.pins[index].getValue();
-                if(value) {
-                    memory.setBit_bank(address, index, 0);
-                } else {
-                    memory.unsetBit_bank(address, index, 0);
-                }
             }
         }
     }

@@ -1,11 +1,14 @@
 package main.cardgame;
 
+import main.IO_PIN;
+import main.Port;
 import main.exceptions.MirroringErrorException;
 import main.libraries.register_libraries.STATUS_lib;
 import main.timers.PrescalerCounter;
 import main.tools.BitOperator;
 import main.libraries.Label_Lib;
 import main.libraries.Mask_Lib;
+
 
 /**
  * The RAM class simulates a Random Access Memory (RAM) module with two separate banks.
@@ -23,6 +26,11 @@ public class RAM implements Memory {
 
     private int PC;
 
+    //Port A and B
+    public Port PortA;
+    public Port PortB;
+
+
     public RAM(PrescalerCounter psCounter) {
         //create memory
         RAM = new Bank[2];
@@ -34,6 +42,26 @@ public class RAM implements Memory {
         this.psCounter = psCounter;
 
         PC = 0;
+
+        //instance of ports
+        PortA  = new Port("PortA");
+        PortB  = new Port("PortB");
+    }
+
+    /**
+     * Method to calculate the integer value of the pins of a port
+     * @param address to calculate
+     * @return value of the port
+     */
+    private int getValueOfPort(int address) {
+        Port port = address == 5 ? PortA : PortB;
+        int value = 0;
+        for(int index = 0; index < 8; index++) {
+            if(port.pins[index].getValue()) {
+                value += Math.pow(2, index);
+            }
+        }
+        return value;
     }
 
     public Bank[] getRAM() {
@@ -75,8 +103,9 @@ public class RAM implements Memory {
         int pclath = read(Label_Lib.PCLATH);
         pclath = pclath & Mask_Lib.PCLATH_4_3_MASK;
 
-        //shift pclath by 11 bits to the left
-        pclath = pclath << 11;
+        //shift pclath by 8 bits to the left
+        //zu 8 bearbeitet nach Abgabegespraech
+        pclath = pclath << 8;
         //combine pclath and PC
         setPC(pclath | k11_newPC);
     }
@@ -242,6 +271,7 @@ public class RAM implements Memory {
      */
     @Override
     public int read(int address) {
+
         return RAM[getRP0()].read(address);
     }
 
