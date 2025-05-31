@@ -25,7 +25,7 @@ public class PortController {
         instance = this;
 
         this.pic  = MainController.getStaticPic();
-        this.size = pic.PortA.pins.length;
+        this.size = pic.memory.PortA.pins.length;
 
         // set up columns size + 1
         for (int col = 0; col <= size; col++) {
@@ -68,9 +68,9 @@ public class PortController {
             Label cell = createLabel("", "port-cell");
             cell.setOnMouseClicked(_ -> {
                 if (pic.memory.readBit_bank(5, idx, 1) == 1) {
-                    pic.PortA.pins[idx].toggleValue();
+                    pic.memory.PortA.pins[idx].toggleValue();
                     updateCell(cell,
-                            pic.PortA.pins[idx].getValue(),
+                            pic.memory.PortA.pins[idx].getValue(),
                             pic.memory.readBit_bank(5, idx, 1));
                 }
             });

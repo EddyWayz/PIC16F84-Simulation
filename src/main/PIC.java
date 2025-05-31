@@ -1066,9 +1066,9 @@ public class PIC {
 
         for(int index = 0; index < 8; index++) {
             int tris = memory.readBit_bank(address, index, 1);
-            //is this port declared an output so write value from ram into port
+            //is this port declared an output so write value from port register / latch into port
             if(tris == 0) {
-                boolean value = memory.readBit_bank(address, index, 0) == 1;
+                boolean value = memory.readBitOfPortRegister(address, index) == 1;
                 port.pins[index].setValue(value);
             }
         }
