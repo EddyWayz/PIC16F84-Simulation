@@ -1196,17 +1196,6 @@ public class PIC {
      * @return true if both are set
      */
     private boolean check_INT_Interrupt() {
-        int intf = memory.readBit(Label_Lib.INTCON, INTCON_lib.INTF);
-        int inte = memory.readBit(Label_Lib.INTCON, INTCON_lib.INTE);
-        return (intf == 1) && (inte == 1);
-    }
-
-    /**
-     * Checks if the PortB interrupt and the corresponding flag is set
-     *
-     * @return true if both are set
-     */
-    private boolean check_RB_Interrupt() {
         int RB0_new = memory.readBit_bank(Label_Lib.PORTB, 0, 0);
         if(RB0_old != RB0_new) {
             //rising edge and rising edge selected
@@ -1219,6 +1208,17 @@ public class PIC {
             RB0_old = memory.readBit_bank(Label_Lib.PORTB, 0, 0);
         }
 
+        int INTF = memory.readBit(Label_Lib.INTCON, INTCON_lib.INTF);
+        int INTE = memory.readBit(Label_Lib.INTCON, INTCON_lib.INTE);
+        return (INTF == 1) && (INTE == 1);
+    }
+
+    /**
+     * Checks if the PortB interrupt and the corresponding flag is set
+     *
+     * @return true if both are set
+     */
+    private boolean check_RB_Interrupt() {
         int RBIF = memory.readBit(Label_Lib.INTCON, INTCON_lib.RBIF);
         int RBIE = memory.readBit(Label_Lib.INTCON, INTCON_lib.RBIE);
         //is there an interrupt and is it enabled?
