@@ -12,14 +12,12 @@ import main.libraries.Instr_Lib;
 import main.libraries.Label_Lib;
 import main.libraries.Mask_Lib;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PIC {
     // special vars for computing instructions
     int address;
     boolean indirect;
     private int instruction;
-
 
     private boolean sleep = false;
 
@@ -39,9 +37,7 @@ public class PIC {
     private PrescalerCounter psCounter;
     public Prescaler prescaler;
 
-
-
-
+    //variable to save value of rb0 for interrupt
     private int RB0_old;
 
     public PIC(String path) {
@@ -61,14 +57,9 @@ public class PIC {
         //init of prescaler with pic instance and instance of psCounter
         prescaler = new Prescaler(this, psCounter);
 
-
         //Parse file to get the program
         InstructionParser instrParser = new InstructionParser(path);
         program = instrParser.parseLinesToInstructions();
-
-
-
-
 
         RB0_old = memory.readBit_bank(Label_Lib.PORTB, 0, 0);
     }

@@ -19,7 +19,4 @@ public class Label_Lib {
     public static final int PCLATH = 0xA;
     public static final int INTCON = 0xB;
 
-
-
-
 }
